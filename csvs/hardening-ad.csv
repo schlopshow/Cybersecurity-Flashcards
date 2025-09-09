@@ -1,0 +1,50 @@
+What are the three main categories for AD hardening? | People, Process, and Technology
+What should be documented annually during AD audits? | Naming conventions, DNS/network/DHCP configs, GPOs, FSMO roles, application inventory, enterprise hosts, trust relationships, and users with elevated permissions
+What is the primary weakness in even the most hardened AD environment? | Users remain the weakest link
+What should a strong password policy include? | Password filter that disallows common words like welcome, password, months/days/seasons, and company name
+What should be done with the default RID-500 local admin account? | Disable it and create a new admin account subject to LAPS password rotation
+What is split tiers of administration? | Implementing separate administrative accounts for different privilege levels to prevent Domain Admin credentials from being used on regular workstations
+What group can be used to restrict privileged user activities in a domain? | Protected Users group
+What are the key protections provided by the Protected Users group? | Cannot be delegated, credentials not cached by CredSSP/Windows Digest, cannot use NTLM/DES/RC4, TGT limited to 4-hour TTL
+What is a major risk when using the Protected Users group? | Can cause unforeseen authentication issues and account lockouts without proper staged testing
+What tools should be run periodically to identify AD misconfigurations? | BloodHound, PingCastle, and Grouper
+What type of service accounts should be used instead of normal service accounts? | Group Managed Service Accounts (gMSA) and Managed Service Accounts (MSA)
+What should the ms-DS-MachineAccountQuota attribute be set to and why? | Set to 0 to disallow users from adding machine accounts and prevent noPac and RBCD attacks
+What services should be disabled to prevent attacks? | Print spooler service and NTLM authentication for Domain Controllers where possible
+What signing methods should be enabled for security? | SMB signing and LDAP signing
+How often should penetration tests or AD security assessments be performed? | Quarterly if possible, annually at minimum
+What registry key prevents null session enumeration? | RestrictNullSessAccess set to 1
+What MITRE technique tag corresponds to Kerberoasting? | T1558.003
+What is the best defense against Kerberoasting? | Utilizing Group Managed Service Accounts (gMSA)
+What encryption scheme should be avoided for Kerberos authentication? | RC4 encryption
+What can help detect password spraying attacks? | Monitoring Event IDs 4624 and 4648 for strings of invalid login attempts
+What is the primary defense against SMB poisoning attacks? | SMB message signing and strong encryption mechanisms
+What makes credentialed enumeration difficult to defend against? | Once an attacker has valid credentials, they can perform any action the user is allowed to do
+What helps detect Living Off The Land (LOTL) techniques? | Having a baseline of network traffic and user behavior to spot abnormal activity
+What policy can help prevent unauthorized application usage? | Properly configured AppLocker policy
+What should be reviewed in SYSVOL during security audits? | Scripts that may contain passwords and other sensitive data
+What field should administrators avoid storing passwords in? | AD account description field
+What is the purpose of hardened jump hosts? | Prevent direct access to Domain Controllers
+What authentication method should be used alongside SSL for Certificate Authority services? | Extended Protection for Authentication with Require SSL only
+What helps with asset management in AD environments? | AD host audits, asset tags, and periodic asset inventories
+What should happen to accounts of former employees? | They should be removed, not just disabled, according to cleanup policies
+How can network segmentation help with security? | It can limit lateral movement and contain attackers within specific network segments
+What makes external reconnaissance difficult to defend against? | Attackers don't interact directly with enterprise environment, making detection impossible
+What should be done with documents before public release? | Scrub metadata and sensitive information that could reveal user naming conventions or infrastructure details
+What can help detect internal reconnaissance? | Network monitoring for suspicious packet bursts and properly configured NIDS/Firewall systems
+What Windows Firewall setting can help deny reconnaissance information? | Configure firewall or EDR to not respond to ICMP traffic
+What should be implemented for service account password management? | Automatic password rotation schedules with complex, unique passwords for each account
+How can privileged access be further secured beyond Protected Users? | Implement Privileged Access Workstations (PAWs) for administrative tasks only
+What logging enhancement can improve attack detection? | Enable PowerShell script block logging and command line auditing to detect malicious activities
+How can Kerberos security be enhanced beyond disabling RC4? | Implement Kerberos Armoring (FAST) and disable weak encryption types in Group Policy
+What network segmentation strategy works best for AD? | Implement micro-segmentation with separate VLANs for servers, workstations, and administrative systems
+How can you prevent DCSync attacks? | Regularly audit and restrict Replicating Directory Changes permissions to only necessary service accounts
+What helps detect Golden Ticket attacks? | Monitor for TGTs with unusual lifetimes and authentication from disabled or non-existent accounts
+How can you secure LDAP communications? | Require LDAP channel binding and disable unsigned LDAP binds
+What administrative practice reduces attack surface? | Implement Just-In-Time (JIT) administrative access with time-limited privilege elevation
+How can you detect malicious GPO changes? | Enable and monitor GPO change auditing with alerts for unauthorized modifications
+What helps prevent pass-the-hash attacks? | Enable Credential Guard on Windows 10/Server 2016+ and implement LAPS for local admin passwords
+How should backup domain controllers be secured? | Store offline backups in secure locations and regularly test restoration procedures
+What DNS security measure prevents DNS poisoning in AD? | Implement DNS over HTTPS (DoH) or DNS over TLS (DoT) for external queries
+How can you detect suspicious service account usage? | Monitor for service accounts logging in interactively or from unusual locations
+What helps secure AD certificate services? | Implement certificate templates with proper permissions and enable certificate transparency logging
