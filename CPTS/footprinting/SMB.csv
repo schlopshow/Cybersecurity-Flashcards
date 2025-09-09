@@ -1,0 +1,109 @@
+What is SMB and what does it stand for? | Server Message Block (SMB) is a client-server protocol that regulates access to files and entire directories and other network resources such as printers, routers, or interfaces released for the network.
+
+What is Samba? | Samba is an alternative implementation of the SMB server developed for Unix-based operating systems. It implements the Common Internet File System (CIFS) network protocol and allows cross-platform communication via SMB.
+
+What is CIFS and how does it relate to SMB? | CIFS (Common Internet File System) is a dialect of SMB, specifically a version that aligns with SMB version 1. It's a specific implementation of the SMB protocol originally created by Microsoft.
+
+What TCP ports does SMB typically use? | SMB commands over older NetBIOS service use TCP ports 137, 138, and 139. CIFS operates over TCP port 445 exclusively.
+
+What are the main SMB versions and their key features? | CIFS (Windows NT 4.0) - NetBIOS interface; SMB 1.0 (Windows 2000) - Direct TCP connection; SMB 2.0 (Vista/2008) - Performance upgrades, message signing, caching; SMB 2.1 (Win7/2008R2) - Locking mechanisms; SMB 3.0 (Win8/2012) - Multichannel, encryption, remote storage; SMB 3.1.1 (Win10/2016) - Integrity checking, AES-128 encryption.
+
+What improvements did SMB 3.0 introduce? | SMB 3.0 introduced multichannel connections, end-to-end encryption, and remote storage access capabilities.
+
+What is the main Samba configuration file? | /etc/samba/smb.conf
+
+What are the two main Samba daemons? | smbd (SMB server daemon) provides file and print services, while nmbd (NetBIOS message block daemon) implements NetBIOS name services and browsing.
+
+How do you restart the Samba service? | sudo systemctl restart smbd
+
+What does the "browseable = yes" setting do? | It allows listing available shares in the current share, making shares visible when browsing the network.
+
+What does "guest ok = yes" allow? | It allows connecting to the service without using a password (anonymous access).
+
+What does "read only = no" mean? | It allows the creation and modification of files (opposite of read-only).
+
+What do "create mask = 0777" and "directory mask = 0777" do? | They set permissions for newly created files (0777) and directories (0777), giving full read/write/execute permissions to all users.
+
+What are some dangerous SMB configuration settings? | browseable = yes (allows share enumeration), guest ok = yes (anonymous access), writable = yes, create mask = 0777, directory mask = 0777, enable privileges = yes, logon script and magic script settings.
+
+Why is "map to guest = bad user" potentially dangerous? | It automatically maps invalid login attempts to the guest account, potentially allowing unauthorized access.
+
+What command shows available SMB shares using null session? | smbclient -N -L //target_ip
+
+How do you connect to a specific SMB share? | smbclient //target_ip/share_name
+
+What smbclient command downloads a file? | get filename
+
+What smbclient command allows you to run local system commands? | !command (exclamation mark followed by the command)
+
+What is rpcclient used for? | rpcclient is a tool to perform MS-RPC functions and enumerate SMB services manually.
+
+How do you connect to rpcclient with null session? | rpcclient -U "" target_ip
+
+What rpcclient command shows server information? | srvinfo
+
+What rpcclient command enumerates all domains? | enumdomains
+
+What rpcclient command shows domain information? | querydominfo
+
+What rpcclient command lists all shares? | netshareenumall
+
+What rpcclient command shows information about a specific share? | netsharegetinfo share_name
+
+What rpcclient command enumerates domain users? | enumdomusers
+
+What rpcclient command queries a specific user by RID? | queryuser RID (e.g., queryuser 0x3e9)
+
+What rpcclient command queries group information? | querygroup RID
+
+What is a typical RID range for user enumeration? | 500-1100 (though it can vary)
+
+What bash command can brute force user RIDs via rpcclient? | for i in $(seq 500 1100);do rpcclient -N -U "" target_ip -c "queryuser 0x$(printf '%x\n' $i)" | grep "User Name\|user_rid\|group_rid" && echo "";done
+
+What Impacket tool can enumerate users via RPC? | samrdump.py
+
+What does smbmap show? | smbmap shows available SMB shares and their permissions
+
+What is the basic smbmap command? | smbmap -H target_ip
+
+What does CrackMapExec do for SMB enumeration? | CrackMapExec can enumerate SMB shares and test authentication, showing detailed share permissions
+
+What is the CrackMapExec command to enumerate shares? | crackmapexec smb target_ip --shares -u '' -p ''
+
+What is enum4linux-ng? | enum4linux-ng is an advanced SMB enumeration tool that automates many queries and can return comprehensive information about SMB services.
+
+How do you run a full enumeration with enum4linux-ng? | ./enum4linux-ng.py target_ip -A
+
+What information can enum4linux-ng gather? | NetBIOS names, SMB dialects, domain information, OS information, users, groups, shares, policies, and printers.
+
+What are Access Control Lists (ACLs) in SMB? | ACLs define access rights based on attributes such as execute, read, and full access for individual users or user groups. They are defined based on shares and don't correspond to local server rights.
+
+What is a workgroup in SMB context? | A workgroup is a group name that identifies an arbitrary collection of computers and their resources on an SMB network.
+
+What is NetBIOS and how does it relate to SMB? | NetBIOS (Network Basic Input/Output System) is an API for networking computers. In NetBIOS environments, machines need names through name registration procedures.
+
+What command shows current SMB connections? | smbstatus
+
+What information does smbstatus provide? | It shows the Samba version, connected users, their source machines, protocol versions, and which shares are being accessed.
+
+What Nmap command scans SMB ports with service detection? | sudo nmap target_ip -sV -sC -p139,445
+
+What are the standard SMB ports to scan? | 139 (NetBIOS) and 445 (SMB/CIFS)
+
+What makes anonymous access dangerous in SMB? | Anonymous access can lead to information disclosure, user enumeration, share enumeration, and potential privilege escalation if combined with weak passwords or misconfigurations.
+
+Why is SMB enumeration valuable for penetration testing? | SMB enumeration can reveal usernames for password attacks, sensitive file shares, system information, domain details, and potential privilege escalation paths.
+
+What should you look for in SMB share permissions? | Look for shares with READ/WRITE access for anonymous users, guest access enabled, overly permissive create masks, and shares containing sensitive information.
+
+What can you do after finding writable SMB shares? | Upload malicious files, plant backdoors, modify existing files, gather intelligence from accessible files, and potentially escalate privileges.
+
+How can SMB user enumeration lead to further attacks? | Enumerated usernames can be used for password brute-forcing, password spraying, and social engineering attacks.
+
+What information from SMB enumeration helps with lateral movement? | User lists, domain information, computer names, shared resources, and trust relationships help map the network for lateral movement.
+
+What are some SMB security best practices? | Disable anonymous access, use strong authentication, implement proper share permissions, regularly audit share access, disable SMB1 if possible, and monitor SMB traffic.
+
+How should SMB shares be properly configured? | Use principle of least privilege, avoid guest access, set appropriate create masks, use strong passwords, implement proper ACLs, and regularly review share permissions.
+
+What should penetration testers document during SMB enumeration? | Accessible shares, user accounts, group memberships, share permissions, sensitive files found, system information, and potential attack vectors.

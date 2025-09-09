@@ -1,0 +1,69 @@
+What is the main difference between GET and POST request fuzzing? | GET requests are passed in the URL after a ? symbol, while POST requests are passed in the data field within the HTTP request and require the -d flag and -X POST in ffuf
+What content-type header is required for POST data in PHP? | application/x-www-form-urlencoded
+What is the purpose of parameter fuzzing in web security? | To expose unpublished parameters that are publicly accessible, which tend to be less tested and less secured
+What is value fuzzing? | After finding a working parameter, fuzzing the correct value that would return the desired content, often requiring custom wordlists
+Why might you need to create custom wordlists for value fuzzing? | Each parameter expects a certain type of value, and pre-made wordlists may not contain values matching the specific parameter being targeted
+What is the difference between sub-domains and VHosts? | Sub-domains are websites underlying another domain with public DNS records, while VHosts are sub-domains served on the same server with the same IP that may or may not have public DNS records
+Why does sub-domain fuzzing fail for non-public domains? | Because it relies on public DNS records, and private sub-domains are not published in public DNS, so the lookup fails
+What header is fuzzed in VHost fuzzing? | The Host header using the -H flag
+Why do all VHost fuzzing results initially return 200 OK status? | Because you're visiting the same IP while only changing the Host header, but valid VHosts will return different response sizes
+What filtering is typically needed for VHost fuzzing results? | Response size filtering using -fs flag to filter out the default response size and identify legitimate VHosts
+How do you add a domain to your local host file? | Use sudo sh -c 'echo "SERVER_IP domain.name" >> /etc/hosts' to map the domain to an IP address locally
+What indicates that VHost fuzzing found a valid result? | A different response size compared to the default responses, indicating a different page is being served
+Why might browsers fail to connect to local HTB domains? | Because they try to resolve the domain through local /etc/hosts file and public DNS, but HTB domains are not public and not in local hosts file
+What is the key difference between public and private sub-domains in terms of discovery? | Public sub-domains can be found through DNS record fuzzing, while private sub-domains require VHost fuzzing since they don't have public DNS records
+What tool is used for fuzzing in the provided text? | ffuf (Fuzz Faster U Fool)
+What does the -fs flag do in ffuf? | Filters HTTP response size to remove unwanted results with specific response sizes
+What does the -d flag do in ffuf? | Specifies the data field for POST requests
+What does the -X flag do in ffuf? | Specifies the HTTP method (like POST) to use in the request
+What does the -H flag do in ffuf? | Specifies custom HTTP headers in the request
+What does the -w flag do in ffuf? | Specifies the wordlist file to use for fuzzing
+What does the -u flag do in ffuf? | Specifies the target URL for fuzzing
+What keyword is used as a placeholder in ffuf commands? | FUZZ
+What does the -mc flag do in ffuf? | Matches specific HTTP status codes in responses
+What does the -fc flag do in ffuf? | Filters out specific HTTP status codes from responses
+What does the -ml flag do in ffuf? | Matches specific amounts of lines in responses
+What does the -fl flag do in ffuf? | Filters by specific amounts of lines in responses
+What does the -ms flag do in ffuf? | Matches specific HTTP response sizes
+What does the -mw flag do in ffuf? | Matches specific amounts of words in responses
+What does the -fw flag do in ffuf? | Filters by specific amounts of words in responses
+What are the default HTTP status codes that ffuf matches? | 200,204,301,302,307,401,403
+What wordlist is recommended for parameter fuzzing? | /opt/useful/seclists/Discovery/Web-Content/burp-parameter-names.txt
+What wordlist directory contains sub-domain wordlists? | /opt/useful/seclists/Discovery/DNS/
+What specific sub-domain wordlist is mentioned for shorter scans? | subdomains-top1million-5000.txt
+Why might parameter fuzzing return many results initially? | Because many parameters may return the same default response, requiring filtering by response size or other characteristics
+What does it mean when a parameter fuzzing result says "This method is deprecated"? | The parameter exists but is no longer in use or supported by the application
+What does "Invalid id!" response indicate during parameter fuzzing? | The parameter is valid and accepted, but the value being tested is not correct
+How can you determine the default response size for filtering? | Run the fuzzing command first without filtering to see what response size most results return
+What is the significance of finding different response sizes in VHost fuzzing? | Different response sizes indicate legitimate VHosts that serve different content than the default site
+Why is recursive scanning mentioned for discovered VHosts? | To find additional pages and directories within the newly discovered VHost that weren't visible on the main domain
+What does a Status 200 with Size 0 typically indicate in VHost fuzzing? | A valid VHost that exists but may be serving minimal or empty content
+How do you verify a discovered VHost is legitimate? | Add it to /etc/hosts file and visit it in a browser to confirm it serves different content
+What indicates that fuzzing has found a working parameter? | A different response compared to other fuzzing attempts, such as different error messages or response sizes
+Why might you need to extend wordlists for thorough fuzzing? | Smaller wordlists may miss legitimate parameters, sub-domains, or values that use less common naming conventions
+
+What is the primary purpose of directory fuzzing? | To discover hidden directories on a website by testing common directory names from wordlists
+What wordlist is commonly used for directory fuzzing in the text? | /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-small.txt
+How many URLs did ffuf test in the directory fuzzing example? | Almost 90,000 URLs in less than 10 seconds
+What flag can increase ffuf's speed and what is the risk? | The -t flag increases threads (e.g., -t 200), but it may cause Denial of Service or disrupt connections
+What does an empty page with no 404 or 403 error indicate? | The directory exists and is accessible, but may not have a dedicated page or may contain hidden files
+What is extension fuzzing used for? | To identify what types of file extensions a website uses (like .html, .php, .aspx) before fuzzing for specific files
+What file is commonly used as a target for extension fuzzing? | index.* because it can be found in most websites
+What wordlist is used for extension fuzzing? | /opt/useful/seclists/Discovery/Web-Content/web-extensions.txt
+What does a Status 200 response indicate during extension fuzzing? | The file with that extension exists and is accessible
+What does a Status 403 response indicate during extension fuzzing? | The file exists but access is forbidden
+Why might you use multiple wordlists with different keywords? | To fuzz both filenames and extensions simultaneously using FUZZ_1.FUZZ_2 format
+What is recursive fuzzing? | Automatically scanning subdirectories found during the initial scan, continuing until all directories and subdirectories are fuzzed
+What flag enables recursive scanning in ffuf? | The -recursion flag
+What flag controls the depth of recursive scanning? | The -recursion-depth flag
+What does -recursion-depth 1 mean? | It will only fuzz main directories and their direct subdirectories, not deeper levels
+Why is it important to specify a depth limit for recursive scanning? | Websites may have deep directory trees that could take very long to scan completely
+What flag specifies file extensions during recursive scanning? | The -e flag (e.g., -e .php)
+What flag outputs full URLs during recursive scanning? | The -v flag (verbose mode)
+Why is the -v flag important in recursive scanning? | Without it, it may be difficult to tell which file lies under which directory
+How does recursive scanning affect scan time and requests? | It takes much longer and sends significantly more requests (example showed 6 times more requests)
+What indicates that extension fuzzing found a working file type? | A Status 200 response, while other extensions may return 403 or other error codes
+How can you identify server type to guess file extensions? | By examining HTTP response headers - Apache servers often use .php, IIS servers use .asp or .aspx
+What happens to wordlist size during recursive scanning with extensions? | The wordlist doubles in size (scanned once with extension and once without)
+Why might recursive scanning be preferred over manual directory-by-directory fuzzing? | It automates the entire process instead of manually fuzzing each discovered directory separately
+What strategy is recommended for deep directory structures? | Fuzz first-level directories first, then pick the most interesting ones for deeper targeted scans
