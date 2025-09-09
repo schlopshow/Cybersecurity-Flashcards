@@ -1,0 +1,29 @@
+What is MySQL? | MySQL is an open-source SQL relational database management system developed and supported by Oracle
+What does LAMP stand for? | Linux, Apache, MySQL, PHP
+What does LEMP stand for? | Linux, Nginx, MySQL, PHP (where E represents Nginx)
+What is the default port for MySQL? | TCP port 3306
+What file extension is commonly used for MySQL database files? | .sql
+What is MariaDB? | MariaDB is a fork of the original MySQL code, developed after the chief MySQL developer left Oracle
+What is the default configuration file location for MySQL on Linux? | /etc/mysql/mysql.conf.d/mysqld.cnf
+What are the two main system databases in MySQL? | sys (system schema) and information_schema
+What command connects to a MySQL server? | mysql -u <user> -p<password> -h <IP address>
+What command shows all databases in MySQL? | show databases;
+What command selects a specific database? | use <database>;
+What command shows all tables in the selected database? | show tables;
+What command shows all columns in a table? | show columns from <table>;
+What command displays all data from a table? | select * from <table>;
+What command searches for a specific string in a table? | select * from <table> where <column> = "<string>";
+What MySQL setting controls which user the service runs as? | user
+What MySQL setting specifies the password for the MySQL user? | password
+What MySQL setting controls verbose error information? | debug and sql_warnings
+What MySQL setting limits data import/export operations? | secure_file_priv
+What MySQL setting specifies the admin network interface IP? | admin_address
+What Nmap command can scan MySQL services? | sudo nmap <target> -sV -sC -p3306 --script mysql*
+What information does the sys database contain? | Tables, information, and metadata necessary for MySQL management
+What is the purpose of the information_schema database? | Contains metadata retrieved mainly from the system schema database
+Why might a MySQL server be accessible from external networks? | Often due to temporary configurations forgotten by administrators or technical workarounds
+What are common types of sensitive data stored in MySQL databases? | Usernames, passwords, email addresses, user information, permissions, customer data
+How are passwords typically protected in MySQL databases? | Generally encrypted by PHP scripts using secure methods like One-Way-Encryption, though they can be stored in plain text
+What can SQL commands do in MySQL? | Display, modify, add, or delete rows in tables; change table structure; create/delete relationships and indexes; manage users
+What security issue can occur with MySQL configuration files? | Rights are often not assigned correctly, allowing unauthorized access to plaintext usernames and passwords
+What can verbose error messages in MySQL reveal? | Sensitive content that could identify further attack possibilities, often displayed directly on web applications

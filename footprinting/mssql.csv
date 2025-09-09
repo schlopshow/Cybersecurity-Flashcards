@@ -1,0 +1,23 @@
+What is MSSQL? | Microsoft SQL (MSSQL) is Microsoft's SQL-based relational database management system that is closed source and initially written to run on Windows operating systems
+What is the default TCP port that MSSQL listens on? | TCP port 1433
+What is SQL Server Management Studio (SSMS)? | A client-side application that comes as a feature with MSSQL install package or can be downloaded separately, commonly used for database configuration and management
+Name 5 MSSQL clients that can be used to access databases | mssql-cli, SQL Server PowerShell, HeidiSQL, SQLPro, Impacket's mssqlclient.py
+What are the 5 default system databases in MSSQL? | master, model, msdb, tempdb, resource
+What does the master database contain? | Tracks all system information for an SQL server instance
+What does the model database do? | Template database that acts as a structure for every new database created. Any setting changed in the model database will be reflected in any new database created after changes
+What is the msdb database used for? | The SQL Server Agent uses this database to schedule jobs & alerts
+What does the tempdb database store? | Stores temporary objects
+What is the resource database? | Read-only database containing system objects included with SQL server
+What service does MSSQL likely run as when initially configured? | NT SERVICE\MSSQLSERVER
+What authentication method is used by default in MSSQL? | Windows Authentication
+Is encryption enforced by default when connecting to MSSQL? | No, by default encryption is not enforced when attempting to connect
+What are 4 dangerous MSSQL settings to look for? | MSSQL clients not using encryption, use of self-signed certificates, use of named pipes, weak & default sa credentials
+What command can you use to locate mssqlclient on your system? | locate mssqlclient
+What NMAP scripts can be used to scan MSSQL services? | ms-sql-info, ms-sql-empty-password, ms-sql-xp-cmdshell, ms-sql-config, ms-sql-ntlm-info, ms-sql-tables, ms-sql-hasdbaccess, ms-sql-dac, ms-sql-dump-hashes
+What Metasploit auxiliary scanner can be used for MSSQL footprinting? | mssql_ping
+What is T-SQL? | Transact-SQL, used to interact directly with databases through the SQL Database Engine
+How do you connect to MSSQL using Impacket's mssqlclient.py with Windows authentication? | python3 mssqlclient.py Administrator@[IP] -windows-auth
+What SQL query lists all databases on an MSSQL server? | select name from sys.databases
+What does DAC stand for in MSSQL context? | Dedicated Administrator Connection
+What is the default DAC port in MSSQL? | 1434
+What does the named pipe path look like in MSSQL? | \\[servername]\pipe\sql\query

