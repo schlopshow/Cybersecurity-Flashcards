@@ -1,0 +1,32 @@
+What is the main difference between IMAP and POP3?,IMAP allows online management of emails directly on the server and supports folder structures while POP3 only provides listing retrieving and deleting emails
+What port does IMAP use by default?,143
+What port does IMAP use with SSL/TLS?,993
+What port does POP3 use by default?,110
+What port does POP3 use with SSL/TLS?,995
+What protocol is usually used to send emails?,SMTP
+What authentication method transmits credentials in plain text?,Both IMAP and POP3 transmit usernames and passwords in plain text without encryption
+What IMAP command logs a user in?,LOGIN username password
+What IMAP command lists all directories?,LIST "" *
+What IMAP command creates a mailbox?,CREATE "INBOX"
+What IMAP command selects a mailbox?,SELECT INBOX
+What IMAP command retrieves message data?,FETCH <ID> all
+What IMAP command closes the connection?,LOGOUT
+What POP3 command identifies the user?,USER username
+What POP3 command authenticates the user?,PASS password
+What POP3 command requests email statistics?,STAT
+What POP3 command retrieves an email by ID?,RETR id
+What POP3 command deletes an email by ID?,DELE id
+What POP3 command closes the connection?,QUIT
+What dangerous setting enables authentication debug logging?,auth_debug
+What dangerous setting logs submitted passwords?,auth_debug_passwords
+What dangerous setting allows anonymous login?,auth_anonymous_username
+What tool can be used to scan for IMAP/POP3 ports?,Nmap
+What command scans for IMAP/POP3 services with version detection?,sudo nmap <target> -sV -p110,143,993,995 -sC
+What tool can interact with IMAP servers using curl?,curl -k 'imaps://<target>' --user user:password
+What tool can establish SSL connections to mail servers?,openssl s_client -connect <target>:imaps
+What does the -v flag do with curl?,Shows verbose output including TLS version SSL certificate details and server banner
+What happens to emails in IMAP when accessed by multiple clients?,Emails remain on the server until deleted and synchronize across all clients
+What is required for IMAP offline mode?,A local copy of the mailbox that synchronizes when connection is reestablished
+What format does IMAP use for commands?,Text-based commands in ASCII format
+Can multiple IMAP commands be sent without waiting for server confirmation?,Yes multiple commands can be sent in succession using identifiers
+What is the storage space impact of using IMAP vs POP3?,IMAP requires more storage space on the email server since emails remain on the server

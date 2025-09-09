@@ -1,0 +1,20 @@
+What is sanitization in the context of SQL injections?|The removal of special characters in user-input to break any injection attempts
+What happens when an application misinterprets user input as actual code?|Injection occurs, changing the code flow and executing the injected code instead of treating it as a string
+What causes a SQL injection vulnerability?|When user input is passed directly to SQL queries without proper sanitization or filtering
+What are the three main categories of SQL injections based on output retrieval?|In-band (Union Based and Error Based), Blind (Boolean Based and Time Based), and Out-of-band
+What is In-band SQL injection?|When the output of both intended and injected queries is printed directly on the front end
+What is Blind SQL injection?|When output is not directly visible, so SQL logic is used to retrieve information character by character
+What is Out-of-band SQL injection?|When there's no direct access to output, so results must be directed to a remote location like DNS records
+Why does injecting a single quote often cause SQL syntax errors?|It creates an odd number of quotes in the query, breaking the SQL syntax structure
+What SQL operator can be used to make authentication bypass conditions always return true?|The OR operator, using conditions like '1'='1' that are always true
+How does operator precedence affect SQL injection with AND and OR?|AND is evaluated before OR, so 'username=admin OR 1=1 AND password=wrong' will still return true
+What are the two types of line comments in MySQL?|Double dash with space (-- ) and hash symbol (#)
+Why must there be a space after -- in SQL comments?|Two dashes alone are not sufficient to start a comment in SQL; there must be an empty space after them
+What is the purpose of the UNION clause in SQL?|To combine results from multiple SELECT statements into a single result set
+What is the main requirement for UNION statements to work?|All SELECT statements must have the same number of columns with matching data types
+How can you handle uneven columns when using UNION injection?|Fill extra columns with junk data like numbers or strings, or use NULL which fits all data types
+What are the two methods to detect the number of columns in a table for UNION injection?|Using ORDER BY with incrementing column numbers, or using UNION with different column counts
+Why is it important to identify which columns are displayed on the webpage?|Because injected queries will only show results if placed in columns that are actually rendered to the user
+What is the benefit of using numbers as junk data in UNION injections?|Numbers make it easy to track which columns are printed and help identify where to place the actual injection
+How can you test if a column displays output in UNION injection?|Use a recognizable query like @@version in place of a number to see if it gets displayed
+What makes a web application vulnerable to SQL injection?|Direct incorporation of user input into SQL queries without proper input validation or parameterized queries
