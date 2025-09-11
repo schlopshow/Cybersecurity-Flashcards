@@ -1,0 +1,20 @@
+What is SQL injection?|SQL injection occurs when user input is inputted into an SQL query string without properly sanitizing or filtering the input allowing attackers to execute malicious SQL code
+What is sanitization in the context of SQL injection?|Sanitization refers to the removal of any special characters in user-input in order to break any injection attempts
+What are the three main categories of SQL injection based on output retrieval?|In-band (Union-based and Error-based) Blind (Boolean-based and Time-based) and Out-of-band SQL injection
+What is In-band SQL injection?|SQL injection where the output of both intended and injected queries may be printed directly on the front end allowing direct reading of results
+What is Blind SQL injection?|SQL injection where output is not directly visible requiring the use of SQL logic to retrieve information character by character using conditional statements
+What is Out-of-band SQL injection?|SQL injection where there is no direct access to output requiring directing results to a remote location like DNS records for retrieval
+What SQL operator can be used to make authentication bypass conditions always return true?|The OR operator can be used because if at least one condition is TRUE the entire query evaluates to TRUE
+Why does the condition '1'='1' work for SQL injection bypass?|Because 1 always equals 1 making this condition always evaluate to TRUE regardless of other conditions in the query
+What are the two types of line comments available in MySQL for SQL injection?|Two dashes with a space (-- ) and the hash symbol (#)
+What is the purpose of using comments in SQL injection?|Comments allow attackers to ignore or comment out parts of the original query to avoid syntax errors and control query execution
+What is the UNION clause used for in SQL?|UNION is used to combine results from multiple SELECT statements allowing data extraction from multiple tables and databases
+What is a key requirement for UNION statements to work?|UNION statements can only operate on SELECT statements with an equal number of columns
+How do you handle uneven columns in UNION injection?|Use junk data like numbers or strings to fill remaining columns so the total number of columns matches the original query
+What are two methods to detect the number of columns in a table for UNION injection?|Using ORDER BY to sort by column numbers until an error occurs or using UNION with different column numbers until success
+Why is it important to determine which columns are displayed in UNION injection?|Not all columns from a query may be displayed on the webpage so injection must be placed in visible columns to see output
+What happens when SQL injection causes a syntax error?|The application typically returns an error message indicating the query failed due to improper SQL syntax
+What is operator precedence important in SQL injection?|The AND operator is evaluated before OR operator so understanding precedence helps craft successful injection payloads
+How can parentheses affect SQL injection attempts?|Parentheses group conditions and may require closing them properly or the injection will cause syntax errors
+What is Union-based SQL injection?|A type of in-band SQL injection that uses the UNION operator to combine malicious queries with legitimate ones to extract data
+What is Error-based SQL injection?|A type of in-band SQL injection that intentionally causes SQL errors to return information about the database structure or data
