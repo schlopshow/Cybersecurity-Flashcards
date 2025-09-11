@@ -1,0 +1,69 @@
+What is Cross-Site Scripting (XSS)?|A web application vulnerability that takes advantage of flaws in user input sanitization to inject and execute JavaScript code on the client side
+
+How do XSS vulnerabilities work?|When a vulnerable web application doesn't properly sanitize user input, malicious users can inject JavaScript code in input fields that executes when other users view the same page
+
+Where are XSS vulnerabilities executed?|Solely on the client-side in the browser, they do not directly affect the back-end server
+
+What are the three main types of XSS vulnerabilities?|Stored (Persistent) XSS, Reflected (Non-Persistent) XSS, and DOM-based XSS
+
+What is Stored (Persistent) XSS?|The most critical type where user input is stored in the back-end database and displayed upon retrieval, affecting any user who visits the page
+
+What is Reflected (Non-Persistent) XSS?|Occurs when user input is displayed on the page after being processed by the backend server but without being stored, like in search results or error messages
+
+What is DOM-based XSS?|A non-persistent XSS type that occurs when user input is directly shown in the browser and completely processed client-side without reaching the back-end server
+
+Why is Stored XSS considered the most critical type?|Because it affects a wider audience since any user visiting the page becomes a victim, and the payload may be difficult to remove from the back-end database
+
+What makes DOM-based XSS different from other types?|It is completely processed on the client-side through JavaScript using the Document Object Model (DOM) and never reaches the back-end server
+
+What are Source and Sink in DOM XSS context?|Source is the JavaScript object that takes user input, Sink is the function that writes user input to a DOM object on the page
+
+What are common JavaScript functions that can be vulnerable sinks?|document.write(), DOM.innerHTML, DOM.outerHTML, and jQuery functions like add(), after(), append()
+
+What is a basic XSS testing payload?|&lt;script&gt;alert(window.origin)&lt;/script&gt; - shows an alert box with the page URL when XSS is successful
+
+Why use window.origin in XSS payloads instead of static values?|To reveal which form is vulnerable in case cross-domain IFrames are being used to handle user input
+
+What are alternative XSS payloads if alert() is blocked?|&lt;plaintext&gt; (stops rendering HTML), &lt;script&gt;print()&lt;/script&gt; (opens print dialog)
+
+How can you tell if an XSS vulnerability is persistent?|Refresh the page - if you still get the alert or payload execution, it's persistent/stored XSS
+
+What HTTP method makes Reflected XSS easier to exploit?|GET requests, because parameters are sent in the URL making it easy to craft malicious links
+
+What is Blind XSS?|XSS vulnerability triggered on a page you don't have access to, often in admin panels or forms only certain users can see
+
+Where might Blind XSS vulnerabilities commonly occur?|Contact forms, reviews, user details, support tickets, HTTP User-Agent headers
+
+How can you detect Blind XSS vulnerabilities?|Use payloads that load remote scripts from your server, allowing you to detect when JavaScript executes
+
+What are the main elements used in website defacing attacks?|Background Color (document.body.style.background), Background (document.body.background), Page Title (document.title), Page Text (DOM.innerHTML)
+
+How does XSS phishing typically work?|Inject fake login forms that send credentials to attacker's server while appearing legitimate to victims
+
+What is session hijacking in XSS context?|Stealing user session cookies through JavaScript to gain unauthorized access to their account without knowing credentials
+
+What makes session hijacking attacks possible?|Web applications use cookies to maintain user sessions, and XSS allows execution of JavaScript that can access and steal these cookies
+
+What are the two main approaches to XSS prevention?|Proper input sanitization and validation on both front-end and back-end, plus secure server configuration
+
+What input validation technique can prevent XSS in JavaScript?|Using libraries like DOMPurify to sanitize input and escape special characters
+
+What HTML tags should never contain direct user input?|Script tags, style tags, tag/attribute fields, and HTML comments
+
+What JavaScript functions should be avoided with user input?|DOM.innerHTML, DOM.outerHTML, document.write(), document.writeln(), and jQuery functions like html(), parseHTML()
+
+What is output HTML encoding?|Encoding special characters into their HTML codes (like &lt; for <) so they display correctly but don't cause injection
+
+What server configurations help prevent XSS?|Using HTTPS, XSS prevention headers, Content-Security-Policy, HttpOnly and Secure cookie flags, and proper Content-Type headers
+
+What is the purpose of Content-Security-Policy script-src 'self'?|Only allows locally hosted scripts to execute, preventing execution of external malicious scripts
+
+Why is back-end validation crucial even with front-end validation?|Front-end validation can be easily bypassed by sending custom GET or POST requests directly to the server
+
+What makes XSS vulnerabilities a medium risk?|Low direct impact on back-end servers but high probability of occurrence (low impact + high probability = medium risk)
+
+How did the Samy Worm exploit XSS?|It exploited a stored XSS vulnerability in MySpace in 2005, creating a self-replicating message that spread to over a million users in one day
+
+What can XSS attacks accomplish beyond simple alerts?|Steal session cookies, make API calls to change passwords, mine cryptocurrency, display ads, or exploit browser vulnerabilities for system access
+
+What limitations do XSS attacks have in modern browsers?|Limited to the browser's JavaScript engine, cannot execute system-level code, and restricted to the same domain of the vulnerable website

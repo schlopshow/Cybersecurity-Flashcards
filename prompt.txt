@@ -3,3 +3,5 @@ I need to make flashcards from this text, it will bve question and answer delimi
 at the very end, if you like you can make a cheat sheat of commands from the text provided.
 
 Please delimit using a pipe |
+
+put the cheatsheat in a markdown file.
