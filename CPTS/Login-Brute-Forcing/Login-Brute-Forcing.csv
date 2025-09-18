@@ -1,0 +1,33 @@
+What is brute forcing in cybersecurity? | A trial-and-error method used to crack passwords, login credentials, or encryption keys by systematically trying every possible combination of characters until the correct one is found
+What factors determine the success of a brute force attack? | Password complexity, computational power available to the attacker, and security measures in place like account lockouts and CAPTCHAs
+What is a simple brute force attack? | Systematically tries all possible combinations of characters within a defined character set and length range with no prior information about the password
+What is a dictionary attack? | Uses a pre-compiled list of common words, phrases, and passwords rather than trying all possible combinations
+When is a dictionary attack most effective? | When the target is likely to use a weak or easily guessable password based on common patterns
+What is a hybrid attack? | Combines elements of simple brute force and dictionary attacks, often appending or prepending characters to dictionary words
+What is credential stuffing? | Leverages leaked credentials from one service to attempt access to other services, assuming users reuse passwords
+What is password spraying? | Attempts a small set of commonly used passwords against a large number of usernames to avoid account lockout policies
+What is a rainbow table attack? | Uses pre-computed tables of password hashes to reverse hashes and recover plaintext passwords quickly
+What is reverse brute force? | Targets a single password against multiple usernames, often used with credential stuffing attacks
+What is distributed brute force? | Distributes the brute forcing workload across multiple computers to accelerate the process
+What are the NIST guidelines for strong passwords? | Minimum 12 characters length, complexity with mixed character types, uniqueness across accounts, and randomness avoiding dictionary words
+What makes default credentials dangerous? | They are pre-set, simple, easily guessable passwords that come with devices and services, making them prime targets for attackers
+How do you calculate possible password combinations? | Character Set Size raised to the power of Password Length (Character Set Size^Password Length)
+What is the exponential relationship in password complexity? | Each additional character or character type dramatically increases the number of possible combinations and cracking time
+What is Basic HTTP Authentication? | A challenge-response protocol where a server demands user credentials, which are Base64 encoded and sent in the Authorization header
+What is the format for Basic Auth credentials? | Username and password concatenated with a colon, then Base64 encoded as "Basic <encoded_credentials>"
+What are login forms in web applications? | HTML forms with input fields for username and password that send POST requests to authentication endpoints
+What is the difference between failure and success conditions in brute force tools? | Failure conditions check for error messages indicating failed login, while success conditions look for indicators of successful authentication like redirects or specific content
+What is Hydra? | A fast network login cracker that supports numerous attack protocols and can brute-force various services using parallel connections
+What is Medusa? | A fast, massively parallel, and modular login brute-forcer designed to support various services that allow remote authentication
+What makes custom wordlists more effective than generic ones? | They are tailored to specific targets using gathered intelligence like personal information, company details, and social media data
+What is Username Anarchy? | A tool that generates comprehensive username lists from names, accounting for initials, common substitutions, and various naming conventions
+What is CUPP (Common User Passwords Profiler)? | A tool that creates highly personalized password wordlists based on target intelligence like birthdays, pet names, interests, and relationships
+Why do password policies sometimes lead to predictable patterns? | Users often make minor modifications like appending numbers or special characters when forced to change passwords
+What information sources are valuable for custom wordlist creation? | Social media profiles, company websites, public records, news articles, and OSINT gathering
+What is the core problem that enables credential stuffing? | Password reuse across multiple accounts, where a breach on one platform compromises numerous other accounts
+What makes brute force attacks against complex passwords impractical? | The exponential growth in possible combinations makes cracking time prohibitively long even with powerful computing resources
+What is the relationship between password length and security? | Each additional character dramatically increases possible combinations - a 6-character lowercase password has ~300 million combinations while an 8-character has ~200 billion
+What are common password weaknesses that enable successful attacks? | Short passwords, dictionary words, personal information, password reuse, and predictable patterns like "qwerty" or simple substitutions
+What is the purpose of penetration testing in relation to brute forcing? | Ethical hacking that simulates real-world attacks to identify and address authentication vulnerabilities before malicious actors exploit them
+What security measures can defend against brute force attacks? | Account lockouts after failed attempts, CAPTCHAs, rate limiting, multi-factor authentication, and strong password policies
+What is leetspeak and how does it affect password security? | Replacing letters with numbers or symbols (like j4n3 for jane), which attackers account for in their wordlists and substitution rules

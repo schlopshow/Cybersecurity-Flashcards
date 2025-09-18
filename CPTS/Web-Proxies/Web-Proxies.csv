@@ -1,0 +1,31 @@
+What are web proxies and how do they function?|Web proxies are specialized tools that act as man-in-the-middle (MITM) tools between browsers/mobile applications and back-end servers to capture and view all web requests being sent between both ends
+What ports do web proxies typically work with?|Web proxies mainly work with web ports such as HTTP/80 and HTTPS/443
+What are the main uses of web proxies beyond capturing HTTP requests?|Web application vulnerability scanning, web fuzzing, web crawling, web application mapping, web request analysis, web configuration testing, and code reviews
+What is Burp Suite and what are its key characteristics?|Burp Suite is the most common web proxy for web penetration testing with an excellent user interface and built-in Chromium browser. It has both free community and paid pro/enterprise versions
+What are some paid-only features of Burp Suite Pro?|Active web app scanner, fast Burp Intruder, and the ability to load certain Burp Extensions
+What is OWASP ZAP and how does it differ from Burp Suite?|ZAP is a free and open-source web proxy tool initiated by OWASP with no paid-only features. It provides similar functionality to Burp but without throttling or subscription limitations
+What is the main advantage of ZAP over Burp Suite?|ZAP is completely free and open-source with no throttling or limitations in scans, and it's gaining many paid-only Burp features for free
+When might you choose to intercept HTTP responses?|When you want to change how a specific web page looks, like enabling disabled fields or showing hidden fields, which may help in penetration testing activities
+What is automatic modification in web proxies?|The ability to apply certain modifications to all outgoing HTTP requests or incoming HTTP responses automatically based on rules you set
+What is Match and Replace in Burp Suite?|A feature that allows you to match any text within requests or responses (header or body) and replace them with different text automatically
+What is the Replacer feature in ZAP?|ZAP's equivalent to Burp's Match and Replace, allowing automatic replacement of request/response content based on defined rules
+Why is URL encoding important in web requests?|It ensures request data is properly formatted and headers are correctly set. Key characters like spaces, &, and # need encoding to avoid server errors
+What types of encoding do web proxies typically support?|HTML, Unicode, Base64, ASCII hex, and various URL encoding formats
+What is Burp Intruder and what is its main limitation in the free version?|Burp's web fuzzer for fuzzing pages, directories, parameters, etc. The free version is throttled to 1 request per second, making it extremely slow
+What are the four main attack types in Burp Intruder?|Sniper (single position), Battering Ram, Pitchfork, and Cluster Bomb (the text mentions Sniper and Cluster Bomb specifically)
+What are payload positions in Burp Intruder?|The points where words from your wordlist will be placed and iterated over, marked with § symbols
+What is the difference between Simple List and Runtime file payload types?|Simple List loads the entire wordlist in advance, while Runtime file loads line-by-line as the scan runs to avoid excessive memory usage
+What is Payload Processing in Burp Intruder?|A feature that allows you to determine fuzzing rules over the loaded wordlist, such as adding extensions or filtering based on specific criteria
+What is proxychains and how is it useful for web proxying?|A Linux tool that routes all traffic from any command-line tool through a specified proxy, making it the simplest method to route CLI tool traffic through web proxies
+What is the Target Scope in Burp Suite?|A feature that defines a custom set of targets to be processed by Burp features, allowing you to include/exclude specific URLs from scans
+What is the difference between Crawl and Crawl and Audit in Burp Scanner?|Crawl only navigates and maps the website by following links, while Crawl and Audit performs both crawling and vulnerability scanning
+What is a Passive Vulnerability Scan?|A scan that analyzes the source of already visited pages without sending new requests, looking for potential vulnerabilities like missing HTML tags or DOM-based XSS
+What is an Active Vulnerability Scan?|A comprehensive scan that runs crawling, web fuzzing, passive scanning, JavaScript analysis, and fuzzes various parameters to look for common vulnerabilities
+What does ZAP Spider do?|Similar to Burp Crawler, it spiders websites by looking for links and validating them to build a comprehensive site map
+What is Ajax Spider in ZAP?|A specialized spider that identifies links requested through JavaScript AJAX requests that may be running on pages after they load
+What is the difference between page alerts and overall alerts in ZAP HUD?|Page alerts show issues identified in the current page you're visiting, while overall alerts show issues found across the entire web application
+What are BApp Store extensions in Burp Suite?|Community-developed extensions that add specific functionality to Burp, with some available to all users and others requiring Pro licenses
+What is ZAP Marketplace?|ZAP's extensibility feature that allows installation of community-developed add-ons, with releases in different build stages (Release, Beta, Alpha)
+What are some key differences between network sniffing tools like Wireshark and web proxies?|Network sniffing tools analyze all local network traffic, while web proxies focus specifically on web ports and HTTP/HTTPS traffic
+Why might you want to proxy tools like nmap or Metasploit through web proxies?|To gain transparency into the web requests made by these tools and utilize proxy features for analysis and modification of their traffic
+What is the Show/Enable feature in ZAP HUD?|A feature that can automatically enable disabled input fields or show hidden input fields without needing to intercept responses or refresh pages

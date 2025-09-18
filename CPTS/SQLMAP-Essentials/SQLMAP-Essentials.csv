@@ -1,0 +1,71 @@
+What is SQLMap?|A free and open-source penetration testing tool written in Python that automates the process of detecting and exploiting SQL injection (SQLi) flaws
+When was SQLMap first developed?|SQLMap has been continuously developed since 2006
+What does the technique character B stand for in SQLMap?|Boolean-based blind SQL injection
+What does the technique character E stand for in SQLMap?|Error-based SQL injection
+What does the technique character U stand for in SQLMap?|Union query-based SQL injection
+What does the technique character S stand for in SQLMap?|Stacked queries SQL injection
+What does the technique character T stand for in SQLMap?|Time-based blind SQL injection
+What does the technique character Q stand for in SQLMap?|Inline queries SQL injection
+Which SQL injection type is considered the most common in web applications?|Boolean-based blind SQL injection
+Which SQL injection type is considered the fastest except for UNION query-based?|Error-based SQL injection
+Which SQL injection type is considered the fastest overall?|UNION query-based SQL injection
+What is the principle behind Boolean-based blind SQL injection?|It exploits vulnerabilities through differentiation of TRUE from FALSE query results by comparing server responses
+What is the principle behind Time-based blind SQL injection?|It uses response time as the source for differentiation between TRUE or FALSE responses
+What is stacked queries also known as?|Piggy-backing
+What databases support stacked queries by default?|Microsoft SQL Server and PostgreSQL
+What is Out-of-band SQL injection used for?|Cases where all other types are either unsupported by the vulnerable web application or are too slow
+How does SQLMap perform Out-of-band SQL injection?|Through DNS exfiltration where requested queries are retrieved through DNS traffic
+What does it mean when SQLMap says target URL content is stable?|There are no major changes between responses in case of continuous identical requests
+What does it mean when a parameter appears to be dynamic?|Any changes made to its value would result in a change in the response indicating the parameter may be linked to a database
+What does it indicate when SQLMap finds reflective values?|Parts of the used payloads are found in the response which could cause problems to automation tools
+What is the default level value in SQLMap?|Level 1 (range 1-5)
+What is the default risk value in SQLMap?|Risk 1 (range 1-3)
+What does the level option control in SQLMap?|It extends both vectors and boundaries being used based on their expectancy of success
+What does the risk option control in SQLMap?|It extends the used vector set based on their risk of causing problems at the target side
+How many payloads are used by default in SQLMap?|Up to 72 payloads for testing a single parameter
+How many payloads are used with maximum level and risk settings?|7,865 payloads with level 5 and risk 3
+What are the two main components of SQLMap payloads?|Vector (central SQL code) and boundaries (prefix and suffix formations)
+What is a vector in SQLMap terminology?|The central part of the payload carrying the useful SQL code to be executed at the target
+What are boundaries in SQLMap terminology?|Prefix and suffix formations used for proper injection of the vector into the vulnerable SQL statement
+Why might OR payloads be considered dangerous?|They are inherently dangerous where underlying vulnerable SQL statements are actively modifying database content
+What does the parse-errors option do?|It parses DBMS errors and displays them as part of the program run
+What does the traffic option do?|It stores the whole traffic content to an output file for manual investigation
+What does increasing verbosity level do?|It shows more detailed output including payloads and HTTP requests/responses
+What is the purpose of using a proxy with SQLMap?|To redirect all traffic through a proxy like Burp for manual investigation of requests
+Which databases does SQLMap fully support for Error-based injection?|MySQL, PostgreSQL, Oracle, Microsoft SQL Server, Sybase, Vertica, IBM DB2, Firebird, MonetDB
+What technique does SQLMap use before UNION payloads?|ORDER BY technique to quickly recognize the correct number of required UNION columns
+What statistical model does SQLMap use for time-based injections?|A statistical model to distinguish between regular and deliberately delayed target responses
+What happens when SQLMap extends UNION query injection tests?|It increases the number of requests from the default cap when there's a good chance the target is vulnerable
+What does it mean when SQLMap identifies injection points?|SQLMap has successfully detected and can exploit SQLi vulnerabilities with proof of concept
+Where does SQLMap store session data?|In local file system under ~/.sqlmap/output/[target] directory
+What is the Copy as cURL feature used for?|To easily set up SQLMap requests by copying HTTP requests from browser developer tools
+What file formats does SQLMap support for POST data?|Form-data, JSON formatted, and XML formatted HTTP requests
+What is the request file option used for?|To provide SQLMap with a complete HTTP request from a file captured by tools like Burp
+How can you mark a specific parameter for testing in POST data?|By using an asterisk (*) marker in the data
+What is the random-agent switch used for?|To randomly select a User-Agent header value to avoid detection by protection solutions
+What does the mobile switch do?|It imitates a smartphone by using appropriate header values
+What advanced tuning option helps with dynamic content responses?|Using status codes, titles, strings, or text-only switches to focus detection mechanisms
+What is the purpose of the technique option?|To specify which SQLi techniques to use and skip others
+What does the union-cols option specify?|The exact number of columns in the vulnerable SQL query for UNION attacks
+What does the union-char option do?|Specifies alternative dummy filling values instead of NULL and random integers
+What does the union-from option specify?|Sets the required FROM table appendix for UNION queries, especially needed for Oracle
+What is database enumeration in SQL injection context? | The process of lookup and retrieval of all available information from a vulnerable database after successful detection and confirmation of SQLi vulnerability
+What are the four basic pieces of information typically retrieved first during database enumeration? | Database version banner, current user name, current database name, and checking if current user has DBA rights
+What does DBA stand for and what does it represent? | Database Administrator - represents privileged user within the DBMS context with minimal constraints within the database
+What is the difference between 'inband' and 'blind' queries in SQLMap's queries.xml? | Inband queries are used in non-blind situations where query results appear in the response itself, while blind queries are used when data must be retrieved row-by-row, column-by-column, and bit-by-bit
+What are the main output formats supported by SQLMap for dumped data? | CSV (default), HTML, and SQLite formats
+What is the purpose of conditional enumeration in database attacks? | To retrieve specific rows based on known WHERE conditions rather than dumping entire tables
+What does the root database user typically represent in modern deployments? | A privileged user within the DBMS context only, with minimal OS-level privileges for security reasons
+What are anti-CSRF tokens and how do they protect against automation? | Security tokens that must be present in HTTP requests to prove the user actually visited and used the page, preventing automated attacks and malicious links
+What is the purpose of unique value bypass techniques? | To circumvent web applications that require unique parameter values to prevent CSRF attempts and automation tools
+What is calculated parameter bypass used for? | When web applications expect parameter values to be calculated based on other parameters, often requiring message digests like MD5 hashes
+What are the two main methods for IP address concealing during SQL injection attacks? | Using proxy servers or the Tor anonymity network
+What is a WAF and how does SQLMap detect it? | Web Application Firewall - SQLMap detects it by sending malicious payloads with non-existent parameters and observing substantial response changes
+What is user-agent blacklisting and how is it bypassed? | Web applications blocking default SQLMap user-agent strings, bypassed by using random browser user-agent values
+What are tamper scripts in SQLMap? | Python scripts that modify requests before sending to target, primarily used to bypass WAF/IPS solutions by altering payload syntax
+What is chunked transfer encoding used for in SQLMap? | A bypass technique that splits POST request bodies into chunks to avoid detection of blacklisted SQL keywords
+What is HTTP Parameter Pollution (HPP)? | A technique where payloads are split between multiple same-named parameters that get concatenated by supporting platforms
+What privileges are typically required for reading local files in MySQL? | LOAD DATA and INSERT privileges to load file content into tables and read them
+What configuration must be disabled in MySQL to allow writing local files? | The secure-file-priv configuration must be manually disabled to allow INTO OUTFILE SQL queries
+What are the three main techniques SQLMap uses for OS command execution? | Writing remote shells, creating SQL functions that execute commands, and using direct SQL queries that execute OS commands
+Why might UNION technique fail for OS shell execution? | It may have limitations on retrieved entry numbers, making error-based techniques more reliable for direct output
