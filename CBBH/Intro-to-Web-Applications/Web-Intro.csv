@@ -1,0 +1,36 @@
+What are web applications? | Interactive applications that run on web browsers using a client-server architecture with front-end components running on the browser and back-end components on the server
+What is the difference between websites and web applications? | Websites are static and cannot be changed in real-time (Web 1.0), while web applications present dynamic content based on user interaction and are fully functional (Web 2.0)
+What are the main advantages of web applications over native OS applications? | Platform independence, no installation required, version unity, easier updates and maintenance, reduced support costs
+What are the four main web application infrastructure models? | Client-Server, One Server, Many Servers - One Database, Many Servers - Many Databases
+What is the riskiest web application architecture model? | One Server model because if any web application is compromised, all applications and data on that server are compromised
+What are the three layers of web application architecture? | Presentation Layer (UI components), Application Layer (processes requests and checks authorization), Data Layer (determines where data is stored and accessed)
+What are microservices? | Independent components programmed for one specific task that communicate in a stateless manner and can be written in different programming languages
+What are the benefits of microservices architecture? | Agility, flexible scaling, easy deployment, reusable code, and resilience
+What is serverless architecture? | Cloud-based architecture where applications run in stateless containers without managing infrastructure, with server management handled by cloud providers
+What are the three components of the front-end trinity? | HTML (structure), CSS (styling), JavaScript (functionality)
+What is URL encoding and why is it necessary? | Process of replacing unsafe ASCII characters with % followed by hexadecimal digits because browsers can only use ASCII encoding in URLs
+What is the DOM? | Document Object Model - a platform and language-neutral interface that allows programs to access and update document content, structure, and style
+What are CSS frameworks and why are they used? | Collections of CSS stylesheets and designs that make it faster and easier to create beautiful HTML elements, optimized for web applications
+What is the primary purpose of JavaScript in web applications? | To control functionality and interactive elements on the front-end, making pages dynamic rather than static
+What is Sensitive Data Exposure? | Vulnerability where sensitive data is available in clear-text to end users, typically found in HTML source code or comments
+What is HTML Injection? | Vulnerability that occurs when unfiltered user input is displayed on a page, allowing attackers to inject malicious HTML code
+What are the three main types of XSS? | Reflected XSS (input displayed after processing), Stored XSS (input stored in database), DOM XSS (input directly shown in browser DOM)
+What is CSRF? | Cross-Site Request Forgery - attacks that utilize vulnerabilities to perform queries and API calls on behalf of authenticated users
+What are the two main controls for preventing front-end attacks? | Sanitization (removing special characters) and Validation (ensuring input matches expected format)
+What are the main components of a back-end server? | Web Server, Database, Development Framework, and the underlying hardware and OS
+What are some popular web server technology stacks? | LAMP (Linux, Apache, MySQL, PHP), WAMP (Windows, Apache, MySQL, PHP), WINS (Windows, IIS, .NET, SQL Server)
+What are the three most common web servers? | Apache (40% of websites), NGINX (30% of websites), IIS (15% of websites)
+What is the main advantage of NGINX over Apache? | NGINX focuses on serving many concurrent requests with low memory/CPU load using async architecture
+What are the two main types of databases? | Relational (SQL) databases that use tables, rows, and columns, and Non-relational (NoSQL) databases that use various storage models
+What are the four NoSQL storage models? | Key-Value, Document-Based, Wide-Column, and Graph
+What is the difference between SOAP and REST APIs? | SOAP uses XML for structured data transfer, while REST uses URL paths and typically returns JSON responses
+What HTTP methods does REST use and for what purposes? | GET (retrieve data), POST (create data), PUT (create/replace data), DELETE (remove data)
+What are the OWASP Top 10 vulnerability categories mentioned? | Broken Authentication/Access Control, Malicious File Upload, Command Injection, SQL Injection
+What is Broken Authentication? | Vulnerabilities that allow attackers to bypass authentication functions or escalate privileges without proper authorization
+What is Command Injection? | Vulnerability where attackers inject malicious commands alongside intended OS commands due to improper input sanitization
+What is SQL Injection? | Vulnerability where attackers execute malicious SQL queries alongside legitimate ones due to improper input filtering
+What is CVE and what does it stand for? | Common Vulnerabilities and Exposures - publicly shared vulnerability records with assigned scores for known security flaws
+What are the CVSS v3 severity ratings? | None (0.0), Low (0.1-3.9), Medium (4.0-6.9), High (7.0-8.9), Critical (9.0-10.0)
+What are the three CVSS metric groups? | Base (inherent vulnerability characteristics), Temporal (changes over time), Environmental (organizational impact)
+What is Shell-Shock? | Well-known Apache web server vulnerability that affected servers released in/before 2014, allowing remote control via HTTP requests
+Why should back-end component vulnerabilities be patched even if not directly exploitable? | They can be used for privilege escalation and lateral movement after gaining initial access to the server or network

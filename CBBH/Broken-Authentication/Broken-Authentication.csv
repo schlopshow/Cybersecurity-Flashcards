@@ -1,0 +1,37 @@
+What is authentication according to RFC 4949?|The process of verifying a claim that a system entity or system resource has a certain attribute value
+What is the difference between authentication and authorization?|Authentication verifies identity and occurs before authorization. Authorization determines access and follows authentication using policies
+What are the three major categories of authentication methods?|Knowledge-based authentication (something you know), Ownership-based authentication (something you have), Inherence-based authentication (something you are)
+Give examples of knowledge-based authentication factors|Passwords, passphrases, PINs, answers to security questions
+Give examples of ownership-based authentication factors|ID cards, security tokens, smartphones with authenticator apps
+Give examples of inherence-based authentication factors|Fingerprints, facial patterns, voice recognition, signatures
+What is the difference between single-factor and multi-factor authentication?|Single-factor relies on one method only, while multi-factor (MFA) involves multiple authentication methods from different categories
+What is 2FA?|Two-factor authentication - a specific case of MFA when exactly two factors are required
+Why is knowledge-based authentication vulnerable?|It relies on static personal information that can be obtained, guessed, or brute-forced through social engineering and data breaches
+What advantage does ownership-based authentication have over knowledge-based?|It's resistant to phishing and password-guessing attacks because physical items are harder to acquire or replicate
+What is a major risk of inherence-based authentication?|Biometric data cannot be changed if compromised in a data breach, making the compromise irreversible
+What is user enumeration?|A vulnerability where web applications respond differently to registered/valid and invalid usernames, allowing attackers to identify valid users
+Where do user enumeration vulnerabilities commonly occur?|In user login, user registration, and password reset functions
+Why might developers overlook user enumeration vulnerabilities?|They assume usernames are not confidential information
+What are two common ways to perform user enumeration?|Different error messages for valid vs invalid usernames, and side-channel attacks like response timing differences
+What makes passwords vulnerable to brute-force attacks?|Users tend to select easy-to-remember passwords, password reuse across multiple accounts, and weak passwords based on common phrases or patterns
+What is password spraying?|Using a list of passwords from password leaks to try the same passwords on other web applications
+Why should wordlists match password policies during brute-force attacks?|To avoid wasting time with passwords that don't meet the application's requirements
+What makes password reset tokens vulnerable?|Weak tokens that are too short, predictable, or contain insufficient randomness
+What is a common weakness in 2FA implementations?|Short TOTP codes (like 4-digit codes) that can be brute-forced if rate limiting isn't implemented
+What are two common brute-force protection mechanisms?|Rate limits and CAPTCHAs
+How can rate limits be bypassed?|By manipulating HTTP headers like X-Forwarded-For to make requests appear to come from different IP addresses
+What is the purpose of CAPTCHAs?|To prevent bots from submitting requests by forcing humans to solve challenges that are difficult for automated tools
+What is a major security flaw in CAPTCHA implementations?|Revealing the CAPTCHA solution in the response code
+What are default credentials?|Pre-configured usernames and passwords set up during installation that should be changed but often aren't
+What are common examples of default credentials?|admin/admin, admin/password
+What makes security questions vulnerable?|Answers can often be obtained through OSINT or guessed, and questions are often predictable across users
+What is a parameter manipulation vulnerability in password reset?|When hidden parameters like username can be changed to reset a different user's password
+What is direct access authentication bypass?|Requesting protected resources directly without authentication when proper verification isn't implemented
+What happens when PHP redirect code lacks an exit statement?|The protected content is still sent in the response body despite the redirect, allowing access by intercepting the response
+What is parameter modification for authentication bypass?|Manipulating HTTP parameters that the application relies on for authentication decisions
+What makes session tokens vulnerable to brute-force attacks?|Insufficient randomness, being too short, or containing static data that reduces entropy
+What is a predictable session token vulnerability?|Session tokens that contain encoded data (like base64) that can be tampered with to escalate privileges
+What is session fixation?|An attack where a victim is tricked into using a session token chosen by the attacker
+How can session fixation be prevented?|Assign a new randomly generated session token after successful authentication
+What is improper session timeout?|When sessions don't expire after a reasonable time period, allowing hijacked sessions to be used indefinitely
+Why are incremental session identifiers dangerous?|They make enumeration of past and future sessions trivial by simply incrementing or decrementing values

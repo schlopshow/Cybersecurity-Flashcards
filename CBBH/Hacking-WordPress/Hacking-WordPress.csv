@@ -1,0 +1,38 @@
+What percentage of websites does WordPress power?|Nearly one-third of all websites in the world
+What are the two key components of a CMS?|Content Management Application (CMA) and Content Delivery Application (CDA)
+What does LAMP stack stand for?|Linux operating system, Apache HTTP Server, MySQL database, and PHP programming language
+Where is the WordPress webroot located on Ubuntu Linux?|/var/www/html
+What file contains WordPress homepage content?|index.php
+What file contains WordPress version information?|license.txt
+What are the possible paths for WordPress admin login page?|/wp-admin/login.php, /wp-admin/wp-login.php, /login.php, /wp-login.php
+What is xmlrpc.php used for?|Feature that enables data transmission with HTTP as transport and XML as encoding mechanism
+What database connection information is stored in wp-config.php?|Database name, host, username, password, authentication keys and salts, table prefix
+What directory contains WordPress plugins and themes?|wp-content
+What directory contains WordPress core files like certificates and fonts?|wp-includes
+What are the five WordPress user roles?|Administrator, Editor, Author, Contributor, Subscriber
+Which user role has access to administrative features and can edit source code?|Administrator
+Which WordPress user is typically assigned ID 1?|admin
+What file was replaced by WordPress REST API for data transmission?|xmlrpc.php
+What WordPress version changed the JSON endpoint user enumeration behavior?|Version 4.7.1
+What are the two methods WPScan uses for brute force attacks?|xmlrpc and wp-login methods
+Which WPScan brute force method is preferred and why?|xmlrpc method because it is faster
+What is Directory Indexing?|Access that allows navigation of folders and files that may contain sensitive information
+What are two manual methods for WordPress user enumeration?|Reviewing post author links for user IDs and using JSON endpoint
+What vulnerability was found in Mail Masta plugin version 1.0?|Local File Inclusion (LFI) and SQL Injection
+What file in Mail Masta plugin was vulnerable to LFI?|/wp-content/plugins/mail-masta/inc/campaign/count_of_send.php
+What WordPress feature allows editing PHP source code directly?|Theme Editor under Appearance
+What is a best practice when modifying theme files for RCE?|Select an inactive theme to avoid corrupting the main theme
+What Metasploit module can be used for WordPress exploitation?|wp_admin_shell_upload
+What should be disabled to prevent user enumeration attacks?|Standard admin user should be disabled and user enumeration plugins should be installed
+What are three popular WordPress security plugins mentioned?|Sucuri Security, iThemes Security, Wordfence Security
+What configuration can enable automatic WordPress core updates?|Adding WP_AUTO_UPDATE_CORE true to wp-config.php
+What is the recommended approach for plugin and theme management?|Only install trusted themes/plugins from WordPress.org, check reviews and update dates, remove unused items
+What user security measures should be implemented?|Disable standard admin user, enforce strong passwords, enable 2FA, use least privilege principle
+What login security measures can prevent brute force attacks?|Limit login attempts and rename or relocate wp-login.php page
+Why should deactivated plugins be removed rather than just disabled?|Deactivated plugins can still be accessible and vulnerable, so removal is necessary for security
+What information can be found in WordPress source code for version enumeration?|Meta generator tags, CSS and JS version numbers, comments with version info
+What file in WordPress root directory can reveal version information in older versions?|readme.html
+What response code indicates a valid user when enumerating via author parameter?|301 Moved Permanently (redirects to user profile)
+What response code indicates an invalid user when enumerating via author parameter?|404 Not Found
+What XML response indicates valid credentials when testing xmlrpc.php?|Response containing methodResponse with user blog information
+What XML response indicates invalid credentials when testing xmlrpc.php?|Response containing fault with 403 faultCode

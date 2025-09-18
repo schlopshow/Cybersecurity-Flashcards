@@ -1,0 +1,91 @@
+What is the difference between server-side and client-side attacks? | Server-side attacks target the application or service provided by a server, while client-side attacks take place at the client's machine (like XSS targeting web browsers)
+
+What are the four main classes of server-side vulnerabilities discussed? | Server-Side Request Forgery (SSRF), Server-Side Template Injection (SSTI), Server-Side Includes (SSI) Injection, and eXtensible Stylesheet Language Transformations (XSLT) Server-Side Injection
+
+What is Server-Side Request Forgery (SSRF)? | A vulnerability where an attacker can manipulate a web application into sending unauthorized requests from the server, often occurring when applications make HTTP requests based on user input
+
+What are the potential consequences of SSRF vulnerabilities? | Access to internal systems, bypassing firewalls, retrieving sensitive information, and accessing restricted endpoints
+
+What URL schemes are commonly used in SSRF exploitation? | http:// and https:// for HTTP/S requests, file:// for reading local files (LFI), and gopher:// for sending arbitrary bytes to specified addresses
+
+What is the gopher protocol used for in SSRF attacks? | To send arbitrary bytes to a TCP socket, enabling attackers to create POST requests and communicate with various services like SMTP servers or databases
+
+What is Server-Side Template Injection (SSTI)? | A vulnerability that occurs when an attacker can inject template code into a template that is later rendered by the server, potentially leading to data leakage or remote code execution
+
+What is the test string commonly used to identify SSTI vulnerabilities? | ${{<%[%'"}}%\. - This contains special characters that have semantic meaning in popular template engines and should cause an error if SSTI is present
+
+How do you identify which template engine is being used in SSTI? | Start with payload ${7*7}, then follow a decision tree based on results. If it doesn't execute, try {{7*7}}. If that executes, try {{7*'7'}} - Jinja returns 7777777 while Twig returns 49
+
+What are Server-Side Includes (SSI)? | A technology used by web applications to create dynamic content on HTML pages, supported by web servers like Apache and IIS
+
+What file extensions typically indicate SSI usage? | .shtml, .shtm, and .stm, though web servers can be configured to support SSI in any file extension
+
+What is SSI Injection? | Occurs when an attacker can inject SSI directives into a file that is subsequently served by the web server, resulting in execution of the injected directives
+
+What is XSLT? | eXtensible Stylesheet Language Transformation - a language that enables transformation of XML documents by selecting specific nodes and changing XML structure
+
+What is XSLT Injection? | Occurs when user input is inserted into XSL data before output generation by the XSLT processor, allowing attackers to inject additional XSL elements
+
+What is blind SSRF? | An SSRF vulnerability where the response is not directly displayed to the attacker, significantly limiting exploitation vectors compared to non-blind SSRF
+
+How can SSRF be prevented? | Implement whitelist validation for remote origins, restrict URL schemes/protocols, sanitize input, use firewall rules to prevent unexpected outgoing requests, and implement network segmentation
+
+What is a template engine? | Software that combines pre-defined templates with dynamically generated data, commonly used by web applications to generate dynamic responses like shared headers/footers
+
+How can SSTI be prevented? | Ensure user input is never fed into the template parameter of the rendering function, implement proper hardening by removing dangerous functions, or separate the execution environment from the web server
+
+How can SSI Injection be prevented? | Validate and sanitize user input, configure web server to restrict SSI to particular file extensions/directories, and limit capabilities of SSI directives like disabling the exec directive
+
+What makes template engines vulnerable to SSTI? | When user input is inserted into the template before the rendering function is called, or when user input from a first rendering becomes part of the template string in a second rendering process
+
+What information can be disclosed through SSTI in Jinja? | Web application configuration including secret keys, available built-in functions, and internal application details
+
+What are common SSI directives? | printenv (prints environment variables), config (changes SSI configuration), echo (prints variable values), exec (executes commands), include (includes files from web root)
+
+How can XSLT Injection be prevented? | Avoid inserting user input into XSL data, implement proper sanitization and input validation, HTML-encode user input for HTML responses, run XSLT processor as low-privilege, disable external functions
+
+What is the key difference between blind and non-blind SSRF? | Non-blind SSRF reflects the HTTP response back to the attacker, while blind SSRF does not show the response, making exploitation much more limited
+
+Why is the gopher protocol particularly dangerous in SSRF attacks? | It allows sending arbitrary raw bytes to any TCP service, enabling interaction with non-HTTP services like databases, SMTP servers, and internal APIs that weren't designed for external access
+
+What makes template engines inherently risky from a security perspective? | They execute code by design, so any user input that reaches the template compilation/rendering phase can potentially be executed as code rather than treated as data
+
+How does SSRF bypass traditional network security controls? | Requests originate from the trusted web server itself, bypassing firewalls, IP whitelists, and network segmentation that would normally block direct external access to internal resources
+
+What is the fundamental security principle violated in all server-side injection attacks? | The failure to maintain separation between code and data - user input intended as data gets interpreted and executed as code
+
+Why are internal services particularly vulnerable to SSRF attacks? | Internal services often lack authentication or use weak authentication because they assume they're only accessible from trusted internal networks
+
+What makes SSTI in production environments particularly dangerous? | Template engines often run with the same privileges as the web application, and successful exploitation typically leads to full server compromise with access to databases, file systems, and internal networks
+
+How do modern web application architectures increase SSRF attack surface? | Microservices architectures create more internal HTTP services, API gateways make external requests, and cloud metadata services provide sensitive information accessible via SSRF
+
+What is the security risk of allowing user-controlled file inclusion in web applications? | It can lead to local file inclusion (LFI), remote file inclusion (RFI), and in the context of server-side technologies, potential code execution
+
+Why is input validation insufficient alone for preventing injection attacks? | Blacklist-based validation can often be bypassed through encoding, alternate syntax, or novel attack vectors. Whitelisting and proper output encoding are more effective
+
+What role does error disclosure play in server-side attack reconnaissance? | Detailed error messages can reveal technology stack information, file paths, internal network details, and confirm vulnerability existence, aiding attackers in crafting specific exploits
+
+How do server-side attacks differ in impact from client-side attacks? | Server-side attacks typically provide direct access to backend systems, databases, and internal networks, while client-side attacks are limited to the user's browser context and require social engineering
+
+What is the principle of least privilege and how does it apply to server-side attack mitigation? | Running services with minimal necessary permissions limits the impact of successful exploitation - if a service is compromised, the attacker inherits only those limited privileges
+
+Why are template injection vulnerabilities often overlooked in security assessments? | They can appear in less obvious places like email templates, PDF generation, configuration files, and error pages, not just obvious user input fields
+
+What is the security implication of XML external entity processing in XSLT? | XSLT processors that resolve external entities can be exploited to read local files, perform SSRF attacks, or cause denial of service through XML bombs
+
+How does the trust boundary concept apply to server-side attacks? | Server-side components often implicitly trust data from other internal components, so compromising one service via injection can provide access to others that wouldn't be directly accessible
+
+What makes debugging and logging dangerous in the context of server-side attacks? | Debug modes and verbose logging can expose internal system information, and if logs are stored in web-accessible locations, they can be read via LFI or SSRF
+
+Why is network segmentation crucial for limiting server-side attack impact? | Even if one service is compromised, proper segmentation prevents lateral movement and limits access to critical internal systems and data
+
+What is the difference between context-aware and context-unaware output encoding? | Context-aware encoding applies appropriate escaping based on where data will be used (HTML, JavaScript, SQL), while context-unaware encoding may be insufficient or break functionality
+
+How do Content Security Policy (CSP) and similar controls help with server-side attacks? | While CSP primarily addresses client-side attacks, strict CSP can limit the impact of server-side attacks that inject client-side payloads as part of their exploitation chain
+
+What is the security risk of allowing user-controlled URL schemes in server-side requests? | Different URL schemes (file://, gopher://, ftp://) can access local resources, internal services, or perform actions beyond simple HTTP requests, expanding the attack surface significantly
+
+Why are cloud metadata services a particular concern for SSRF vulnerabilities? | Cloud platforms expose sensitive instance metadata, credentials, and configuration through HTTP endpoints accessible via SSRF, potentially leading to full cloud account compromise
+
+What is the defense-in-depth principle as applied to server-side attack prevention? | Implementing multiple layers of security controls - input validation, output encoding, network restrictions, least privilege, and monitoring - so that failure of one layer doesn't result in complete compromise
