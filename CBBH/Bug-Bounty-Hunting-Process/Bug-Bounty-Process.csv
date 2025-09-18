@@ -1,0 +1,20 @@
+What is a bug bounty program? | A crowdsourcing initiative and continuous proactive security testing that supplements internal code audits and penetration tests, completing an organization's vulnerability management strategy
+What are the two main types of bug bounty programs? | Private (invitation-only) and Public (accessible by entire hacking community)
+What is the difference between a Bug Bounty Program (BBP) and a Vulnerability Disclosure Program (VDP)? | VDP only provides guidance on how to report vulnerabilities; BBP incentivizes discovery and reporting with monetary rewards
+What factors determine invitations to private bug bounty programs? | Track record, valid finding consistency, and violation record of the bug bounty hunter
+What is a Parent/Child bug bounty program? | Programs where a bounty pool and single cyber security team are shared between a parent company and its subsidiaries
+What are the essential elements of a good bug report? | Vulnerability Title, CWE & CVSS score, Vulnerability Description, Proof of Concept (POC), Impact, and Remediation (optional)
+What does CWE stand for and what is it? | Common Weaknesses Enumeration - a community-developed list of software and hardware weakness types serving as common language for security tools
+What does CVSS stand for and what is it used for? | Common Vulnerability Scoring System - a published standard used worldwide to communicate the severity of vulnerabilities
+What are the four Attack Vector options in CVSS? | Network (N) - remotely exploitable, Adjacent (A) - same network, Local (L) - local/SSH access, Physical (P) - physical manipulation
+What are the two Attack Complexity levels in CVSS? | Low (L) - no special preparations needed, High (H) - special preparations and information gathering required
+What are the three Privileges Required levels in CVSS? | None (N) - no special access, Low (L) - standard user privileges, High (H) - admin-level privileges
+What are the two User Interaction options in CVSS? | None (N) - attacker can exploit independently, Required (R) - user action needed before exploitation
+What are the two Scope options in CVSS? | Unchanged (U) - affects only vulnerable component, Changed (C) - can affect other components beyond the vulnerable one
+What are the three impact levels for Confidentiality, Integrity, and Availability in CVSS? | None (N) - no impact, Low (L) - some loss/limited control, High (H) - total loss/complete control
+What should you do after submitting a bug report? | Do not interact immediately; allow the security/triage team time to process, validate, and respond according to their SLAs
+How should you communicate with the security/triage team? | Remain professional, tag the specific team member handling your submission, use only official communication channels, stay calm
+What should you do if there's a disagreement about severity or bounty? | Explain your CVSS rationale, review the program policy and scope for compliance, contact mediation if needed
+Why is the violation record important for bug bounty hunters? | It's always considered for invitations to private programs and affects your reputation in the community
+What is the recommended approach when reading bug bounty program policies? | Read meticulously including code of conduct to meet expectations and avoid time-wasting back-and-forth communications
+What makes a bug report title effective? | Should include vulnerability type, affected domain/parameter/endpoint, and impact information

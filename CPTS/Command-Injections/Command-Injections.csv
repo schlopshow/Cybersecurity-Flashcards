@@ -1,0 +1,34 @@
+What is a Command Injection vulnerability?|A vulnerability that allows executing system commands directly on the back-end hosting server which could lead to compromising the entire network
+What ranking do injection vulnerabilities have in OWASP Top 10?|Number 3 risk due to their high impact and commonality
+What causes injection vulnerabilities?|User-controlled input is misinterpreted as part of web query or code being executed leading to subverting intended outcome
+What are the four main types of injection vulnerabilities mentioned?|OS Command Injection SQL Injections Code Injection and Cross-Site Scripting/HTML Injection
+When does OS Command Injection occur?|When user input is directly used as part of an OS command without proper sanitization
+What PHP functions can execute system commands?|exec system shell_exec passthru and popen functions
+What NodeJS functions can execute system commands?|child_process.exec and child_process.spawn functions
+How do you detect basic OS Command Injection vulnerabilities?|Attempt to append commands through various injection methods and check if output changes from intended result
+What are the main command injection operators?|Semicolon ; Newline \n Background & Pipe | AND && OR || Sub-Shell backticks and $()
+What does the semicolon operator do in command injection?|Executes both commands sequentially
+What does the AND operator && do?|Executes second command only if first command succeeds
+What does the OR operator || do?|Executes second command only if first command fails
+What does the pipe operator | do?|Executes both commands but only shows output of second command
+Why might front-end validation be insufficient?|It can be easily bypassed by sending custom HTTP requests directly to back-end server
+What tools can be used to bypass front-end validation?|Web proxies like Burp Suite or ZAP to intercept and modify HTTP requests
+What are common blacklisted characters in command injection filters?|Semicolon ; ampersand & pipe | slash / backslash \ and space characters
+How can you bypass space character filters?|Use tabs %09 IFS environment variable ${IFS} or brace expansion {command,-flag}
+How can you produce special characters using environment variables?|Use substring extraction like ${PATH:0:1} for slash or ${LS_COLORS:10:1} for semicolon
+What is command obfuscation?|Technique to change appearance of commands to bypass blacklist filters while maintaining functionality
+How can you obfuscate commands using quotes?|Insert single or double quotes between characters like w'h'o'am'i or w"h"o"am"i
+What are Linux-specific obfuscation characters?|Backslash \ and positional parameter $@ can be inserted in commands
+What is the Windows-specific obfuscation character?|Caret ^ character can be inserted in commands
+How does case manipulation work for obfuscation?|Change character cases like WHOAMI or WhOaMi - works on Windows but requires conversion on Linux
+How can you use reversed commands for obfuscation?|Reverse the command string and use shell commands to reverse it back during execution
+What is the purpose of encoding commands?|Avoid filtered characters by encoding payload and decoding it during execution using base64 or hex
+What are automated obfuscation tools mentioned?|Bashfuscator for Linux and DOSfuscation for Windows environments
+What is the primary prevention method for command injection?|Avoid using functions that execute system commands and use built-in secure functions instead
+What should be done if system commands must be used?|Always validate and sanitize user input and limit use of these functions
+What is input validation?|Ensuring input matches expected format and denying requests that don't match
+What is input sanitization?|Removing non-necessary special characters from user input after validation
+What server configurations help prevent command injection?|Use WAFs run web server as low-privilege user disable dangerous functions limit scope and reject malformed requests
+What is the principle of least privilege in this context?|Running web server as low-privileged user like www-data to limit damage if compromised
+Why is blacklisting approach generally insufficient?|It can often be bypassed through various obfuscation and encoding techniques
+What is the difference between direct and indirect command injection?|Direct injection puts user input directly into system commands while indirect may use user input to influence commands indirectly

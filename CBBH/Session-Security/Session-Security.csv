@@ -1,0 +1,47 @@
+What is a user session in web applications?|A sequence of requests from the same client and associated responses during a specific time period to maintain user information and status
+Why do web applications need session management?|To keep track of information about each user including access rights authorization settings and localization while users interact with the application
+What makes HTTP challenging for session management?|HTTP is a stateless protocol meaning each request-response transaction is unrelated to others and carries no information about previous interactions
+What are common methods for session tracking?|Cookies URL parameters URL arguments on GET requests body arguments on POST requests and other proprietary solutions
+What happens if an attacker obtains a session identifier?|Session hijacking can occur where the attacker can impersonate the victim in the web application
+What are the ways an attacker can obtain session identifiers?|Passive traffic sniffing identifying in logs predicting them brute forcing them XSS attacks browser history diving and database access
+What three factors determine session identifier security level?|Validity scope should be valid for one session only randomness should be unpredictable and validity time should expire after certain time
+Where can session identifiers be stored and what are the risks?|URL can leak via HTTP Referer header HTML can be cached sessionStorage cleared when tab closes localStorage persists until manually deleted
+What is Session Hijacking?|An attack where the attacker obtains insecure session identifiers and uses them to authenticate and impersonate the victim
+What is Session Fixation?|An attack where the attacker fixates a valid session identifier then tricks the victim into logging in using that identifier
+What are the three stages of Session Fixation attacks?|Stage 1 attacker obtains valid session identifier Stage 2 attacker fixates the identifier Stage 3 attacker tricks victim into using that identifier
+What conditions make an application vulnerable to Session Fixation?|Session identifier remains the same pre-login and post-login and session identifiers are accepted from URL parameters or POST data
+What requirements must be met for XSS to result in session cookie leakage?|Session cookies must be carried in all HTTP requests and must be accessible by JavaScript code meaning HTTPOnly attribute should be missing
+What is Cross-Site Request Forgery CSRF?|An attack that forces an end-user to execute inadvertent actions on a web application where they are currently authenticated using attacker-crafted web pages
+When is a web application vulnerable to CSRF attacks?|When all required parameters can be determined by the attacker and session management is solely based on HTTP cookies automatically included in requests
+What is needed to successfully exploit a CSRF vulnerability?|Craft a malicious web page that issues a valid cross-site request impersonating the victim and the victim must be logged in when the request is made
+What is an Open Redirect vulnerability?|When an attacker can redirect a victim to an attacker-controlled site by abusing a legitimate applications redirection functionality without proper validation
+What URL parameters should you check for Open Redirect vulnerabilities?|url link redirect redirecturl redirect_uri return return_to returnurl go goto exit exitpage fromurl fromuri redirect_to next newurl redir
+How can traffic sniffing be used to obtain session identifiers?|By monitoring unencrypted HTTP traffic on the same local network to capture usernames passwords and session identifiers
+What are the requirements for traffic sniffing attacks?|Attacker must be on the same local network as the victim and traffic must be unencrypted HTTP rather than HTTPS
+Where are PHP session identifiers typically stored on the server?|In the directory specified by session.save_path in php.ini typically var lib php sessions with filename format sess_sessionID
+What is a double-submit cookie CSRF defense?|A defense mechanism where the same random token is sent both as a cookie and as a request parameter and the server checks if both values are equal
+How can weak CSRF token generation be exploited?|If tokens are generated using predictable methods like MD5 of username attackers can generate valid tokens for other users
+What is the Synchronizer Token Pattern?|The preferred CSRF defense method using randomly generated non-predictable security tokens for each HTTP request related to sensitive operations
+What are effective XSS prevention measures?|Input validation on server-side using positive approach HTML encoding of user-controlled output and implementing Content Security Policy headers
+How should session fixation be remediated?|Generate a new session identifier upon authenticated operations invalidating pre-login identifiers and generating new ones post-login
+What cookie attributes help prevent session attacks?|HTTPOnly prevents XSS access to cookies and SameSite attribute provides anti-CSRF protection
+What are safe practices for implementing redirects?|Do not use user-supplied URLs validate all destination input map input to values rather than actual URLs and create trusted URL whitelists
+What makes a session identifier weak and reportable?|Session identifiers managed without server interference or that do not follow secure characteristics like proper validity scope randomness and expiration time
+What is the difference between sessionStorage and localStorage for session security?|sessionStorage data is cleared when tab closes while localStorage persists until manually deleted making localStorage a higher security risk
+What are the main categories of session ID obtaining attacks?|Session ID obtaining attacks without user interaction like traffic sniffing and those requiring user interaction like XSS CSRF and social engineering
+How does Same-Origin Policy relate to CSRF attacks?|Same-Origin Policy cannot prevent CSRF attacks because attackers do not need to read the server response to the malicious cross-site request
+What is HTML injection and how does it relate to CSRF token theft?|HTML injection allows attackers to inject malicious HTML code that can leak CSRF tokens remotely without requiring local network access
+Why are GET-based CSRF attacks particularly dangerous?|GET-based CSRF attacks can leak CSRF tokens through HTTP Referer headers and browser history making tokens visible to attackers
+What is the purpose of the HTTPOnly cookie attribute?|HTTPOnly prevents client-side JavaScript from accessing cookies reducing the risk of session cookie theft via XSS attacks
+How can XSS and CSRF be chained together?|XSS can bypass same-origin protections for CSRF by executing requests from the same domain eliminating the need for cross-site requests
+What is a null value CSRF bypass?|Setting CSRF token to empty value may work when applications only check for token header presence without validating the actual token value
+What is request method tampering in CSRF attacks?|Changing request method from POST to GET or vice versa to bypass anti-CSRF protections that may not validate tokens for unexpected request methods
+How does session fixation work with double-submit cookies?|If application uses double-submit cookies and has session fixation vulnerability attacker can fix both cookie and request token to same value
+What are common vulnerable session storage locations?|URLs expose tokens in Referer headers HTML allows caching vulnerabilities and client-side storage without HTTPOnly enables XSS attacks
+Why is input validation critical for XSS prevention?|Server-side input validation using positive approach limits permitted characters and prevents malicious script injection before output encoding
+What is the Referer header bypass technique?|Adding meta tag referrer content no-referrer or manipulating domain structure like www.target.com.pwned.m3 to bypass Referer-based CSRF protection
+How do established programming frameworks help with session security?|PHP JSP and other frameworks provide built-in session management with proper validity scope randomness and expiration eliminating need for custom implementations
+What makes traffic sniffing effective against sessions?|Unencrypted HTTP traffic on same local network allows attackers to capture session identifiers usernames and passwords through packet analysis
+What is the relationship between authentication and session identifier generation?|Many applications assign valid session identifiers without authentication requirement allowing attackers to obtain valid tokens before fixation attacks
+How can database access lead to session compromise?|Direct database access via SQL injection or compromised credentials can expose stored session data and active user sessions
+What are the risks of custom session identifier implementations?|Custom implementations often lack proper randomness validity scope and expiration controls making them vulnerable to prediction and brute force attacks

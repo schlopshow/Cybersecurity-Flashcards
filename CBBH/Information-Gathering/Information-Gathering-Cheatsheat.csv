@@ -1,0 +1,145 @@
+What are crawler traps and honeypots in relation to robots.txt?|Some websites intentionally include fake directories in robots.txt to lure malicious bots into "honeypot" traps, which can provide insights into target's security awareness and defensive measures
+
+What is the Extension Mechanisms for DNS (EDNS) and its purpose?|EDNS allows additional DNS features like larger message sizes and DNS Security Extensions (DNSSEC) support. It appears as an opt pseudosection in dig queries
+
+What is the significance of domain status codes in WHOIS records?|Status codes like clientDeleteProhibited and serverTransferProhibited indicate domain protection levels against unauthorized changes, transfers, or deletions, showing security emphasis
+
+What are the key components of a DNS zone file?|TTL (time-to-live), SOA record with administrative info, NS records for name servers, MX records for mail servers, A/AAAA records for IP addresses, and CNAME records for aliases
+
+What is the difference between recursion desired and recursion available in DNS?|Recursion desired (rd flag) means the client wants the DNS server to perform full resolution. Recursion available indicates whether the server supports recursive queries
+
+What are the main categories of information extracted by ReconSpider?|Emails, links (internal/external), external files, JavaScript files, form fields, images, videos, audio files, and HTML comments from target websites
+
+What is the Robots Exclusion Standard?|A set of guidelines defining how web crawlers should behave when visiting websites, implemented through robots.txt files with directives for user-agents
+
+What is the role of Certificate Authorities (CAs) in Certificate Transparency?|CAs must submit newly issued certificates to multiple CT logs, creating public accountability and enabling detection of rogue or mis-issued certificates
+
+What are the three main steps in Certificate Transparency log operation?|Certificate submission by CAs to CT logs, public logging in append-only ledgers, and monitoring by security researchers for suspicious certificates
+
+What information can be gathered from analyzing DNS name servers?|Name server records reveal hosting providers, DNS infrastructure, potential misconfigurations, and can indicate whether organization manages its own DNS
+
+What is the difference between internal and external links in web reconnaissance?|Internal links connect pages within the same domain, helping map site structure. External links connect to other domains, revealing relationships and potential partner organizations
+
+What are the security implications of exposed backup files?|Backup files may contain source code, database credentials, configuration details, encryption keys, or other sensitive information that could facilitate attacks
+
+What is the purpose of the User-Agent string in HTTP headers?|User-Agent identifies the browser/application making the request. Web servers can use this to serve different content or block specific bots/crawlers
+
+What are the common directives found in robots.txt files?|Disallow (forbids crawling paths), Allow (permits crawling specific paths), Crawl-delay (sets delay between requests), and Sitemap (provides XML sitemap URL)
+
+What is the significance of the SOA record in DNS?|Start of Authority record contains administrative information including primary name server, responsible person's email, serial number, refresh intervals, and zone transfer timing
+
+What factors influence how frequently the Wayback Machine archives a website?|Website popularity, rate of content changes, cultural/historical value, and available Internet Archive resources determine archiving frequency
+
+What is the difference between crt.sh and Censys for certificate analysis?|crt.sh offers simple web interface for basic certificate searches. Censys provides advanced filtering, API access, and extensive analysis capabilities but requires registration
+
+What are the three phases of the Wayback Machine operation?|Crawling with automated bots following links, Archiving downloaded pages with timestamps, and Accessing through user interface for historical viewing
+
+What is network mapping in active reconnaissance?|Network mapping determines network topology, connected devices, and their relationships using tools like traceroute to reveal infrastructure and potential attack paths
+
+What is the purpose of service version detection in reconnaissance?|Service version detection identifies specific software versions running on open ports, helping determine potential vulnerabilities and appropriate exploits
+
+What are the main reconnaissance frameworks mentioned and their focus areas?|FinalRecon (modular Python tool), Recon-ng (comprehensive framework), theHarvester (email/subdomain gathering), SpiderFoot (OSINT automation), OSINT Framework (tool collection)
+
+What is the difference between vulnerability scanning and network mapping?|Vulnerability scanning probes for known security flaws and misconfigurations. Network mapping identifies topology, devices, and infrastructure relationships
+
+What information can be gathered from analyzing web page metadata?|Page titles, descriptions, keywords, author names, creation dates, and other contextual information that reveals content purpose and organizational details
+
+What are the key features that make FinalRecon comprehensive?|Header analysis, WHOIS lookup, SSL certificate info, web crawling, DNS enumeration, subdomain discovery, directory enumeration, and Wayback Machine integration
+
+What is the significance of the Content-Encoding header in web reconnaissance?|Headers like "deflate" encoding may indicate server vulnerability to specific attacks like BREACH, revealing potential security weaknesses
+
+What are the advantages of using Certificate Transparency logs over traditional subdomain enumeration?|CT logs provide historical certificate data, reveal expired certificates with potentially vulnerable subdomains, and offer comprehensive coverage without brute-force limitations
+
+What is the Extension Mechanisms for DNS (EDNS) and its purpose?|EDNS allows additional DNS features like larger message sizes and DNS Security Extensions (DNSSEC) support. It appears as an opt pseudosection in dig queries
+
+What is the significance of domain status codes in WHOIS records?|Status codes like clientDeleteProhibited and serverTransferProhibited indicate domain protection levels against unauthorized changes, transfers, or deletions, showing security emphasis
+
+What are the key components of a DNS zone file?|TTL (time-to-live), SOA record with administrative info, NS records for name servers, MX records for mail servers, A/AAAA records for IP addresses, and CNAME records for aliases
+
+What is the difference between recursion desired and recursion available in DNS?|Recursion desired (rd flag) means the client wants the DNS server to perform full resolution. Recursion available indicates whether the server supports recursive queries
+
+What are the main categories of information extracted by ReconSpider?|Emails, links (internal/external), external files, JavaScript files, form fields, images, videos, audio files, and HTML comments from target websites
+
+What is the Robots Exclusion Standard?|A set of guidelines defining how web crawlers should behave when visiting websites, implemented through robots.txt files with directives for user-agents
+
+What is the role of Certificate Authorities (CAs) in Certificate Transparency?|CAs must submit newly issued certificates to multiple CT logs, creating public accountability and enabling detection of rogue or mis-issued certificates
+
+What are the three main steps in Certificate Transparency log operation?|Certificate submission by CAs to CT logs, public logging in append-only ledgers, and monitoring by security researchers for suspicious certificates
+
+What information can be gathered from analyzing DNS name servers?|Name server records reveal hosting providers, DNS infrastructure, potential misconfigurations, and can indicate whether organization manages its own DNS
+
+What is the difference between internal and external links in web reconnaissance?|Internal links connect pages within the same domain, helping map site structure. External links connect to other domains, revealing relationships and potential partner organizations
+
+What are the security implications of exposed backup files?|Backup files may contain source code, database credentials, configuration details, encryption keys, or other sensitive information that could facilitate attacks
+
+What is the purpose of the User-Agent string in HTTP headers?|User-Agent identifies the browser/application making the request. Web servers can use this to serve different content or block specific bots/crawlers
+
+What is the significanceWhat is web reconnaissance and what are its primary goals?|Web reconnaissance is the systematic collection of information about a target website or web application. Primary goals include: identifying assets (web pages, subdomains, IP addresses), discovering hidden information (backup files, configuration files), analyzing attack surface for vulnerabilities, and gathering intelligence for further exploitation
+
+What is the difference between active and passive reconnaissance?|Active reconnaissance directly interacts with the target system (port scanning, vulnerability scanning) with high detection risk. Passive reconnaissance gathers information without direct interaction (search engines, WHOIS, DNS queries) with very low detection risk
+
+What information is typically found in WHOIS records?|Domain name, registrar company, registrant contact information, administrative and technical contacts, creation and expiration dates, and name servers that translate domain names to IP addresses
+
+What is the purpose of DNS and how does it work?|DNS translates human-readable domain names to IP addresses. It works through a hierarchical system: computer checks cache, queries DNS resolver, resolver asks root server, then TLD server, then authoritative server which provides the IP address
+
+What are the main DNS record types and their purposes?|A records map hostnames to IPv4 addresses, AAAA for IPv6, CNAME creates aliases, MX specifies mail servers, NS delegates zones to name servers, TXT stores text information, SOA contains zone administrative info
+
+Why are subdomains important in web reconnaissance?|Subdomains often host valuable hidden information including development/staging environments with relaxed security, hidden login portals, legacy applications with vulnerabilities, and sensitive documents not linked from main site
+
+What is a DNS zone transfer and why is it a vulnerability?|A zone transfer copies all DNS records from one name server to another. If misconfigured to allow unauthorized transfers, attackers can download complete zone files revealing all subdomains, IP addresses, and DNS infrastructure
+
+What are virtual hosts (VHosts) and how do they work?|Virtual hosts allow multiple websites to be hosted on a single server using the HTTP Host header to differentiate between domains. The web server examines the Host header to determine which website content to serve
+
+What are Certificate Transparency logs and their value in reconnaissance?|CT logs are public ledgers recording all SSL/TLS certificate issuances. They provide comprehensive historical subdomain discovery without brute-forcing limitations and can reveal subdomains from old or expired certificates
+
+What is the robots.txt file and its significance in web recon?|robots.txt is a file in website root directory containing instructions for web crawlers about allowed/disallowed paths. It can reveal hidden directories, map website structure, and expose areas the owner wants to keep private
+
+What are .well-known URIs and why are they useful?|.well-known is a standardized directory for critical website metadata and configuration files. Examples include security.txt for vulnerability reporting contacts and openid-configuration for authentication endpoint discovery
+
+What types of information can web crawling extract?|Web crawling can extract internal/external links for mapping structure, comments revealing sensitive details, metadata about pages, and sensitive files like backups or configuration files that may contain credentials
+
+What is Google Dorking and how is it used in reconnaissance?|Google Dorking uses advanced search operators to uncover sensitive information through search engines. Examples include finding login pages with site:example.com inurl:login or exposed files with filetype:pdf
+
+What is the Wayback Machine and its value for reconnaissance?|The Wayback Machine archives historical snapshots of websites. It's valuable for uncovering old pages/files no longer accessible, tracking website evolution, gathering historical intelligence, and performing stealthy reconnaissance
+
+Why is automation important in web reconnaissance?|Automation provides efficiency for repetitive tasks, scalability across multiple targets, consistency in results, comprehensive coverage of attack vectors, and integration with other security tools
+
+What information can be gathered from SSL certificate analysis?|SSL certificates reveal domain ownership, certificate authority, validity dates, subject alternative names showing additional domains/subdomains, and potential misconfigurations or expired certificates
+
+What are the three types of virtual hosting and their characteristics?|Name-based virtual hosting uses HTTP Host header (most common, cost-effective), IP-based virtual hosting assigns unique IP per website (better isolation, expensive), Port-based virtual hosting uses different ports on same IP (less common, requires port specification)
+
+What is the hosts file and how does it work?|The hosts file is a local text file that maps hostnames to IP addresses, bypassing DNS resolution. Located at /etc/hosts on Linux/Mac and C:\Windows\System32\drivers\etc\hosts on Windows, it provides manual domain name resolution
+
+What are the key sections of a dig command output?|Header section shows query type and status, Question section shows what was asked, Answer section provides the response, Footer section shows query time, DNS server used, and message size
+
+What is the difference between breadth-first and depth-first crawling?|Breadth-first crawling explores website width before depth, getting broad overview of structure. Depth-first crawling follows single paths as far as possible before backtracking, useful for reaching deep content
+
+What reconnaissance information can be extracted from HTTP headers?|Server header reveals web server software and version, X-Powered-By shows scripting languages/frameworks, other headers can reveal technologies, security configurations, and potential vulnerabilities
+
+What are the main advantages and disadvantages of active reconnaissance techniques?|Advantages: Direct comprehensive view of infrastructure and security posture. Disadvantages: High detection risk, can trigger IDS/firewalls, may be logged, and could raise suspicion with target
+
+What are the main advantages and disadvantages of passive reconnaissance techniques?|Advantages: Stealthy with very low detection risk, uses publicly available information, normal internet activity. Disadvantages: May yield less comprehensive information, limited to what's already publicly accessible
+
+What is banner grabbing and what information does it provide?|Banner grabbing retrieves information from service banners, typically showing server software, version numbers, and other service details. Usually involves minimal interaction but can be logged
+
+What is the difference between subdomains and virtual hosts?|Subdomains are extensions of main domain with DNS records (blog.example.com). Virtual hosts are server configurations allowing multiple sites on one server, can be domains/subdomains, may not have public DNS records
+
+What are the different phases of the penetration testing process mentioned?|Pre-Engagement, Information Gathering, Vulnerability Assessment, Exploitation, Post-Exploitation, Lateral Movement, Proof-of-Concept, and Post-Engagement
+
+What is service enumeration and OS fingerprinting in reconnaissance?|Service enumeration determines specific versions of services on open ports. OS fingerprinting identifies the operating system running on target systems. Both help identify potential vulnerabilities
+
+What makes Certificate Transparency logs particularly valuable compared to other subdomain enumeration methods?|CT logs provide definitive historical records rather than guessing, reveal expired/old certificates with potentially vulnerable subdomains, and offer comprehensive view without wordlist limitations
+
+What is web spidering and how does it differ from fuzzing?|Web spidering systematically follows links from pages to discover content, like a spider navigating its web. Fuzzing involves guessing/testing potential paths that may not be linked
+
+What types of sensitive information might be found through search engine discovery?|Employee information, sensitive documents, exposed credentials, hidden login pages, configuration files, internal documentation, backup files, and organizational intelligence
+
+What is the IANA registry in relation to .well-known URIs?|The Internet Assigned Numbers Authority maintains a registry of standardized .well-known URIs, each serving specific purposes like security.txt for vulnerability reporting contacts or openid-configuration for authentication details
+
+What security considerations should be followed during web reconnaissance?|Obtain proper authorization, respect rate limits to avoid server overload, follow ethical guidelines, be aware of legal implications, and avoid triggering security alerts unnecessarily
+
+What is the relationship between WHOIS data and historical analysis?|Historical WHOIS data through services like WhoisFreaks can reveal changes in ownership, contact information, or technical details over time, helping track digital presence evolution
+
+What makes the Wayback Machine particularly useful for stealthy reconnaissance?|Accessing archived snapshots is completely passive, doesn't interact with target infrastructure, appears as normal web browsing, and cannot be detected by the target
+
+What are crawler traps and honeypots in relation to robots.txt?|Some websites intentionally include fake directories in robots.txt to lure malicious bots into "honeypot" traps, which can provide insights into target's security awareness and defensive measures

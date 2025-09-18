@@ -1,0 +1,28 @@
+What is the worst possible kind of file upload vulnerability?|Unauthenticated arbitrary file upload vulnerability that allows any user to upload any file type
+What are the two main types of file extension validation?|Blacklist testing (checking against prohibited extensions) and whitelist testing (checking against allowed extensions)
+What is the fundamental weakness of blacklist validation?|It is not comprehensive and many extensions not included in the blacklist may still execute malicious code
+What technique can bypass whitelist validation that uses regex patterns without proper anchoring?|Double extensions (e.g., shell.jpg.php) where the file contains an allowed extension but ends with a malicious one
+What is a reverse double extension attack?|Using filenames like shell.php.jpg that pass whitelist tests but exploit web server misconfigurations that execute files containing certain extensions anywhere in the name
+What are magic bytes in file validation?|The first few bytes of a file that indicate its true type, such as GIF8 for GIF images
+How can Content-Type header validation be bypassed?|By intercepting the upload request and manually changing the Content-Type header to an allowed type like image/jpg
+What is MIME-type validation?|A more robust validation method that inspects the file's magic bytes/file signature to determine the actual file type
+How can MIME-type validation be bypassed?|By adding magic bytes at the beginning of malicious files (e.g., adding GIF8 to a PHP shell)
+What are three methods for validating uploaded files?|Extension validation, Content-Type header validation, and MIME-type/file content validation
+What is a web shell?|A script that provides command execution capabilities through a web interface, written in the same language as the target web application
+What is the difference between a web shell and reverse shell?|Web shells provide command execution through the browser interface, while reverse shells create a direct connection back to the attacker's machine
+Why might client-side validation be insufficient?|It runs in the user's browser and can be bypassed by intercepting requests or modifying the front-end code
+What are two ways to bypass client-side validation?|Modify the upload request directly (using tools like Burp) or disable front-end validation by editing the JavaScript code
+What file extensions are commonly allowed that might still be dangerous?|SVG, HTML, XML files that can contain XSS payloads or XXE attacks
+How can SVG files be used for XSS attacks?|SVG files are XML-based and can contain JavaScript code within script tags that execute when the image is displayed
+How can SVG files be used for XXE attacks?|By including malicious XML entities that read local files like /etc/passwd or source code files
+What is a decompression bomb attack?|Uploading malicious ZIP archives with nested compression that expand to massive sizes and crash the server
+What is a pixel flood attack?|Creating image files that claim huge dimensions in their metadata, causing memory exhaustion when the server tries to process them
+What character injection techniques can bypass whitelist filters?|Injecting characters like %20, %0a, %00, %0d0a, /, .\, ., …, : before or after file extensions
+What is the 8.3 filename convention attack?|Using Windows' legacy naming convention with tilde characters to overwrite existing files (e.g., WEB~1.CON for web.conf)
+What are Windows reserved filenames that can cause errors?|CON, COM1, LPT1, NUL - filenames that Windows won't allow, potentially causing error disclosure
+Why is it important to hide the uploads directory?|Direct access to uploaded files allows attackers to execute malicious scripts; files should be served through controlled download scripts
+What security headers should be used when serving uploaded files?|Content-Disposition: attachment, Content-Type specification, and X-Content-Type-Options: nosniff
+What PHP functions should be disabled to prevent command execution?|exec, shell_exec, system, passthru and other functions that can execute system commands
+What is the recommended approach for secure file uploads?|Combine whitelist and blacklist validation, validate both extension and content, hide upload directories, use download scripts with proper authorization
+How can file names be used for injection attacks?|Malicious filenames can inject commands, XSS payloads, or SQL queries if the filename is processed unsafely by the application
+What tools can help identify web application technologies?|Wappalyzer browser extension and web vulnerability scanners like Burp/ZAP

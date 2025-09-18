@@ -1,0 +1,42 @@
+What does HTTP stand for and what is it used for? | HyperText Transfer Protocol - an application-level protocol used to access World Wide Web resources
+What is the default port for HTTP communication? | Port 80
+What are the two mandatory components of a URL? | Scheme and Host
+What does the scheme component of a URL identify? | The protocol being accessed by the client (e.g., http:// or https://)
+What is the purpose of the User Info component in a URL? | Contains credentials (username:password) used to authenticate to the host, separated by @ symbol
+What does the Host component of a URL represent? | The resource location, which can be a hostname or IP address
+What is the default port for HTTPS if not specified? | Port 443
+What happens when no path is specified in a URL? | The server returns the default index file (e.g., index.html)
+How are multiple parameters separated in a query string? | By ampersand (&) symbols
+What are fragments in a URL used for? | Processed by browsers on client-side to locate sections within the primary resource
+What is the first step when a browser accesses a new domain? | It sends a DNS query to resolve the domain name to an IP address
+What file do browsers check first before contacting DNS servers? | The local /etc/hosts file
+What are the three main fields in the first line of an HTTP request? | Method, Path, and Version (separated by spaces)
+What is the difference between HTTP 1.X and HTTP 2.X request format? | HTTP 1.X sends clear-text with newline separators, HTTP 2.X sends binary data in dictionary form
+What are the two fields in the first line of an HTTP response? | HTTP version and HTTP response code
+What does the GET HTTP method do? | Requests a specific resource, can pass additional data via query strings in the URL
+What does the POST HTTP method do? | Sends data to the server in the request body, commonly used for forms/logins and file uploads
+What does the PUT HTTP method do? | Creates new resources on the server or updates existing resources
+What does the DELETE HTTP method do? | Deletes an existing resource on the webserver
+What does the HEAD HTTP method do? | Requests headers that would be returned by GET without returning the request body
+What does the OPTIONS HTTP method do? | Returns information about the server, such as accepted methods
+What does a 1xx status code class indicate? | Provides information and does not affect request processing
+What does a 2xx status code class indicate? | Request succeeded
+What does a 3xx status code class indicate? | Server redirects the client
+What does a 4xx status code class indicate? | Improper requests from client (client error)
+What does a 5xx status code class indicate? | Problem with the HTTP server itself (server error)
+What does HTTP status code 200 mean? | OK - successful request, response body usually contains requested resource
+What does HTTP status code 302 mean? | Found - redirects client to another URL
+What does HTTP status code 400 mean? | Bad Request - malformed request with issues like missing line terminators
+What does HTTP status code 403 mean? | Forbidden - client doesn't have appropriate access to resource
+What does HTTP status code 404 mean? | Not Found - requested resource doesn't exist on server
+What does HTTP status code 500 mean? | Internal Server Error - server cannot process the request
+What are three main benefits of POST over GET for data transfer? | 1) Lack of logging, 2) Less encoding requirements, 3) More data can be sent
+Why is POST better for file uploads than GET? | URLs have length limitations (should be under 2000 characters) and would require extensive encoding
+What header is used to specify JSON data in POST requests? | Content-Type: application/json
+How are authenticated sessions typically maintained in web applications? | Through cookies sent with Set-Cookie header and maintained in subsequent requests
+What are the four main CRUD operations and their corresponding HTTP methods? | Create (POST), Read (GET), Update (PUT), Delete (DELETE)
+What is the difference between PUT and PATCH methods? | PUT updates entire entry, PATCH partially updates entry (only modifies some data)
+How do REST APIs typically structure URLs for database operations? | /api/endpoint/table/row format (e.g., /api.php/city/london)
+What format do modern APIs commonly use for data exchange? | JSON (JavaScript Object Notation)
+How can you format JSON output from API responses in command line? | Pipe output to jq utility for proper formatting
+What is cURL primarily used for? | Command-line tool for sending web requests, essential for web penetration testing and automation

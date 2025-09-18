@@ -1,0 +1,20 @@
+What is Local File Inclusion (LFI)?|A vulnerability where user-controlled parameters specify which files are included on a web page, allowing attackers to read local server files
+What are the main consequences of LFI vulnerabilities?|Source code disclosure, sensitive data exposure, and potential remote code execution
+Which type of web application component most commonly contains LFI vulnerabilities?|Templating engines that dynamically load content based on user parameters
+What is the key difference between functions that read vs execute files in LFI context?|Read functions only display file content while execute functions can run the file as code, making execution more dangerous
+What is path traversal and why is it important for LFI?|Using relative paths like ../ to navigate up directories and access files outside the intended folder
+What is a non-recursive filter bypass technique?|Using nested sequences like ....// where removing one ../ still leaves a valid traversal sequence
+How can encoding help bypass LFI filters?|URL encoding special characters can bypass filters that block literal dots and slashes
+What is the purpose of PHP filters in LFI exploitation?|They transform file content before inclusion, such as base64 encoding to read source code without executing it
+What configuration setting is required for many advanced PHP LFI attacks?|The allow_url_include setting must be enabled in PHP configuration
+What is Remote File Inclusion (RFI) and how does it differ from LFI?|RFI includes files from remote URLs while LFI uses local files, with RFI allowing hosting of malicious scripts externally
+What is second-order LFI?|An attack where malicious payload is stored in one location then used by another function to perform file inclusion
+What is the basic concept behind file upload LFI exploitation?|Uploading files containing malicious code then using LFI to include and execute those files
+What are PHP session files and why are they useful for LFI?|Files storing user session data that can be poisoned with malicious content then included for execution
+What is log poisoning in LFI context?|Injecting malicious code into log files through controllable fields then including the logs to execute the code
+What makes some log files better targets than others for poisoning?|Accessibility by low-privileged users and the ability to control logged content like User-Agent headers
+What is the main principle behind LFI prevention?|Avoid passing user-controlled input directly into file inclusion functions
+What is a whitelist approach for LFI prevention?|Mapping user inputs to predefined safe files rather than using input directly in file functions
+How can directory traversal be prevented?|Use built-in functions to extract only filenames and sanitize input to remove traversal sequences
+What server configurations help reduce LFI impact?|Disabling remote file inclusion, setting web root restrictions, and disabling dangerous modules
+Why are Web Application Firewalls useful for LFI protection?|They can detect and block malicious patterns while providing early warning of attacks
