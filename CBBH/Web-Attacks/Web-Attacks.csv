@@ -1,0 +1,66 @@
+What are the three main web attacks covered in this module? | HTTP Verb Tampering, Insecure Direct Object References (IDOR), and XML External Entity (XXE) Injection
+What is HTTP Verb Tampering? | An attack that exploits web servers accepting many HTTP verbs and methods by sending malicious requests using unexpected methods to bypass authorization or security controls
+What are the 9 HTTP verbs mentioned in the document? | GET, POST, HEAD, PUT, DELETE, OPTIONS, PATCH, CONNECT, TRACE
+What does the HEAD HTTP method do? | Identical to a GET request but response only contains headers without the response body
+What does the PUT HTTP method do? | Writes the request payload to the specified location
+What does the OPTIONS HTTP method show? | Shows different options accepted by a web server like accepted HTTP verbs
+What are the two main causes of HTTP Verb Tampering vulnerabilities? | Insecure web server configurations and insecure coding practices
+What is an example of insecure web server configuration that leads to HTTP Verb Tampering? | Limiting authentication requirements to specific HTTP methods only, leaving other methods unprotected
+What is an example of insecure coding that leads to HTTP Verb Tampering? | Applying security filters only to specific HTTP methods while using $_REQUEST in the actual function, creating inconsistency
+How can you prevent HTTP Verb Tampering through server configuration? | Avoid restricting authorization to specific HTTP methods, use safe keywords like LimitExcept, and deny HEAD requests unless required
+What is IDOR? | Insecure Direct Object References - vulnerabilities that occur when a web application exposes direct references to objects that end-users can control to access other objects
+What makes an application vulnerable to IDOR? | Lack of proper access control system on the back-end, allowing users to access resources by manipulating direct object references
+What are the two main types of IDOR vulnerabilities? | IDOR Information Disclosure Vulnerabilities and IDOR Insecure Function Calls
+Where can you typically find direct object references? | URL parameters, API endpoints, HTTP headers, cookies, and JavaScript AJAX calls
+What should you look for when identifying potential IDOR vulnerabilities? | Parameters with object references like uid=1, filename=file_1.pdf, or encoded/hashed values that might reference objects
+What is the difference between IDOR Information Disclosure and IDOR Insecure Function Calls? | Information Disclosure allows reading resources, while Insecure Function Calls allow executing functions or APIs as another user
+How can you test for IDOR vulnerabilities with encoded references? | Identify the encoding method (like base64 or MD5 hashing), decode/calculate the pattern, then test with other values
+What is mass IDOR enumeration? | Using scripts or tools to systematically test multiple object references to gather large amounts of unauthorized data
+How can IDOR vulnerabilities be chained together? | Using information gained from IDOR Information Disclosure to exploit IDOR Insecure Function Calls, such as getting user UUIDs to modify other users' data
+What is the primary prevention method for IDOR vulnerabilities? | Implementing proper object-level access control system, typically Role-Based Access Control (RBAC)
+What type of object references should be used to prevent IDOR? | Strong and unique references like UUIDs or salted hashes instead of sequential numbers or predictable patterns
+What is XXE? | XML External Entity Injection - vulnerabilities that occur when XML data from user input is not properly sanitized, allowing malicious XML features to be exploited
+What are the key components of an XML document? | Tags, Entities, Elements, Attributes, and Declaration
+What is XML DTD? | Document Type Definition - allows validation of XML document against pre-defined document structure, can be internal or external
+What are XML entities? | XML variables that can be defined with ENTITY keyword and referenced with & and ; characters
+What makes external XML entities dangerous? | They can reference external files using SYSTEM keyword, potentially allowing local file disclosure when parsed server-side
+How do you identify potential XXE vulnerabilities? | Look for web pages that accept XML input, test if custom entities are processed by defining internal entities
+What is the basic method for exploiting XXE to read local files? | Define external entity using SYSTEM keyword with file path, then reference the entity in displayed XML element
+Why might basic XXE not work for reading source code files? | Files may contain special XML characters that break the format, require encoding methods like PHP filters or CDATA
+What is the CDATA method for XXE exploitation? | Wrapping external file content with CDATA tags using parameter entities to handle any type of data including special characters
+What is Error-based XXE? | Exploiting XXE when application doesn't display output but shows runtime errors, using non-existent entities to force errors containing file content
+What is Blind XXE? | XXE vulnerability where application neither displays XML output nor shows errors, requiring out-of-band techniques to exfiltrate data
+What is Out-of-Band (OOB) data exfiltration in XXE? | Making the application send HTTP requests to attacker's server with file content as URL parameters to bypass blind conditions
+How can XXE lead to Remote Code Execution? | Using PHP expect filter to execute commands, or fetching and writing web shells to the server for code execution
+What is the XXE Denial of Service attack? | Using nested entity references that cause memory exhaustion through self-reference loops, though modern servers often protect against this
+What are the main prevention methods for XXE? | Update XML libraries to latest versions, disable external entity processing, disable DTD processing, and implement proper exception handling
+What components besides XML libraries can be vulnerable to XXE? | API libraries like SOAP, document processors for SVG/PDF, and any components that parse XML input
+Why is updating XML libraries the most effective XXE prevention? | XXE vulnerabilities are usually caused by outdated XML libraries rather than insecure coding practices, so updates fix the root cause
+What HTTP status code indicates successful authentication bypass in HTTP Verb Tampering? | 200 OK instead of 401 Unauthorized when using alternate HTTP methods like HEAD
+What is the difference between internal and external XML entities? | Internal entities are defined within the XML document, external entities reference external resources using SYSTEM keyword
+Why are web attacks considered the most common type of attacks against companies? | Web applications have become very common for businesses and create a vast attack surface, making them attractive targets
+What happens when you send an unsupported HTTP method to a properly configured server? | The server returns a web server error page, which is not a severe vulnerability but may cause information disclosure
+What is the key difference between $_GET, $_POST, and $_REQUEST in PHP? | $_GET and $_POST access specific HTTP methods, while $_REQUEST accesses parameters from all HTTP methods, creating potential inconsistencies
+What security issue arises from using role information stored in cookies? | Cookies are under client control and can be manipulated to escalate privileges, roles should be validated server-side instead
+What is static file IDOR? | The most basic IDOR type where file names follow predictable patterns, allowing attackers to guess other users' files
+What makes Parameter Entities special in XML? | They start with % character, can only be used within DTD, and when referenced from external sources can be joined together
+What is the purpose of the CDATA tag in XML? | Marks content as raw data that may contain special characters without breaking XML format parsing
+Why might some IDOR attacks work even with unique references like UUIDs? | If the access control system is broken, techniques like using one user's session with another user's request may still work
+What is the significance of the libxml_disable_entity_loader function being deprecated? | It indicates that enabling external entities unsafely leads to XXE vulnerabilities, showing the evolution toward secure XML practices
+What are the signs that indicate a web application might be processing XML input? | Forms that send data in XML format, Content-Type headers indicating XML, or applications that handle document processing
+What is the difference between blind XXE and error-based XXE? | Error-based XXE shows runtime errors that can reveal file content, while blind XXE shows neither output nor errors
+Why is the inconsistent use of HTTP parameters dangerous in web applications? | It can lead to bypass of security filters when different functions use different parameter sources like $_POST vs $_REQUEST
+What role does the Access-Control system play in preventing IDOR? | It should validate user permissions against requested resources on the backend, not rely on frontend restrictions
+What makes XXE particularly dangerous compared to other injection attacks? | It can lead to local file disclosure, remote code execution, SSRF attacks, and denial of service through various XML features
+Why should HEAD requests be disabled unless specifically required? | HEAD requests are often overlooked in authentication configurations and can be used to bypass security controls
+What is the relationship between XML DTD and XXE vulnerabilities? | DTD allows definition of external entities, which when processed unsafely can lead to file disclosure and other attacks
+What indicates that a web application has proper access control vs weak access control? | Proper control validates permissions server-side regardless of user input, weak control relies on frontend restrictions or user-controlled parameters
+How do modern web servers protect against XXE entity reference loops? | They detect and prevent self-referencing entities that could cause denial of service through memory exhaustion
+What is the security risk of exposing direct object references in URLs? | It makes it easy for attackers to enumerate and access unauthorized resources by manipulating predictable identifiers
+Why is Role-Based Access Control (RBAC) important for preventing IDOR? | It provides a centralized way to map user privileges to objects and resources, ensuring proper authorization checks
+What makes JavaScript frameworks potentially vulnerable to IDOR? | They may expose all function calls in frontend code, including admin functions that should be server-side only
+What is the security benefit of using salted hashes or UUIDs for object references? | They make it extremely difficult for attackers to guess or calculate references to unauthorized resources
+How can IDOR vulnerabilities lead to account takeover? | By modifying user email addresses and requesting password resets, or by escalating user roles to admin privileges
+What is the difference between white-box and black-box testing in the context of web attacks? | White-box testing has access to source code (like through XXE file disclosure), black-box testing works without internal knowledge
+Why are API endpoints particularly susceptible to IDOR vulnerabilities? | APIs often use direct object references in URLs and may lack proper access control validation on the backend
+What security principle is violated when authentication is applied only to specific HTTP methods? | Defense in depth - security controls should cover all possible attack vectors, not just the commonly used ones
