@@ -1,0 +1,45 @@
+What is an API and what is its primary purpose?|An API (Application Programming Interface) consists of defined rules and protocols that dictate how disparate systems interact, specifying data formatting requirements, access methods for resources, and expected response structures
+What are the four main architectural styles for building web APIs?|REST (Representational State Transfer), SOAP (Simple Object Access Protocol), GraphQL, and gRPC
+What characterizes a RESTful API?|RESTful APIs use a client-server model with standard HTTP methods (GET POST PUT DELETE), are stateless (each request contains all necessary information), and responses are typically serialized as JSON or XML
+What is Broken Object Level Authorization (BOLA) and what is it also known as?|BOLA occurs when authorization checks fail to ensure an authenticated user has sufficient permissions to request and view specific data or perform operations. It is also known as Insecure Direct Object Reference (IDOR)
+What CWE weakness is associated with BOLA vulnerabilities?|CWE-639: Authorization Bypass Through User-Controlled Key
+How can BOLA vulnerabilities be prevented?|Implement verification at the source code level to ensure authorized users can only access resources they own by comparing resource ownership fields with the authenticated user's credentials
+What is Broken Authentication in APIs?|An API suffers from Broken Authentication when its authentication mechanisms can be bypassed or circumvented, allowing unauthorized access
+What CWE weakness relates to password brute-forcing vulnerabilities?|CWE-307: Improper Restriction of Excessive Authentication Attempts
+What are key elements of a strong password policy for APIs?|Minimum 12 characters, complexity requirements (uppercase, lowercase, numbers, special characters), prohibition of common passwords, password history enforcement, and regular password expiration
+What is Excessive Data Exposure?|A vulnerability where an API endpoint reveals sensitive data to authorized users that they are not supposed to access
+What is Mass Assignment?|A vulnerability where an API endpoint permits authorized users to manipulate sensitive object properties beyond their authorized scope, including modifying, adding, or deleting values
+What CWE is associated with Excessive Data Exposure?|CWE-213: Exposure of Sensitive Information Due to Incompatible Policies
+What CWE is associated with Mass Assignment vulnerabilities?|CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes
+How can Excessive Data Exposure be prevented?|Return specific response DTOs (Data Transfer Objects) that include only fields intended for user visibility rather than exposing the entire domain model
+How can Mass Assignment be prevented?|Implement dedicated request DTOs that include only the fields intended for users to modify, restricting access to sensitive fields
+What is Unrestricted Resource Consumption?|A vulnerability where an API fails to limit user-initiated requests that consume resources such as network bandwidth, CPU, memory, and storage
+What CWE is associated with Unrestricted Resource Consumption?|CWE-400: Uncontrolled Resource Consumption
+What validations should be implemented for file upload endpoints?|Validate file size within specified limits, validate file extensions to allow only authorized types, validate file content using antivirus scanning, and implement authentication and authorization
+What is Broken Function Level Authorization (BFLA)?|A vulnerability where an API allows unauthorized or unprivileged users to interact with and invoke privileged endpoints, granting access to sensitive operations or confidential information
+What is the key difference between BOLA and BFLA?|In BOLA the user is authorized to interact with the endpoint but accesses unauthorized data; in BFLA the user is not authorized to interact with the endpoint at all
+What CWE is associated with BFLA?|CWE-200: Exposure of Sensitive Information to an Unauthorized Actor
+How can BFLA be prevented?|Enforce authorization checks at the source-code level to verify user roles before processing requests, ensuring unauthorized users are denied access
+What is Unrestricted Access to Sensitive Business Flows?|A vulnerability where an API exposes operations or data that allows users to abuse them and undermine the system, such as buying goods at discounted prices or accessing discount schedules
+What is Server-Side Request Forgery (SSRF) and what is it also known as?|SSRF occurs when an API uses user-controlled input to fetch remote or local resources without validation. It is also known as Cross-Site Port Attack (XPSA)
+What CWE is associated with SSRF vulnerabilities?|CWE-918: Server-Side Request Forgery (SSRF)
+What is the file URI Scheme and why is it relevant to SSRF?|The file URI Scheme is used to represent local file paths and allows access to files on a local filesystem, making it a vector for SSRF attacks if not properly validated
+How can SSRF vulnerabilities be prevented?|Strictly validate file URIs to ensure they only point to permissible resources, implement allowlists for acceptable resources, and configure endpoints to serve content exclusively from designated directories
+What is Security Misconfiguration in APIs?|APIs are susceptible to misconfigurations like traditional web applications, including vulnerabilities such as SQL injection when user-controlled input is incorporated into queries without validation
+What CWE is associated with SQL Injection?|CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+How can SQL Injection be prevented in APIs?|Use parameterized queries or ORMs to safely insert user-controlled values, validate user input before concatenation, and implement secure HTTP headers
+What is Improper Inventory Management in APIs?|Inadequate versioning and documentation practices that can introduce security misconfigurations and increase attack surface, such as outdated API versions remaining accessible
+What risks does Improper Inventory Management create?|Outdated API versions may lack authentication, expose deleted or legacy data, contain known vulnerabilities, and create entry points for unauthorized users
+How can Improper Inventory Management be prevented?|Remove deprecated API versions entirely, restrict access to development/testing only, implement stringent authentication for legacy versions, and maintain proper API inventory documentation
+What is Unsafe Consumption of APIs?|When an API consumes another API insecurely by blindly trusting data received from third-party APIs without proper validation, authentication, or security measures
+What CWE is associated with Unsafe Consumption of APIs?|CWE-1357: Reliance on Insufficiently Trustworthy Component
+What are critical security measures for API-to-API communication?|Use encrypted channels for data transmission, validate and sanitize received data, employ robust authentication methods, implement rate-limiting, and monitor interactions adequately
+What is Role-based Access Control (RBAC)?|An access control policy where users are assigned roles that determine which endpoints and operations they can access
+What is a Data Transfer Object (DTO)?|A design pattern used to transfer data between software application subsystems, often used to limit exposed fields in API responses or accepted fields in requests
+What is the purpose of the OWASP API Security Top 10?|To categorize and standardize the most critical security risks and vulnerabilities specifically related to APIs
+What are the consequences of rate-limiting failures?|Users can perform brute-force attacks, cause denial-of-service, overwhelm systems, and consume excessive resources leading to financial damage
+Why should APIs enforce CORS policies properly?|Improper CORS configuration (like insecure Access-Control-Allow-Origin headers) can expose APIs to security risks, most notably Cross-Site Request Forgery (CSRF)
+What is a JWT and how is it used in API authentication?|A JWT (JSON Web Token) is a compact token format used for authentication, obtained after signing in and included in subsequent requests to prove authentication
+What security risk exists when APIs expose password hashes?|Exposed password hashes can be cracked offline, and due to password reuse, compromised credentials may allow access to other accounts or systems
+Why is validating file content important beyond checking extensions?|File extensions can be spoofed; validating content using antivirus scanning helps detect malware that could compromise server integrity even if the extension appears legitimate
+What is the security implication of storing files in publicly accessible directories?|Files in public directories like wwwroot can be accessed by anyone if filenames can be enumerated, leading to unauthorized access to sensitive information or malware distribution

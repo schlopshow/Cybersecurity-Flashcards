@@ -1,0 +1,58 @@
+What tools are commonly used for web fuzzing?|FFUF (Fuzz Faster U Fool), Gobuster, FeroxBuster, and wenum/wfuzz are popular web fuzzing tools
+What language is FFUF written in?|Go - which contributes to its speed and performance
+What language is FeroxBuster written in?|Rust - designed for high-performance content discovery
+What is the primary use case for FFUF?|Quickly enumerating directories, files, and parameters within web applications with flexibility and speed
+What is Gobuster particularly known for?|Its speed and simplicity in web directory and file fuzzing, making it suitable for both beginners and experienced users
+What is FeroxBuster's main strength?|Recursive content discovery - it's designed for brute-force discovery of unlinked content in web applications
+What is the FUZZ keyword used for in fuzzing tools?|It acts as a placeholder in the URL where the fuzzer will insert words from the wordlist during testing
+What HTTP status code indicates a redirect?|301 (Moved Permanently), 302, and 307 are common redirect status codes
+What does a 200 HTTP status code indicate?|A successful response from the server, suggesting the request was valid and processed correctly
+What does a 404 HTTP status code indicate?|Not Found - the requested resource does not exist on the server
+Why are backup files (.bak) security concerns?|They may contain sensitive information like database credentials or API keys from previous versions of the application
+What is the purpose of the Host header in HTTP requests?|It tells the web server which virtual host's content to deliver when multiple websites share the same IP address
+What is DNS used for in subdomain discovery?|Domain Name System resolves subdomain names to their corresponding IP addresses
+What is subdomain takeover?|A vulnerability that occurs when DNS records for subdomains are mismanaged, allowing attackers to claim control of the subdomain
+What are common file extensions to fuzz for on PHP-based sites?|.php for code files, .bak for backups, .txt for text files, .html for pages, and .js for JavaScript
+What is the application/x-www-form-urlencoded content type?|A format that encodes POST data as key-value pairs separated by ampersands in the request body
+What is the multipart/form-data content type used for?|Submitting forms that include file uploads along with other data, dividing the request body into multiple parts
+Why might hidden directories lack robust security?|They're not intended for public access and may not receive the same security scrutiny as public-facing components
+What is forced browsing?|The technique of directly accessing resources by guessing or fuzzing URLs rather than following links, used to find unlinked content
+What information can be gleaned from error messages during fuzzing?|Details about the technology stack, database errors, file paths, or logic flaws that could aid further attacks
+What is input validation?|The process of checking and sanitizing user-supplied data to prevent malicious input from causing vulnerabilities
+Why is SQL injection related to input validation?|Poor input validation allows attackers to inject malicious SQL code into database queries through user inputs
+What is Cross-Site Scripting (XSS)?|A vulnerability where attackers inject malicious scripts into web pages viewed by other users, often due to inadequate input validation
+What is the benefit of integrating fuzzing into SDLC?|It ensures vulnerabilities are identified and addressed early in development rather than in production
+What does it mean when a fuzzer "casts a wider net"?|It tests a diverse range of unexpected inputs including malformed data, invalid characters, and random sequences
+What is the purpose of rate limiting in fuzzing?|To control how many requests are sent per second, preventing server overload and avoiding detection or blocking
+What is recursion depth in fuzzing?|The maximum number of directory levels the fuzzer will explore when performing recursive scans
+What does the term "attack surface" mean?|All the points where an application can receive input or interact with users, representing potential vulnerability locations
+What is enumeration in security testing?|The systematic process of identifying and listing resources like directories, files, subdomains, or parameters on a target
+Why are staging or development environments security risks?|They may have weaker security controls and could expose sensitive information or provide unauthorized access to production systems
+What is the purpose of excluding status codes during fuzzing?|To filter out noise and focus on meaningful results by hiding common responses like 404 errors
+What does content length filtering accomplish?|It excludes responses of specific sizes, useful for ignoring empty responses or standard error pages that have consistent sizes
+What is the difference between a fuzzer and a scanner?|A fuzzer sends unexpected/random inputs to trigger errors, while a scanner typically looks for known vulnerabilities with specific tests
+What is a dictionary attack in the context of brute-forcing?|Using a predefined list of common values (like passwords) to systematically guess the correct value
+Why is response time analysis useful in fuzzing?|Different response times can indicate different server behaviors, like database queries or file operations, revealing potential vulnerabilities
+What is parameter pollution?|Sending multiple instances of the same parameter with different values to test how the application handles duplicate parameters
+What is the security principle behind fuzzing?|Proactive security - finding and fixing vulnerabilities before attackers can exploit them
+
+What is the primary purpose of filtering in web fuzzing?|To efficiently sift through large amounts of data and focus on the most relevant findings by controlling displayed output
+What is a false positive in the context of fuzzing?|A harmless anomaly that triggers the fuzzer's detection mechanisms but poses no real threat or vulnerability
+Why is manual verification important after fuzzing?|To confirm that discovered issues are real vulnerabilities, understand their impact, reproduce the issue consistently, and gather evidence
+What security risk do backup directories often pose?|They may contain sensitive information like database dumps with credentials, configuration files with API keys, or source code revealing vulnerabilities
+What is the main difference between REST and SOAP API structure?|REST uses multiple distinct URLs for different resources, while SOAP typically exposes a single endpoint where the message content determines the operation
+What is the primary advantage of GraphQL over REST APIs?|GraphQL provides a single endpoint where clients can request exactly the data they need, eliminating over-fetching or under-fetching problems common in REST
+What is a Web API?|A set of rules and specifications that enable different software applications to communicate over the web, serving as a bridge between servers and clients
+What is the purpose of API introspection in GraphQL?|To retrieve a complete schema describing the API's capabilities including available types, fields, queries, mutations, and arguments
+What are the three primary types of API fuzzing?|Parameter fuzzing (testing different parameter values), data format fuzzing (manipulating JSON/XML structures), and sequence fuzzing (testing request order and timing)
+Why might APIs contain undocumented or hidden endpoints?|To serve internal functions not meant for external use, as misguided security through obscurity, or because they're still under development
+What is the main purpose of WSDL files in SOAP APIs?|To describe the web service's interface, operations, message formats, available parameters, and the location of the SOAP endpoint
+What does a 405 status code indicate during API fuzzing?|Method Not Allowed - an incorrect HTTP method was used to access the endpoint
+What vulnerability might parameter fuzzing reveal through manipulating values?|Broken object-level authorization, broken function-level authorization, or server-side request forgery (SSRF)
+What is the difference between queries and mutations in GraphQL?|Queries are designed to fetch data from the server, while mutations are designed to modify data (create, update, or delete)
+Why is it important to examine Content-Type and Content-Length headers when validating findings?|They provide clues about file types and whether files contain actual content without directly accessing sensitive data
+What makes microservices architecture different from monolithic applications?|Large applications are broken down into smaller, independent services that communicate through well-defined APIs, enhancing scalability and flexibility
+What is the default behavior of ffuf regarding status code matching?|It matches codes 200-299, 301, 302, 307, 401, 403, 405, and 500 to minimize noise from 404 responses
+What is the main difference between how web servers and APIs handle data?|Web servers primarily deal with HTML, CSS, and JavaScript for rendering pages, while APIs exchange data in formats like JSON or XML for application communication
+What does responsible validation of a vulnerability involve?|Creating a proof of concept that demonstrates the vulnerability's existence without causing damage or compromising sensitive data
+What information can network traffic analysis reveal about APIs?|Endpoints, parameters, data formats, and how the API is actually used in practice by observing requests and responses
