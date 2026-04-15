@@ -5,11 +5,11 @@ This Repo contains all of my Anki Flashcards for every certification and project
 ## Importing Deck
 
 1. Install anki https://apps.ankiweb.net/
-2. Go to Release and download the 'Flashcards.colpkg' file
+2. Go to Release and download the 'flashcards.apkg' file
 3. Open Anki
 4. Click FIle at the top right corner
 5. Import
-6. Double click the flashcards.colpkg file and it wil import all my cards into your anki instance.
+6. Double click the flashcards.apkg file and it wil import all my cards into your anki instance.
 
 ## Strucutre of Decks
 
