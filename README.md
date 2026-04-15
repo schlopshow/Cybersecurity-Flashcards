@@ -18,3 +18,6 @@ Normally, each deck will contain subdecks that go over each individual section o
 
 
 ![Alt text](https://github.com/schlopshow/Schlops-Flashcards/blob/main/res/anki-decks.png)
+
+## WIP
+Currently I am reworking my CPTS notes and flashcards.I also want to add cheatsheets for each Certification when I have time.
