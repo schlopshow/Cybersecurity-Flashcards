@@ -1,0 +1,145 @@
+What is an evasion attack in AI security?|An attack that manipulates inference-time inputs to cause a trained model to produce incorrect outputs, bypassing safeguards built into the training pipeline
+What is the key difference between training-time and inference-time attacks?|Training-time attacks change what the model learns (like data poisoning), while inference-time attacks only change what the model sees when making predictions
+What is transferability in adversarial machine learning?|The property where an adversarial example crafted against a surrogate model can often fool different production models, particularly when architectures or data are similar
+How do evasion attacks differ between traditional ML and LLMs?|Traditional ML evasion targets fixed feature representations by manipulating statistics. LLM evasion uses prompt injection to manipulate the model's instruction-following behavior
+What is the GoodWords attack?|An adversarial technique that exploits Naive Bayes classifiers by appending carefully selected legitimate words to spam messages to evade detection
+What is the "naive" assumption in Naive Bayes that makes it vulnerable?|Conditional independence of features - the assumption that each word contributes independently to probability calculation
+Why does the GoodWords attack work mathematically?|Because Naive Bayes uses additive log probabilities, adding good words shifts the probability balance toward ham without the model detecting semantic mismatch
+What is the goodness score formula for word selection?|S(w) = P(w|ham) / (P(w|spam) + ε), where words with high scores appear frequently in legitimate messages but rarely in spam
+How many good words typically achieve over 90% evasion in the attack?|Between 15 and 30 carefully selected good words achieve evasion rates over 90%
+What is the key insight about individual word impact in GoodWords attacks?|No single word dominates - most contribute 2-4% reduction individually. Success requires orchestrated combination of multiple words through accumulation
+What are the three phases of black-box GoodWords discovery?|Exploration (40% budget) for broad testing, Exploitation (40%) for refining top candidates, and Combination search (20%) for discovering synergies
+What is the epsilon-greedy strategy in black-box attacks?|A selection algorithm that balances exploration (testing new words) with exploitation (using known good words) by randomly exploring a fixed percentage of the time
+What is the Upper Confidence Bound (UCB) formula purpose?|UCB = average_reward + c*sqrt(ln(t)/n_w) combines exploitation (average reward) with exploration bonus (uncertainty about rarely-tested words)
+Why does the UCB exploration bonus use a square root?|The square root creates a confidence interval reflecting uncertainty about rarely-tested words, which shrinks as testing frequency increases
+What does exponential moving average do in score updates?|Smoothly updates word effectiveness beliefs by giving new observations partial weight (e.g. 30%) while retaining historical data (70%), preventing overreaction to outliers
+What is synergy in word combinations?|When word pairs or triplets achieve greater spam probability reduction together than the sum of their individual impacts
+Why does black-box discovery sometimes find more impactful words than white-box?|White-box measures theoretical ham-association from training data, while black-box measures empirical impact on real spam messages through actual probability shifts
+What query budget allocation does the three-phase algorithm use?|40% exploration, 40% exploitation, 20% combination discovery (e.g., 400-400-200 for 1000 queries)
+What is the typical effectiveness comparison between white-box and black-box attacks?|Query-constrained black-box attacks achieve approximately 85-95% of white-box attack effectiveness
+What is the decision boundary threshold for successful evasion?|When ham probability exceeds spam probability (> 0.5), the message evades detection regardless of confidence magnitude
+Why do good words need minimum frequency thresholds?|Words appearing frequently in legitimate messages signal common communication patterns the classifier learned as ham indicators, while rare words may be flukes or artifacts
+What is the purpose of the length filter (3-9 characters) in vocabulary building?|Removes uninformative short tokens (stopwords like "a", "to") and artifacts (URLs, phone numbers) while retaining meaningful conversational words
+Why does the attack use log space for probability calculations?|Multiplying thousands of tiny probabilities causes numerical underflow around 10^-308. Logarithms transform multiplication into stable addition
+What percentage reduction does adding 10 good words typically achieve?|Approximately 30-40 percentage points reduction in spam probability
+What semantic patterns do high-scoring good words share?|Conversational terms (thanks, meeting), temporal references (tomorrow, later), informal contractions (gonna, dont), and polite expressions (please, sorry)
+What is the information gain formula in query-based discovery?|I(Q) = H(W) - H(W|Q), measuring reduction in uncertainty about word effectiveness before versus after the query
+Why is stratified sampling important in train-test splits?|Maintains the class distribution (e.g., 12.4% spam ratio) across both sets, preventing imbalanced splits that would distort performance metrics
+What does the max_features parameter control in CountVectorizer?|Limits vocabulary to a specified number (e.g., 3000) of most important features, preventing overfitting while maintaining expressiveness
+What is the purpose of custom token patterns in the vectorizer?|Captures spam-specific features beyond standard words: currency symbols (£$€¥), numbers, and repeated punctuation (!!+, ??+) common in spam
+Why remove stop words in feature extraction?|Eliminates non-discriminative terms (the, is, and) that appear equally in both classes and provide no classification value
+What does minimal cleaning preserve for spam detection?|Important spam indicators like excessive punctuation, currency references, uppercase words, and symbols that signal spam characteristics
+What is the typical class imbalance in spam datasets?|Approximately 13-14% spam messages and 86-87% legitimate messages, mirroring real-world email distributions
+Why does heterogeneous vulnerability exist across spam messages?|Messages with fewer spam indicators (near 0.7-0.8 probability) require less augmentation, while those with multiple reinforcing indicators (>0.95) need more words
+What is the exploit-explore dilemma in black-box attacks?|Balancing between testing new untested words to discover better options (exploration) versus using known effective words for immediate success (exploitation)
+What does the multi-armed bandit framework model?|Each word as a slot machine arm with unknown effectiveness. Players must allocate limited plays to maximize reward when payout probabilities are unknown
+What logarithmic regret guarantee does UCB provide?|Cumulative difference from optimal choices grows as O(log T), sublinear with query count T, meaning exploration mistakes remain bounded
+Why can't defenders rely on obscuring model internals?|Attackers can empirically discover effective attack vectors through systematic black-box testing, achieving 85-95% of white-box effectiveness
+What is the fundamental architectural vulnerability in Naive Bayes?|Features combine additively in log space, creating systematic exploitability regardless of whether attackers know exact probabilities
+What makes the 1000-query budget sufficient?|Disciplined allocation across exploration, exploitation, and combination search discovers highly effective words without exhaustive testing
+Why does white-box goodness score differ from black-box practical impact?|Goodness measures theoretical ham-association from training. Impact measures actual probability shifts on real spam. High goodness doesn't guarantee high impact
+What is the purpose of testing combinations on multiple messages?|Prevents overfitting to single message patterns and improves reliability by identifying combinations that work across diverse spam characteristics
+What does the phrase "quantity overwhelms quality" mean in this context?|The classifier cannot penalize semantic mismatch between appended legitimate words and spam content, so accumulated evidence overturns initial spam signal
+Why is model persistence with pickle important?|Saves computation time by avoiding retraining, maintains exact vocabulary through transform (not fit_transform), ensuring feature space consistency
+What does the 99.22% training vs 98.64% test accuracy indicate?|Minimal gap (0.58%) confirms the model generalizes well without memorizing training data, avoiding overfitting
+Why are spam metrics slightly lower than ham metrics?|Class imbalance means fewer spam examples to learn from (12.4% vs 87.6%), reducing model confidence about spam patterns
+What is the sigmoid curve pattern in attack effectiveness?|Phase 1 (0-5 words): minimal evasion. Phase 2 (5-15 words): rapid transition from 41% to 96%. Phase 3 (15-20 words): saturation at 100%
+What is data poisoning in adversarial machine learning?|A training-time attack that injects or alters training samples so the model internalizes biased patterns
+What is label manipulation?|A training-time attack that tampers with annotations so ground truth no longer matches reality
+What are Trojan attacks?|Training-time attacks that implant hidden triggers which activate specific behavior when an attacker's pattern appears in the input
+What distinguishes inference-time manipulation from training-time attacks?|Inference-time only changes what the model sees during prediction, leaving training and parameters untouched
+What is prompt injection in the context of LLMs?|An evasion pattern where adversarial directives are placed in prompts so the model prioritizes them over original system guidance
+Why is prompt injection particularly dangerous for LLMs?|The output itself is an action surface (code, queries, markup) that other systems might execute, extending the attack beyond initial response
+What is the bag-of-words assumption exploited in spam filters?|The model uses term frequencies for classification, so adding benign tokens changes frequencies while message reads the same to humans
+What technique do static malware detectors use that makes them vulnerable?|They use byte patterns and crafted signatures, which can be altered by rearranging sections or perturbing imports without changing program intent
+What is the core principle shared by traditional ML and LLM evasion?|Modify only the input seen at prediction time to steer the model's behavior, without changing parameters
+Where does leverage come from in traditional ML evasion?|From manipulating structured features and label thresholds by targeting the statistics that feed the classifier
+Where does leverage come from in LLM evasion?|From exposing conversational state and instruction following through carefully placed text and context management
+What did Lowd and Meek's 2005 paper introduce?|The GoodWords attack technique against statistical spam filters using Naive Bayes classifiers
+What is the mathematical foundation targeted by GoodWords?|The classifier's reliance on word frequency distributions and conditional probabilities with feature independence assumptions
+What is the key insight of the GoodWords augmentation strategy?|Preserve original spam message intact while augmenting with tokens that shift probability distribution toward legitimate class
+What is Bayes' theorem formula for classification?|P(C|D) = P(D|C) · P(C) / P(D), calculating probability a message belongs to class C given document D
+What is the Naive Bayes decision rule?|class = argmax over c in {spam, ham} of P(c|D), choosing class with highest posterior probability
+How does the likelihood factorize under naive assumption?|P(D|C) = product from i=1 to n of P(wi|C), where each word contributes independently
+Why do implementations work in log space?|To avoid numerical underflow when multiplying many small probabilities
+What is the log-space classification formula?|class = argmax over c of [log P(c) + sum of log P(wi|c)], converting multiplication to addition
+What metaphor explains how the classifier weighs evidence?|A scale weighing evidence for spam versus ham, where each word adds weight to one side or other
+What happens to spam probability when good words are appended?|Original spam words contribute same evidence, but added good words shift balance by adding more weight to ham side
+What is the mathematical condition for attack success?|log P(ham|M_augmented) > log P(spam|M_augmented), reversing the original inequality
+What determines when probability reversal occurs?|Sum of good word contributions [log P(gj|ham) - log P(gj|spam)] must exceed original spam signal
+What should good words maximize to be most effective?|The difference log P(w|ham) - log P(w|spam), maximizing discriminative power toward legitimate class
+What is epsilon in the goodness score formula?|A small constant (like 1e-10) added to prevent division by zero when words never appear in spam
+Why rank words by goodness scores?|To prioritize candidates with strong discriminative power favoring legitimate class for most efficient attack
+What additional constraints should word selection consider?|Avoid words that might trigger rule-based filters or appear suspicious to human reviewers despite high goodness scores
+What is the trade-off in choosing number of words to add?|Too few may fail to shift probability sufficiently, too many could appear unnatural or exceed transmission limits
+Why can't Naive Bayes penalize semantic mismatch?|It doesn't model word relationships or broader context, only treats each word as independent contribution
+What makes learned distributions vulnerable to exploitation?|Training fixes word-class probabilities from historical data, producing static distributions attackers can study systematically
+How does Laplace smoothing increase attack susceptibility?|Assigns non-zero probability to unseen/rare words, preventing rejection of unusual combinations and increasing available word range
+What four factors create GoodWords attack conditions?|Independence assumption, additive scoring in log space, static learned distributions, and smoothing effects
+What is the SMS Spam Collection dataset size?|5,574 labeled messages from UCI Machine Learning Repository
+What does Path.mkdir(exist_ok=True) accomplish?|Creates directory if it doesn't exist without error, making code idempotent and preventing errors on first run
+What performance gain does caching provide?|40× speedup: initial download takes 2-3 seconds, cached reads complete under 50ms
+Why extract in-memory rather than to disk?|Avoids filesystem I/O overhead, reducing operation time by half compared to disk write + disk read
+What does len(parts) == 2 validation prevent?|Guards against corrupted records from blank lines, partial records, or malformed entries in real-world datasets
+What does html_module.unescape() handle?|Converts HTML entities like &amp; to actual characters (&) for messages scraped from web sources
+What does Unicode normalization with 'NFKC' mode do?|Converts characters to canonical composed form, e.g., ligature "fi" becomes "fi", preventing encoding variation issues
+Why handle whitespace with three separate regex patterns?|Ensures consistent processing: \s+ for spaces/tabs, \n+ for newlines, \r+ for carriage returns across different text sources
+Why preserve currency symbols and punctuation in cleaning?|They carry discriminative power: excessive exclamation marks signal urgency, currency symbols indicate monetary offers (spam characteristics)
+What does lowercase conversion achieve?|Ensures "FREE" and "free" become same feature, preventing vocabulary duplication
+Why remove exact duplicates by label and message?|Eliminates 419 duplicates that could skew training, focusing on unique message patterns
+What does stratify=y parameter ensure?|Maintains the 12.4% spam ratio in both train and test sets, preventing imbalanced splits
+Why use .values to extract from DataFrame?|Extracts NumPy arrays for more efficient processing by scikit-learn algorithms
+What does the 80-20 split provide?|4,122 training messages for learning patterns, 1,031 testing messages for reliable performance evaluation
+Why use transform() instead of fit_transform() when loading saved models?|Uses exact vocabulary from original training, maintaining feature space consistency by ignoring new words
+What does max_features=3000 prevent?|Prevents overfitting while maintaining expressiveness by limiting vocabulary to most important features
+What token pattern captures in the custom regex?|Standard words (\b\w+\b), currency symbols ([£$€¥]+), numbers (\d+), and repeated punctuation (!!+, \?\?+, \.\.+)
+Why does spam detection show 95% precision and 94% recall?|Lower than ham (99%) due to fewer spam examples (12.4%) providing less data for model to learn confident spam patterns
+What does feature_log_prob_ attribute contain?|Log P(w|c) for each word w and class c, with index [0] for ham and [1] for spam probabilities
+Why store (word, goodness, ham_prob, spam_prob) tuples?|Preserves complete information for validation requiring raw conditional distributions beyond derived goodness scores
+What does np.exp(ham_log_probs[i]) recover?|The original probability stored in log space, e.g., exp(-5.3) ≈ 0.005
+What linguistic patterns appear in top good words?|Singaporean slang (lor), ellipsis (...), temporal words (later), action verbs (doing, ask), and informal terms (lol, cos)
+Why shuffle candidates and messages before testing?|Prevents systematic biases if attack is interrupted or reaches budget limits early
+What does augment_message function do?|Appends good words to message with proper spacing, or returns original if no words added
+When does predict_proba indicate successful evasion?|When prob[0] > prob[1], meaning ham probability exceeds spam probability (crossing 0.5 threshold)
+Why doesn't probability magnitude matter for evasion?|Binary decision only cares which class wins; prob [0.501, 0.499] evades same as [0.99, 0.01]
+What progression does the attack show from 0 to 20 words?|0 words: 6.25% evasion, 5 words: 41%, 10 words: 74%, 15 words: 96%, 20 words: 100%
+What does the rapid 5-15 word transition indicate?|Catastrophic failure zone where evasion explodes from 41% to 96%, not gradual degradation
+Why use 12×6 inch figure size?|Creates 2:1 aspect ratio giving horizontal progression curve adequate space without vertical compression
+What does fill_between with alpha=0.3 emphasize?|Adds translucent area beneath curve emphasizing cumulative nature of attack success
+What does the 50% threshold line represent?|Equipoise point where attack becomes more successful than not - filter fails more often than succeeds
+What does the 90% threshold line indicate?|Near-complete evasion where only 10% of spam remains caught, representing practical attack success
+What does zorder=5 parameter control?|Rendering order ensuring peak scatter point appears above grid lines and fill area
+Why test only 50 messages for word impact analysis?|Provides statistical reliability without excessive computation for measuring individual word effects
+What does prob_orig - prob_aug quantify?|Impact in absolute terms (percentage points), e.g., 0.95 to 0.85 is 10 percentage point reduction
+Why multiply impact by 100 in reporting?|Converts to percentage points for easier interpretation (0.10 becomes 10%)
+Why doesn't individual word impact match goodness score?|Goodness measures theoretical ham-association, impact measures actual ability to shift spam-laden messages toward ham
+What does horizontal bar chart format provide?|Better readability for word labels compared to vertical bars requiring rotated text
+What does uniform grey coloring in impact chart indicate?|All tested words fall below threshold where individual words could single-handedly flip classifications
+Why test probability shifts on 8 sample messages?|Enough examples to see patterns without overcrowding visualization
+What do grouped bars with 0.15 width allow?|Five groups of bars (0, 5, 10, 20, 30 words) to fit comfortably for each message
+What does color progression from MALWARE_RED to AQUAMARINE represent?|Visual transformation from spam (no augmentation) to ham (maximum augmentation)
+What does green checkmark on bars indicate?|Successful evasion where spam probability dropped below 0.5 decision threshold
+Why does message M7 show extreme vulnerability?|Starts with low spam probability before augmentation, achieving evasion immediately with just 5 words
+What explains variance in message vulnerability?|Initial spam probability and specific indicator density - borderline cases resist less than messages with extreme markers
+What does monotonic downward trend confirm?|Attack operates through reliable mechanism: every message responds to augmentation by reducing spam probability
+Why test on messages 30-50 instead of 0-50?|Provides fresh samples for unbiased evaluation while maintaining some consistency with discovery phase
+What does partial overlap in evaluation ensure?|Tests generalization to new examples while avoiding complete dataset shift
+What typical black-box progression shows?|0 words: 5-10% evasion, 10 words: 70-75%, 15 words: 90-95%, 20+ words: 95-100%
+Why is black-box progression slightly less steep?|Operates under severe information constraints without access to internal probability tables
+What does 85-95% effectiveness comparison reveal?|Query-constrained attacks nearly match full-knowledge attacks, showing broad attack surface exists
+What does discovering different but equally effective words prove?|Multiple attack vectors exist - many different good word combinations successfully evade classifier
+What does 1000-query sufficiency demonstrate?|Disciplined allocation delivers strong results without exhaustive testing, making attacks practical
+Why does obscuring internals provide limited security?|Attackers empirically discover alternative vectors through systematic testing despite missing probability tables
+What is the purpose of the /health endpoint?|Confirms service readiness and returns status with service name verification
+What does /challenge endpoint return?|Base spam message and constraints including max_added_words and target_label
+What does /predict endpoint provide?|Model's label and spam probability for arbitrary text without exposing internals
+What does /submit endpoint validate?|Augmented text equals base message plus at most max_added_words using same tokenization as model
+What does a successful /submit response include?|Result status, details (label, spam_probability, words_added), and the flag
+Why use letter-only tokenization constraint?|Ensures consistency between client word counting and server validation using identical parsing rules
+What is the two-phase skills assessment structure?|Phase 1: white-box attack flipping positive to negative. Phase 2: black-box attack flipping negative to positive
+What resources does white-box phase provide?|Full model download access for analysis with 30 word maximum per review
+What constraints does black-box phase impose?|Limited to API queries only with 40 word maximum per review
+What does /model/download endpoint return?|Complete pickle bundle with trained classifier, vectorizer, feature names, and class labels
+What does /status endpoint track?|Current progress across both phases showing successful and failed review flips
+Why does black-box phase allow 40 words versus white-box 30?|Compensates for information constraints - discovery requires more words without direct probability access
+What must be achieved to receive the flag?|Successfully flip all 10 reviews in both phases while respecting word budget constraints

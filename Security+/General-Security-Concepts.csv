@@ -1,0 +1,148 @@
+What does file encryption support that full-disk encryption does not?|File encryption protects individual files in motion and effectively supports multiuser scenarios, while full-disk encryption is easier to deploy but doesn't provide these protections.
+What type of certificate handles multiple subdomains with a single certificate?|Wildcard certificates are used to handle multiple subdomains with a single certificate.
+What does gap analysis consider?|Gap analysis considers control objectives and the controls that are intended to meet the objectives.
+What is the primary concern when considering an application restart in production environments?|Downtime is the primary concern when considering an application restart in most production environments.
+What tools do organizations use to build repositories for version control?|Organizations frequently use tools like git to build repositories that support their need for version control.
+What is key stretching?|Key stretching makes potentially weak keys more resistant to brute-forcing and often involves using a hash or block cipher repeatedly to make the original value harder to crack.
+What are operational controls?|Operational controls like log monitoring, change management processes, and vulnerability management are put in place to support managing and using technology in a secure manner.
+Why is encrypting password plain text not a common technique?|Since the application would need the cryptographic key to read the passwords, anybody who had access to that key could decrypt the passwords.
+What are Diffie-Hellman and RSA?|Both Diffie-Hellman and RSA are key exchange algorithms designed to securely allow key exchange between users or systems that have not previously communicated.
+What do backout plans document?|Backout plans document what to do to return to a state prior to the change being made and are designed to be implemented if the change fails.
+What does an extended outage window impact in the CIA triad?|An extended outage window will impact the availability of applications and services.
+What are bollards used for?|Bollards are used to protect infrastructure and structures, and they are usually concrete or steel posts, planters, or similar structures that are intended to prevent a vehicle from impacting what they protect.
+What type of control prevents sensitive data from being sent outside the organization?|This is a preventive control that is intended to prevent sensitive data from being sent outside the organization.
+What type of control are policies and procedures?|Policies and procedures are examples of directive control that inform employees and others of what they should do to achieve security objectives.
+What type of control monitors for changes?|A solution that monitors for changes is a detective control.
+What does zero trust design implement?|Zero trust designs implement continuous verification, which is an effective control used to limit the threat scope of compromised credentials.
+What does tokenization do?|Tokens replace data with a value that is linked specifically to the data, allowing it to be referenced and used without the field being exposed.
+How does public key encryption work?|The sender uses the receiver's public key to encrypt the message, then the receiver uses their private key to decrypt the message.
+What should organizations do if a certificate may have been breached?|Organizations should immediately revoke the certificates and place them on a certificate revocation list (CRL), then replace the certificates with new certificates.
+When are attackers unlikely to compromise a system?|Attackers are unlikely to be able to compromise a system or service while it is offline.
+Why is version control important?|Version control is important to ensure that the current and correct version of an application or component is deployed.
+What do version control systems provide?|Version control systems track versions with features like atomic operations, file locking, and tagging and labeling to help developers track files and versions.
+What advantage do security guards offer?|Security guards offer the most flexibility when organizations need intelligence and reasoning to be applied to security events and unexpected needs.
+What encryption provides the most security for a device that is locked or off?|Full-disk encryption provides the most security in situations like this if the device is locked or off.
+What challenge exists with using allow lists for websites?|In most organizations attempting to use an allow list for websites will take up a lot of time to manage.
+Who typically builds backout plans?|Administrators and system owners typically build backout plans.
+What is a TPM?|A TPM, or trusted platform module, is a hardware-based cryptographic processor that is used to generate, store, and manage cryptographic keys and help ensure platform integrity.
+What is OCSP used for?|The Online Certificate Status Protocol (OCSP) is used to validate certificate status, including checking to see if the certificate is on a certificate revocation list (CRL).
+What does a root of trust-based secure boot process do?|A root of trust-based secure boot process validates each signed component as it starts and ensures that the trusted components are all loaded as part of the boot process.
+What type of control is deployed when patching cannot be applied?|A compensating control is deployed since controls like patching, configuration, or updates cannot be applied.
+What is a secure enclave?|Apple devices use a specialized, separate coprocessor that uses encrypted memory and storage as well as dedicated cryptographic functions called a secure enclave.
+What are SOPs?|Standard operating procedures (SOPs) are an organization's normal processes that it uses to ensure consistent practices on an ongoing basis.
+What are common types of database encryption?|Transparent data encryption, field-level, and column-level encryption are all common types of database encryption.
+What does gap analysis focus on?|Gap analysis focuses on reviewing a security program against common best practices to identify where gaps between practices exist.
+What type of control is video surveillance?|Video surveillance is a detective control and is useful for detecting security events after they have happened.
+What are honeypots designed for?|Honeypots are designed to appear vulnerable and are heavily instrumented to capture attacker techniques and tools, allowing for analysis by defenders.
+How can logs be verified for integrity and nonrepudiation?|Calculating a cryptographic hash allows the log's hash to be compared against copies, and digitally signing the hash ensures it can be verified to be original and provides nonrepudiation.
+What sensors are commonly used in open spaces?|Infrared sensors are commonly used in open spaces and are well suited to detecting individuals.
+What are certificates commonly used to identify?|Certificates are commonly used to identify both individuals and systems.
+What are common dependencies for applications and services?|Database and network connectivity, authentication system access, and network time availability are all common dependencies that must be considered when making changes.
+What does a policy engine do?|Policy engines decide whether to grant access to resources based on policies created by administrators and data provided by security tools.
+What is not typically updated in change management?|Contracts tend to be updated as part of a contract renewal process, not as part of a change management process related to technical change.
+What can cause unexpected interactions in change windows?|Patching and other technical changes may lead to unexpected interactions or dependency changes that are not accounted for in the original change window.
+What are characteristics of blockchain ledgers?|Blockchain ledgers are immutable—they cannot be changed after they are recorded, and they are shared, which means that each participant has access to the entire ledger.
+What is a certificate signing request?|A certificate signing request is created to submit to a certificate authority (CA) to obtain a certificate.
+What is a maintenance window?|Preplanned times when maintenance is done and outages may occur is known as a maintenance window.
+What helps assess the impact of a change?|An estimate of the downtime expected as part of the change will help assess the impact of the change on business operations.
+How can organizations get accurate time estimates for changes?|Organizations often perform changes in a test environment to allow accurate time estimates and to determine if there are issues with the change.
+What does symmetric encryption use?|Symmetric encryption uses the same key for all participants in an exchange.
+Why does asymmetric encryption make key exchange possible?|Asymmetric encryption makes key exchange possible because public keys can be shared without causing a loss of cryptographic security or repudiation.
+What is a TPM used to validate?|A TPM is used to validate secure boot processes.
+What is steganography?|Steganography is the art of hiding additional data in images.
+What is SAML used for?|SAML is the Security Assertion Markup Language, used to exchange authentication and authorization data between identity providers and service providers.
+What is record-level encryption associated with?|Record-level encryption is commonly associated with databases, where it is used to encrypt each record with a unique encryption key.
+What is key escrow?|Key escrow is a process where encryption keys are retained by the organization in case files need to be accessed by someone with proper authority.
+What are certificates used for in AAA systems?|Certificates are commonly used for system authentication in AAA systems.
+What are honeyfiles?|Honeyfiles are files that are intentionally made to look attractive while being configured for detection by data loss prevention and intrusion prevention/detection systems.
+What type of control is lighting?|Lighting is a deterrent control type and would typically be categorized as a physical control.
+What is the cost characteristic of controls requiring constant human presence?|Any control that requires constant human presence like security guards is likely to have a higher ongoing cost than controls that operate without human intervention.
+What is the current secure hashing standard?|SHA-256 is the current, secure hashing standard.
+What type of control are policies directing response to compromised accounts?|Policies are examples of directive controls.
+What is RADIUS commonly used for?|RADIUS is commonly used for AAA for network devices.
+What are not typically part of a zero-trust policy engine feed?|Physical security sensors are not typically part of a zero-trust policy engine feed, as zero-trust environments primarily focus on network and systems access.
+What is a policy enforcement point?|A policy enforcement point consists of agent and resource-side elements that validate trust by requiring authentication and authorization before allowing access to a resource.
+What does the NIST Zero Trust Maturity Model assess?|Identity, devices, networks, applications and workloads, and data are all assessed as part of the NIST Zero Trust Maturity Model.
+What is OpenID used for?|OpenID is an open standard for decentralized authentication that is used by many cloud service providers.
+What are corrective controls?|Corrective controls attempt to remediate security issues that have already occurred, such as patching a flaw that allowed an attack to succeed.
+What does symmetric encryption not support?|Symmetric encryption does not support nonrepudiation because both parties have the same key.
+What is a KMS?|A KMS, or key management system, is a solution that allows you to safely store and manage secrets like keys and certificates.
+What does data masking do?|Data masking conceals elements of a data field or entry, preventing all of it from being seen but leaving it accessible through the database when masking is not used.
+Who controls a decentralized blockchain?|In a decentralized blockchain, no individual or group controls the blockchain.
+What advantage do subordinate CAs provide?|Subordinate CAs avoid the cost of maintaining a root CA while providing control over certificates that are issued and allowing specialized support for different types of certificates.
+What can pressure sensors detect?|Pressure sensors can be deployed to detect footsteps in a secured area.
+What type of control are firewalls?|Firewalls are a technical control, not a managerial control.
+What do third-party certificates allow?|Third-party certificates allow customers to have full control over the certificate, including the private key, and encrypted traffic cannot be decrypted by the cloud provider.
+What does disk encryption ensure?|Disk encryption is commonly used to ensure confidentiality of data.
+What are honeynets?|Honeynets are collections of decoy systems and devices that are instrumented and monitored, providing information about how threat actors attack targeted systems.
+What type of control is fencing?|Fencing is considered a deterrent because it will discourage potential intruders from accessing facilities.
+What is the root of trust of a certificate chain?|The root certificate, or top certificate for a certificate chain, is the root of trust of the chain and must be kept secure so the entire certificate and CA hierarchy can be trusted.
+What is a characteristic of open public ledgers?|Open public ledgers are open and public—anyone can join at any time without requiring a vote.
+What issue can occur with self-signed certificates?|Some software may attempt to validate certificates and could fail, and self-signed certificates will receive warnings in modern browsers.
+How can all dependencies be satisfied during changes?|The most effective way to ensure all dependencies have been satisfied is to perform the change in a matching test environment.
+What authentication protocol uses tickets?|Kerberos uses authentication tickets and ticket-granting tickets to grant session keys for services.
+What is the only currently recommended encryption solution among DES, Blowfish, SHA-1, and AES-256?|AES-256 is the only currently recommended encryption solution; SHA-1 is a hashing algorithm, and DES and Blowfish have vulnerabilities.
+What are examples of physical controls?|Lighting, fences, bollards, and access control vestibules are all examples of physical controls.
+How can file integrity be ensured when sharing?|Digitally signing the file and providing the public key allows others to validate the signature and the integrity of the signed file.
+What does not place certificates on a CRL?|Certificate expiration does not place them on a CRL; reasons to add include CA compromise, private key compromise, mis-issued certificates, or fraudulently signed certificates.
+What is the only secure hashing algorithm among MD5, SHA-1, AES-256, and SHA-256?|SHA-256 is the only hashing algorithm that is considered current and secure; MD5 and SHA-1 have known issues, and AES-256 is an encryption algorithm.
+What is needed to verify if a message was signed by a sender?|To verify whether a message was signed by a sender, the recipient needs the sender's public key.
+What is the best practice when a change goes wrong?|Creating a complete backout plan and implementing it if something goes wrong that cannot be remediated during a change window is the accepted best practice.
+What control type remediates security issues after an event?|This is a corrective control because it remediates a security issue after the event has occurred.
+What should a zero-trust system validate?|A zero-trust system should validate its level of confidence in a request by checking access patterns, threat feeds, and other details to ensure security and authenticity.
+What prevents rainbow tables from being effective?|Salting uses a unique, randomly generated string added to each password before hashing, which prevents rainbow tables from being effectively used.
+What do Apple devices use to store security information?|Secure enclaves are used by Apple devices to securely store security information like cryptographic keys.
+What can help short passwords resist brute-force cracking?|Implementing key stretching techniques can help short passwords resist brute-force hash cracking techniques.
+What are the most commonly implemented wireless identification badges?|RFID badges are the most commonly implemented wireless identification badges.
+What is a compensating control?|A compensating control helps to mitigate a risk due to an exception to a security policy, such as moving devices that cannot be patched to a protected network.
+What does adaptive authentication look at?|Adaptive authentication looks at the context of a login, including location, network trust, device configuration, and whether the device is configured correctly.
+What is a basic tenet of zero-trust architecture?|One of the basic tenets of zero-trust architecture is that all communication is secured, regardless of the security zone or trust zone.
+What advantage do microwave sensors have over infrared?|Microwave sensors work in temperature ranges that infrared sensors do not, and they can penetrate walls and some small spaces allowing more complete coverage.
+What are access control vestibules intended to prevent?|Access control vestibules are intended to make it obvious that someone is following you through secured doors and prevent tailgating.
+What is data masking commonly used for?|Data masking reveals only part of a field and is often used with details like credit card numbers where only the last four digits will be revealed.
+What is not a security-related issue for version control?|Tracking workload is not a security-related issue for version control.
+Who is not typically notified during normal application updates?|Auditors are not typically notified during normal application updates and patching cycles, though they may request version information during audits.
+How many keypairs are needed for four individuals to communicate using asymmetric encryption?|Four keypairs are needed—each individual has their own keypair in asymmetric encryption systems.
+What is an appropriate solution for storing organizational secrets in the cloud?|A dedicated, hardware-based, cloud-hosted hardware security module (HSM) is an appropriate solution for storing organizational secrets.
+What key does someone use to sign a file?|To sign a file, you need to use your own private key; the recipient can then use your public key to validate the signature.
+What must OCSP requests include?|OCSP requests must include the certificate's serial number to allow the OCSP responder to check the CA database for the certificate and its status.
+How can you identify a wildcard certificate?|Wildcard certificates have a * in them, denoting they can be used for any subdomain.
+What type of control are policies and procedures?|Policies and procedures are examples of directive controls.
+What challenge exists with allow lists over time?|Allow lists can be difficult to manage over time, particularly as manufacturers add additional download and update sites, creating additional administrative work.
+What authentication protocol is commonly used for wireless networks?|EAP is commonly used for authentication to wireless networks.
+What should follow application restarts?|Validation testing should follow application restarts to ensure the application is working as expected.
+What are microwave sensors commonly used to detect?|Microwave sensors are commonly used to detect motion and can work in a greater temperature range and travel through obstacles.
+When is full-disk encryption in the greatest risk state?|When a system is logged in and in use, full-disk encryption is in the greatest risk state because data must be accessible to the operating system.
+What does full-disk encryption primarily support?|Full-disk encryption primarily supports confidentiality by preventing unwanted access to the drive if it is stolen or otherwise exposed.
+What is a gap analysis used to determine?|A gap analysis is used to determine whether controls meet control objectives for a service, organization, or system.
+What type of control are access control lists?|Access control lists are best described as technical controls.
+What can drive additional costs for video surveillance systems?|Video surveillance system storage can drive additional costs based on retention duration, sensitivity levels, video resolution, and traffic in camera-covered areas.
+What type of control is restoring from backups?|Restoring from backups helps to remediate a security issue, making this a corrective control.
+What does tokenization commonly use?|Tokenization commonly uses randomly generated values that are assigned to replace existing known values, stored in a lookup table for reference.
+What do key exchange algorithms focus on?|Key exchange algorithms focus on how to securely exchange keys so that others cannot obtain a copy of the key.
+Who is not typically part of change management processes?|Legal counsel is not typically part of change management processes, though stakeholders, service owners, and system administrators are commonly involved.
+What does a certificate request include?|Certificate requests include the common name (CN), organization (O), organization unit (OU), city or locality (L), state or region (S), country (C), and organizational contact email address.
+What is salting a password?|Salting involves adding a string of characters to the password before it is hashed, creating a unique hash even for common passwords.
+What is TLS?|TLS, or Transport Layer Security, is a cryptographic protocol used to secure network traffic in transit.
+What challenges exist with legacy applications?|Legacy applications are often unsupported, don't receive new patches or updates, and have a shrinking or nonexistent base of consultants and experts.
+What do change management processes focus on regarding dependencies?|Change management processes typically focus on documenting dependencies and ensuring they are met, such as ensuring appropriate versions are installed or services are available.
+What does record-level encryption rely on?|Record-level encryption relies on a unique key for each record, keeping records private to a user or account in typical usage.
+What are subjects in zero-trust?|Subjects like users, applications, or devices are not trusted by default in zero-trust environments.
+What does policy-driven access control focus on?|Policy-driven access control focuses on using rules to determine who can access a service based on security state and other information.
+What does OCSP provide?|OCSP, or the Online Certificate Status Protocol, provides a way to check on the status of a certificate, including whether it has been revoked.
+When should key rotation occur?|Key rotation should occur when a user leaves, even if the key is escrowed.
+What should happen when a private key is exposed?|Once a private key has been exposed, it should not be considered secure, and a new keypair must immediately be created.
+How are blockchain errors handled?|Since blockchains are not changed after transactions are recorded, a new transaction must be recorded and both transactions remain in the ledger.
+What is less likely to result in updating policies and procedures?|Patches and updates are less likely to result in a need to update policies and procedures compared to new applications or regulatory changes.
+What factors make access badges and PINs effective?|Access badges are something you have and PINs are something you know, and combining the two helps prevent a lost badge from providing access.
+What sensors are not commonly used to detect intruders?|Microwave sensors are not commonly used to detect intruders, while infrared and ultrasonic sensors are commonly used.
+What should secure cryptographic hash systems not do?|Secure cryptographic hash systems should not generate the same output for two different inputs (collision resistance).
+What are access control vestibules designed to stop?|Access control vestibules are designed to stop tailgating attacks, which occur when someone follows an authorized user into a space.
+What makes badge access more secure?|Requiring a PIN along with a badge is the best option, as it provides both a possession-based identifier and a knowledge-based identifier.
+What is a feature of digital signatures?|A feature of digital signatures is nonrepudiation—a signed file or message can be proven to be from the signer.
+How should public keys be distributed?|Public keys can simply be sent to another user, and it is common to provide them via key servers or even in email signatures.
+What is the most secure way to generate salts?|Generating a unique salt for each hashed entry is the most secure option.
+What type of control are risk assessments?|Risk assessments are an example of a managerial control, which includes procedural mechanisms related to the risk management process.
+What type of control is removing malicious software?|Removing malicious software is an example of a corrective control, which seeks to remediate security issues that have already occurred.
+What are root certificates used for?|Root certificates are at the root of trust in a CA hierarchy and allow signing keys to be created and used to sign certificates.
+What does authentication require?|Authentication requires that users provide an identity and then provide one or more authentication factors like a password, biometric factor, or multifactor code.

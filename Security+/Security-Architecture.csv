@@ -1,0 +1,207 @@
+What are RPO and RTO?|RPO (Recovery Point Objective) describes how much data is acceptable to lose in a data loss event. RTO (Recovery Time Objective) describes the maximum amount of time that it should take to recover data.
+What is a false positive in IDS or antivirus context?|When an intrusion detection system or antivirus/antimalware mistakes legitimate traffic for an attack, this is called a false positive.
+What is air gapping?|Air gapping refers to a server not being on a network, meaning there is literally "air" between the server and the network. This prevents malware from infecting the system.
+What are SCADA systems?|SCADA, or supervisory control and data acquisition systems, are commonly used to manage facilities like power plants and industrial control systems.
+What is a warm site?|A warm site has some or all of the infrastructure and systems needed but does not have data. Equipment and data can be brought to the site to resume operations after a disaster.
+What is a hot site?|A hot site is a fully functional environment with all the hardware, software, and data needed to operate an organization. They are expensive to maintain but used by organizations that cannot take the risk of downtime.
+What is a cold site?|A cold site is a location that can be brought online but does not have systems. Cold sites typically have access to power and bandwidth but need to be fully equipped to operate after a disaster.
+What is a snapshot in virtualization?|A snapshot is an image of the virtual machine at some point in time, allowing you to return that system to a last known good state.
+What are characteristics of serverless architectures?|Serverless architectures do not require a system administrator because the provider manages the underlying function-as-a-service capability. They can scale up or down as needed, providing flexibility.
+What does software-defined networking (SDN) provide?|SDN makes the network very scalable, making it relatively easy to add or remove resources and helping with high availability efforts.
+What is a microservice architecture?|A microservice architecture builds applications as a set of loosely coupled services that provide specific functions using lightweight protocols.
+What is Infrastructure as Code (IaC)?|IaC is the process of managing and provisioning computer datacenters through machine-readable definition files, rather than physical hardware configuration or interactive configuration tools.
+What are common methods to ensure RTOS security?|Using secure firmware and using an RTOS with time and space partitioning are both common methods to help ensure RTOS security.
+What challenges do embedded systems face?|Embedded systems often have limited computational power, challenges implementing strong cryptography, difficulties with patching, lack of connectivity, and authentication problems due to limited interfaces.
+What does a differential backup back up?|Differential backups back up all of the changes since the last full backup.
+What is elasticity in cloud computing?|Elasticity is a cloud computing concept that matches resources to demand to ensure that an infrastructure closely matches the needs of the environment.
+What should be the first priority for power protection?|An uninterruptible power supply (UPS) should be the first priority to ensure power is not disrupted during an outage and can be maintained until alternate power like a generator comes online.
+Why should SCADA systems be separated from the main network?|Separating the SCADA system from the main network makes it less likely that the SCADA system can be affected by malware or human action from the main network.
+What does TLS provide?|Transport Layer Security (TLS) provides a reliable method of encrypting web traffic, supports mutual authentication, and is considered secure.
+What is data sovereignty?|Data sovereignty refers to the concept that data collected and stored in a country is subject to that country's laws, creating compliance challenges with multinational cloud services.
+What challenges do low-power devices face with encryption?|Low-power devices typically have limited processor speed, memory, and storage, meaning that encryption can be a challenge due to computational requirements.
+What is the most appropriate solution for multi-hour power outages?|A generator is the most appropriate answer to a multi-hour outage, as UPS systems are not typically designed to handle long outages.
+What do network load balancers do?|Network load balancers distribute traffic among systems, allowing systems to be added or removed, making patching easier, and helping monitor systems for performance.
+What is an air gap in network security?|An air gap is a physical separation that requires manual transport of files, patches, and other data between environments, helping ensure attackers cannot access critical systems.
+What is PEAP?|PEAP (Protected Extensible Authentication Protocol) relies on server-side certificates and tunneling to ensure communications security for wireless networks.
+What is least connection-based load balancing?|Least connection-based load balancing takes load into consideration and sends the next request to the server with the least number of active sessions.
+What allows different policies per port in IPSec?|IPSec transport mode allows different policies per port, using IP addresses in the outer header to determine the policy applied to the packet.
+What protocols help geofencing applications determine location?|GPS data and data about local Wi-Fi networks are the two most commonly used protocols to help geofencing applications determine where they are.
+When is a TLS VPN frequently chosen?|A TLS VPN is frequently chosen when ease of use is important and web applications are the primary usage mode.
+What is binary data?|Binary data is a form of non-human-readable data that may or may not be encrypted.
+What is a VIP in load balancing?|Load balancers provide a virtual IP (VIP). Traffic sent to the VIP is directed to servers in the pool based on the load-balancing scheme.
+How does port security work?|Port security filters by MAC address, permitting allow listed MAC addresses to connect to the port and blocking block listed MAC addresses.
+What do authentication headers (AHs) provide?|Authentication headers provide complete packet integrity, authenticating the packet and the header, but do not provide any encryption.
+What are network taps?|Network taps copy all traffic to another destination, allowing traffic visibility without a device inline. They are completely passive methods of getting network traffic to a central location.
+What is Internet Key Exchange (IKE) used for?|IKE is used to set up security associations (SAs) on each end of a tunnel with all the settings like cryptographic algorithms and hashes.
+What is session persistence in load balancing?|Session persistence makes sure that all of a client's traffic for a transaction or session goes to the same server or service.
+What capabilities do next-generation firewalls provide?|NGFWs provide geolocation, IDS/IPS, sandboxing, web application firewalls, load balancing, IP reputation and URL filtering, and antimalware features.
+What do UTM devices provide?|UTM (unified threat management) devices commonly serve as firewalls, IDS/IPS, antivirus/antimalware, web proxies, web application and deep packet inspection, secure email gateways, DLP, SIEM, and VPN devices.
+What is the limitation of an IDS?|IDSs can only detect unwanted and malicious traffic based on detection rules and signatures. They cannot stop or modify traffic.
+What is an example of using geographic restrictions?|Using rules that require additional authentication for those who are off-site or performing impossible travel is an example of geographic restrictions to protect data.
+What is 802.1X?|802.1X is the IEEE standard for port-based network access control and is frequently used to authenticate devices.
+What is anomaly-based detection?|Anomaly-based detection systems build a behavioral baseline for networks and then assess differences from those baselines.
+Why should hashes be used instead of checksums?|A hash is designed to be unique to each possible input, whereas multiple files could have the same checksum value.
+What are tabletop exercises?|Tabletop exercises are used to talk through a process, focusing on how the team responds and learning from those answers, and can involve gaming out a situation.
+What is the difference between high-availability and fault-tolerant designs?|High-availability designs are less expensive and attempt to minimize service interruptions, whereas fault-tolerant designs seek to avoid service interruptions almost entirely and cost significantly more.
+What does geographic dispersion help with?|Geographic dispersion is intended to help with availability by ensuring that a single disaster does not take multiple datacenters or other facilities offline.
+What does masking do for data protection?|Masking replaces some characters with an alternate character, allowing tasks like validating credit card numbers without exposing all of a data field.
+What are trade secrets?|Trade secrets are intellectual property that is commercially valuable and is limited to a small group of individuals.
+How can SMTP traffic be protected in transit?|Implementing Transport Layer Security (TLS) to encapsulate Simple Mail Transfer Protocol (SMTP) allows the traffic to be encrypted in transit.
+What are jump servers used for?|Jump servers are used to access secured zones and are typically carefully controlled and monitored because they are the single point of entry from untrusted environments.
+What are IPSec VPNs commonly established for?|IPSec virtual private networks are commonly established to tunnel through public or untrusted networks.
+What is a unified threat management (UTM) device?|A UTM device combines multiple security services including firewall, IDS/IPS, antivirus/antimalware, email filtering, WAF, and similar services into a single solution.
+What do simulations validate?|Simulations validate that notification processes, communication systems, and procedures all work without causing potential outages.
+What does geolocation not protect?|Geolocation is used to control where data can be accessed from but does not protect data in transit.
+What layer do next-generation firewalls inspect at?|Next-generation firewalls typically provide the ability to inspect traffic at both the transport layer (layer 4) and the application layer (layer 7).
+How can a load balancer help with web server failures?|A load balancer can help handle individual web server failures gracefully by moving load to the functioning web servers in a cluster.
+How are inline network taps typically configured?|Inline network taps are typically configured to fail-open since they are used to create a copy of the network traffic.
+What is the core component of SASE technology?|Software-defined wide area networks (SD-WANs) are the core component of secure access, secure edge (SASE) technology.
+What can network access control (NAC) do?|NAC has the ability to both profile device security and validate that a given user is authorized to plug a device into a specific network port.
+What does version control allow in IaC?|Version control allows staff to identify a bad version and revert to a previous known-good version if needed.
+What are PaaS vendors responsible for?|PaaS vendors are responsible for the underlying service and platform, including the networks, systems, and infrastructure, including their security.
+What is the biggest resilience issue with backups in the same facility?|Placing backups in the same facility as the devices they are backing up means that a single disaster could destroy both.
+What is the current mainstream standard for encryption?|AES-256 is the current mainstream standard for encryption.
+What is the fastest means to recovery?|Replication is typically the fastest means to recovery since the replica system is running and ready to take over.
+What are the three data states recognized by Security+?|The three data states are: data at rest, data in transit, and data in use.
+What does data sovereignty mean for governments?|Data sovereignty means that governments have the ability to control data within their borders via law and regulations.
+When should an IPS be configured as fail-closed?|If a failure should remain secure rather than potentially allowing attacks through, a fail-closed implementation should be selected.
+How is physical isolation achieved?|Physical isolation requires the creation of an air gap by unplugging the device from the network.
+What is path diversity?|Path diversity ensures that the connectivity to a facility does not take the same path, helping prevent accidents or construction from taking organizations offline.
+What is a jump server used for in network security?|A jump server is used to connect from an untrusted or lower trust zone from outside of a firewall to access more secure zones.
+What must capacity planning for disasters consider?|Capacity planning for disaster operations needs to take the impact on staff into account, as staff may not have power, Internet access, or housing in disaster scenarios.
+What are typical exercise types for organizations?|Typical exercise types include simulations that emulate an actual incident response, walk-throughs that guide staff through an event, and tabletop exercises that are gamed out without taking actual action.
+How can file integrity be verified?|Comparing hashes is an effective way of determining if a file is different from the original.
+What is a challenge with off-site backup locations?|Recovery may be slow if backups need to be physically retrieved or downloaded via an Internet connection from off-site locations.
+How do load balancers provide resilience?|Load balancers are commonly used to help provide resilience by allowing applications and servers to be clustered.
+What type of data is covered by GDPR?|The European Union's GDPR is a privacy regulation, and data covered by the GDPR is regulated data.
+What challenge does journaling face?|Journaling replays transactions, which can take an extended period of time if the time between the last backup and the data loss event was longer with high transaction volume.
+What solution handles extended power outages?|Using UPS with generators allows systems to remain online during power outages even if they extend for some time.
+Where should data masking occur?|Secure designs require masking to occur in server-side code rather than in client-side web application code to prevent data exposure.
+What are examples of government data classifications?|Top Secret and Secret are examples of government classifications. Businesses typically use classifications like sensitive, confidential, and public.
+What is rarely a concern for embedded systems?|Compute is rarely a significant concern for embedded systems as they're designed to function for long periods performing a specific function.
+What is Layer 7 in the OSI model?|Layer 7 is the application layer. Security+ focuses on Layer 4 (transport) and Layer 7 (application) for network security devices.
+What are embedded systems?|Embedded systems are computers built into devices to allow them to function, often receiving fewer updates and required to function for long periods.
+What are microservices?|Microservices are loosely coupled and fine-grained services intended to be easy to deploy without significant overhead or dependencies, using lightweight protocols like HTTP.
+What do incremental backups include?|Incremental backups only include the data that has changed since the last full backup. To restore, the full backup is restored, then incremental backups are applied in order.
+What are snapshots?|Snapshots are point-in-time images of a system's or device's data and memory.
+What do generators require to be effective?|Generators are commonly paired with UPS systems that handle the immediate power outage, allowing the generator to start and stabilize.
+How can SCADA and ICS systems be protected?|Physically isolating the network for SCADA and ICS systems can prevent attacks from outside the network.
+What does port security use to determine connections?|Hardware addresses, known as MAC addresses, are used for port security to determine which systems can connect to a port.
+What is a common concern for generators in datacenters?|Fuel availability, maintenance cycles for extended runs, and ensuring physical redundancy with a secondary generator are common concerns.
+Are geographic restrictions helpful for insider threats?|Geographic restrictions are rarely helpful for insider threats because insiders are likely to already be in the same location as authorized users.
+What controls are useful for data in use?|Use of encryption through secure enclaves and restricted processing environments, controlling access to data, and limiting where data is processed are useful controls.
+What are UPS systems suited for?|UPS systems are perfectly suited to handling short power outages and temporary under-voltage events, providing clean, reliable power.
+What do containers not include?|Containers do not include an operating system, but do contain applications, libraries, and configuration files.
+What is SD-WAN?|SD-WAN (software-defined wide area network) is a virtual WAN architecture that relies on a software-based controller to manage multiple connections and connection types.
+What can an IPS do that an IDS cannot?|An IPS (intrusion prevention system) can stop attacks based on behaviors and threat feed data, while an IDS can only detect attacks.
+What are examples of legal information?|Contracts, nondisclosure agreements (NDAs), and statements of work (SOWs) are all examples of legal information.
+How do threat feeds help NGFWs?|Using threat feeds allows administrators to have rules that automatically block new threats using IP reputation and other services.
+What does an IPSec VPN provide?|IPSec VPNs provide encryption for confidentiality and integrity through hashing, and authentication because both ends authenticate as part of the connection process.
+What is commonly used to enforce geofencing?|GPS and Wi-Fi are commonly used to enforce geofencing by determining where individual devices are.
+What are IaaS providers responsible for?|IaaS providers are responsible for the underlying infrastructure, including datacenters, networks, and physical hosts. Customers are always responsible for data and accounts.
+How can third-party vendors be held to standards?|Ensuring that third-party vendors are held to appropriate standards is best accomplished through contracts with direct suppliers.
+What are VPNs commonly established for?|VPNs are commonly established between two locations to provide a secure connection that can make the networks appear to be on the same network segment.
+What is replication?|Replication can be synchronous or asynchronous and focuses on keeping an up-to-date copy of live data.
+When are NGFW devices typically deployed?|NGFW devices are typically deployed where throughput and advanced security features are both needed.
+How often should backups run to meet a 6-hour RPO?|Backups should run at least once every 6 hours to meet a 6-hour RPO, possibly slightly more often to ensure the RPO can be met.
+What is data at rest?|Data at rest is data that is stored and not in active use or processing.
+What is masking used for?|Masking replaces some characters with an alternate character, allowing tasks like validating credit card numbers without exposing all of a data field.
+What do COOP plans address?|COOP (Continuity of Operations) plans address loss of access to some or all of a facility, personnel, or services.
+What are SPAN ports?|SPAN (Switch Port Analyzer) ports, also known as mirrored ports, are configured on a network switch or router to copy traffic for monitoring.
+What is a major advantage of WAFs?|A major advantage of WAFs is the ability to use threat and rule feeds from vendors that quickly respond to new threats and attacks.
+What should network segments be considered as?|Each network segment should be considered a separate security zone that can be managed and secured appropriately for its ongoing use.
+How can load balancers help with availability?|Load balancers can help with availability by automatically removing failed nodes from a load balanced group.
+What is data in use?|Data in use is data that is being actively processed, such as when authentication data is being validated during login.
+What type of VPN provides the easiest user experience?|A TLS-based VPN provides the easiest way for users to use VPN since it does not require a client.
+What is device placement concerned with?|Device placement can matter due to physical risks or concerns about latency, access to services, or other considerations.
+What advantage do decentralized approaches provide?|Decentralized approaches can provide increased resilience since a failure or compromise of management services in a single location will not disrupt other locations.
+How should IaC environments be patched?|In IaC environments, updating the code that defines what a fully patched server is, then replacing servers in a cluster one at a time is the least disruptive option.
+What does confidential data mean?|Confidential data should not be released or exposed and could cause harm if disclosed.
+What are common issues for legacy devices?|Legacy devices typically cannot be purchased, so cost becomes irrelevant. Whether they can be recovered, if patches are available, and issues from lack of patching are common concerns.
+What services do UTM devices provide?|UTM devices commonly provide firewall, IPS, antivirus/antimalware, and a variety of other services.
+Why are TLS VPNs easier to set up?|TLS VPNs are typically easier to set up and don't require clients to be installed, unlike IPSec VPNs.
+What is the best option for IoT devices that cannot be secured?|Moving devices to an isolated network segment that has appropriate controls in place is the best option for devices that cannot be secured or patched.
+What do SASE deployments combine?|SASE deployments combine SD-WAN with cloud-hosted security services, including zero trust and CASB tools to replace VPNs.
+What is fail over testing?|Fail over testing goes beyond parallel processing and completely takes over running services, being the most complex and risky testing mode.
+What is a cold site?|Cold sites are spaces that are ready to be used in a disaster but without equipment or other necessary items in place to quickly take over production.
+What is platform diversity?|Platform diversity leverages having multiple vendors and platforms to ensure that a single vendor's failure or vulnerability does not prevent an organization from functioning.
+What is weighted least connection load balancing?|Weighted least connection load balancing distributes traffic based on both a server weight and connection number count.
+What are attack surfaces?|Attack surfaces are the potential points for an attack to occur, such as open services for devices or open ports, physical security, and human vectors for organizations.
+When is IaaS cloud-hosted containerization beneficial?|When scaling from low to very large load is common, IaaS cloud-hosted containerization can provide significant cost savings over on-premises options.
+What is financial data?|Financial data includes transactions, accounts, and many other types of information related to finances.
+What is clustering?|Clustering involves using two or more systems to provide a service as though they're a single server.
+What type of data does PCI DSS address?|PCI DSS is a credit card data security standard, meaning it addresses financial information.
+What do snapshots capture for virtual machines?|Snapshots copy both the data and machine state for virtual machines.
+What does parallel processing allow?|Parallel processing allows for systems to be tested without taking them offline, meaning the primary facility can continue to operate if issues occur.
+Where should an IPS be placed to reduce traffic filtering?|Placing the IPS inline closer to the protected datacenter will reduce the amount of traffic it has to filter while still protecting the datacenter.
+What challenges come with increased complexity?|Increased complexity can include jurisdictional challenges, increased cost, regulatory challenges, visibility issues, and management overhead increases.
+What should fail over connections be able to handle?|Fail over connections should be able to handle an organization's full throughput to ensure operations can continue during a failover.
+What is a hot site prepared for?|A hot site is prepared to take over processing for an organization immediately, with infrastructure running in parallel with the production site.
+What is geographic dispersion unlikely for?|Geographic dispersion is unlikely for a single building's network core, though redundancy, power backups, and multiple connectivity options are common.
+What are examples of regulations covering data?|The GDPR, HIPAA, FERPA, and GLBA are all regulations, meaning data they cover is regulated data.
+What are VM escape attacks?|VM escape attacks attempt to access or gain control of the underlying hypervisor through virtual machines, which could result in serious issues.
+What are important IPSec protocols?|AH (Authentication Header), ESP (Encapsulating Security Payload), and IKE (Internet Key Exchange) are all important IPSec protocols.
+Why are IDSs considered passive systems?|Intrusion detection systems are considered passive systems because they cannot block traffic, only detect it.
+Why can't hashing be used for database fields?|If you hash a database field, there's no way to know what the original data was from the hash since hashing is a one-way function.
+When should tokenization be used?|Tokenizing data in a separate database allows both the original unaltered database and a secured database to be used, reducing risk while retaining data integrity.
+What challenges do SCADA and ICS systems face?|SCADA and ICS systems often suffer from a lack of patches and updates, though cost is typically amortized over long periods and scalability is rarely a concern.
+What risk does an SDN controller compromise present?|A compromise of the SDN controller would result in compromise of the entire network since it manages and controls all network devices.
+What is an example of risk transference?|Third-party support availability is an example of risk transference where the support contract moves the risk to the contractor.
+What can NAC tools provide?|NAC tools can allow for authentication and authorization based on user groups or roles and VLANs that separate groups based on those roles.
+What is a simulation exercise?|A simulation is the closest you can get to a real-world event without having one, testing actual responses and procedures.
+What security advantage do serverless deployments provide?|Serverless deployments remove the need to patch underlying infrastructure.
+What personnel issue is common in large-scale disasters?|In large-scale disaster scenarios, personnel may be unwilling or unable to report to work.
+What is commonly used to implement network segmentation?|ACLs, VLANs, and firewalls are all commonly used to implement network segmentation.
+What are binary files?|Binary files like executable programs are examples of non-human-readable data.
+What does journaling track?|Journaling tracks transactions as they occur, allowing the journal to be replayed to restore data up to the point of failure.
+What are SCADA systems often used to manage?|SCADA systems are often used to manage industrial control systems (ICSs).
+What must be preserved for encrypted backups?|Encrypted backups require the encryption key, so the recovery key must be preserved and protected in a secure manner that does not rely on the backups.
+What advantage does replication have over backups?|Replication is a continuous process and does not require restoration processes like restoring differential backups or journals.
+How many backups are needed to restore differential backups?|The full backup must be restored, then each differential backup from subsequent days must be applied.
+What layer do IPSec VPNs operate at?|IPSec VPNs operate at the network layer instead of the transport layer, meaning less information is visible to potential attackers.
+What can SD-WAN manage?|SD-WAN can manage multiple connections dynamically, ensuring connectivity and performance for an organization.
+What do embedded devices typically prioritize?|Embedded devices prioritize responsiveness for their core functions, typically have minimal CPUs, memory, and storage, and focus on availability.
+What is intellectual property?|Intellectual property is intangible creations by the human mind, including patents, copyrights, trademarks, and trade secrets.
+What infrastructure planning should consider logging?|Storage capacity should be part of infrastructure planning to ensure that large volumes of logs do not overwhelm infrastructure.
+What is a decentralized organizational model?|A decentralized model has no datacenter or primary hosting facility, with remote workers and flexible locations, introducing complexity for endpoint security.
+What do MDM tools enforce for geographic restrictions?|MDM tools enforce geographic restrictions on devices by using GPS and Wi-Fi to determine location and limit access if devices are not in allowed boundaries.
+What is round-robin load balancing?|Round-robin load balancer algorithms spread load by assigning incoming connections to servers on a list, helping spread load evenly over time.
+What is the most effective way to protect data at rest?|Encryption is the most effective way to protect data at rest.
+What are environmental sensor appliances used for?|Environmental sensor appliances are frequently deployed to datacenters and network closets to monitor for potential issues like high temperatures.
+What should be Danielle's first concern with only a UPS?|Long power outages will drain UPS batteries since they're typically intended to run for minutes rather than hours, so lack of a generator should be the first concern.
+What is a common option for secure multi-site connections?|An IPSec VPN is a common option for organizations that need to create a secure VPN tunnel between two locations over commodity Internet connections.
+How does port security filter systems?|Port security associates a list of allowed hardware (MAC) addresses with a port and only allows systems with permitted MAC addresses to connect.
+What do TLS VPNs provide?|TLS VPNs provide an easier user experience from the browser without installing additional software or configuration like IPSec VPNs require.
+What does a VM snapshot capture?|A VM snapshot captures the virtual machine's power state, memory state, and disk, but not the underlying hypervisor's configuration.
+What drives data sovereignty concerns?|Data sovereignty concerns are driven by where the data resides, and geolocation can help understand the applicable law or regulations.
+What does SCADA manage?|SCADA manages complex systems by combining central and local control systems with communication systems to manage large-scale industrial processes.
+What should penetration tests include?|Penetration tests should typically include vulnerability scanning as well as other activities that provide a complete view of an organization's attack surface.
+What is the largest concern for long-term IoT device management?|The complexity of managing a multiple device and vendor environment over time is the largest concern for long-term IoT device deployments.
+How can data in use be protected?|A secure enclave is one way of protecting data in use, relying on secured hardware that stores data and only allows processes in the enclave to access it.
+What does Model 2 show in terms of network security?|Model 2 shows an air gapped model with physical isolation between two network security zones with no connection between them.
+What are examples of data obfuscation methods?|Masking, encryption, and tokenization are all examples of data obfuscation methods that protect against data exposure.
+What does IP hash load balancing rely on?|IP hash relies on a hash of the client and server's IP addresses to associate them with a server.
+What does 802.1X allow?|802.1X allows for authentication via EAP, then assignment to a VLAN based on a role or other attributes.
+What is logical segmentation?|Logical segmentation uses software to define and create segmentation, such as VLANs defined at the network layer using VLAN tags.
+What technologies are used with SD-WAN?|SD-WAN focuses on wide area networks using technologies like MPLS, broadband, and LTE rather than on-premises solutions like Wi-Fi.
+What is public information?|Public information is available without restriction or authentication and is available on Internet-facing websites.
+What is a common first step in network high availability design?|Identifying single points of failure is a common first step in network high availability designs.
+What helps ensure artifacts haven't been modified?|Having artifacts signed after they have made it through the build and validation process helps ensure they haven't been modified.
+What is a primary concern for encrypted backups?|A primary concern for encrypted backups is whether the keys are available in a disaster and stored in a manner that ensures they are recoverable.
+What is not typically a concern for IoT devices?|Ransomware concerns are typically found with desktops, laptops, and servers instead of IoT devices.
+When are multi-cloud deployments appropriate?|Multi-cloud deployments may be appropriate when a single vendor's outages are a major concern and applications are containerized or easily portable.
+What addresses both resilience and performance for connectivity?|Contracting with two separate network service providers addresses both resilience and the possibility of sending traffic through both connections for greater performance.
+What is data segmentation?|Data segmentation separates data based on factors like use cases, sensitivity, roles, and types or classifications of information.
+When is mandatory access control used?|Mandatory access control (MAC) is used in scenarios where users should not have the ability to grant access to files.
+Where is a proxy server likely to be used?|A proxy server is likely to be used in environments where the ability to filter searches may be required, such as a library with public workstations.
+What are responsibilities in PaaS environments?|In PaaS environments, customers and providers share responsibility for identity infrastructure, applications, and network controls. Customers handle data, devices, and accounts.
+What does a microservices design allow?|A microservices design allows each component or service to be separate and lightweight, making them easier to develop independently and fix without complex dependencies.
+What advantage does a monitoring port have over an inline tap?|If a monitoring port fails, it will not impact network traffic flow, whereas if an inline device fails, it may impact network traffic.
+What characteristics do embedded systems have?|Embedded systems are used for long periods, use low-power CPUs with limited memory and storage, are not user configurable, and typically cannot install additional software.
+What do containerization technologies bundle?|Containerization technologies bundle needed libraries and other components for an application in a lightweight package that can easily be deployed.
+What is data sovereignty in terms of nations?|Data sovereignty is the right of nations to pass laws that control the use of data within their borders.
+What is an air gapped design example?|An air gapped design has no network connectivity, preventing network-based attacks against systems like a high-value certificate authority server.
+What can be costly about DDoS attacks in cloud?|A large-scale DDoS attack using resources can be costly because the cloud will scale to meet demand, spending large amounts without benefiting legitimate customers.
+What does EAP provide for 802.1X?|EAP (Extensible Authentication Protocol) is used for 802.1X authentication before the port is enabled for other traffic.
+What are typical functions of a proxy server?|A proxy server can apply content controls and conceal IP addresses of internal users.
+What can help stop basic SQL injection attacks?|Blocking single quotes will stop many basic SQL injection attacks, though it won't stop all of them.

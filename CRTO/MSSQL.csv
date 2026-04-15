@@ -1,0 +1,40 @@
+What is MS SQL Server? | Microsoft's proprietary relational database management system
+What are popular tools used to interact with MS SQL servers? | PowerUpSQL, SQLRecon, SQL-BOF, sqlcmd, HeidiSQL, and SSMS
+How can SQL server instances be enumerated using Kerberos? | By querying for SPNs (Service Principal Names) used to support Kerberos authentication, which reveals hostnames and service accounts
+What information can SPN enumeration reveal about SQL servers? | The hostname of the SQL servers and the service accounts used to run them
+What is an alternative method to enumerate SQL servers when Kerberos is not configured? | Scanning for open ports known to be used by MS SQL Server
+What is the default port used by MS SQL Server? | Port 1433 (TCP), with SQLBrowser using 1434 UDP
+What service must be running to collect minimal SQL server information without any role? | The SQLBrowser service on port 1434/UDP
+What minimal information can be collected via SQLBrowser without any SQL role? | Server name, instance name, and version
+What is the minimum SQL role required for any further interaction beyond SQLBrowser info? | The public role
+What additional information does the public role allow you to collect? | The SQL server process's PID and other server details
+What roles are of particular interest when enumerating SQL permissions? | serveradmin, securityadmin, and sysadmin
+What does the public role allow beyond basic server info collection? | Permission to query the database instance, useful for data-hunting
+What scenario allows code execution via SQL without local admin privileges? | Having a privileged SQL role such as sysadmin without local admin on the server itself
+Are xp_cmdshell, OLE Automation, and SQL CLR enabled by default? | No, they are all disabled by default on new SQL server installations, but can be enabled by a sysadmin
+What is xp_cmdshell? | A stored procedure that spawns a command shell, passes a string for execution, and returns output as rows of text
+What is a key limitation of the xp_cmdshell command string? | It cannot contain more than one set of double quotation marks; a single pair is required if spaces are present
+What user context are xp_cmdshell commands executed under? | The context of the principal running the sqlservr process, typically SYSTEM or a service account
+Which SQL code execution technique is the only one that can return output? | xp_cmdshell
+What should you do after enabling a procedure like xp_cmdshell? | Disable it again afterwards to return it to its original state
+What is OLE Automation in the context of SQL Server? | A technology allowing SQL Server to interact with arbitrary COM objects via stored procedures
+What is OLE Automation's original design purpose? | To allow one application to link objects into another, originally designed for Microsoft Office (e.g., embedding Excel sheets into Word documents)
+What technology did OLE eventually become the foundation for? | The Component Object Model (COM)
+What are the OLE Automation stored procedures available in SQL Server? | sp_OACreate, sp_OADestroy, sp_OAGetErrorInfo, sp_OAGetProperty, sp_OAMethod, sp_OASetProperty, sp_OAStop
+What are some COM objects that OLE Automation can abuse for code execution? | ScriptControl (for arbitrary JS or VBS) and WbemScripting (for WMI process spawning)
+What is the key limitation of OLE Automation compared to xp_cmdshell? | OLE Automation cannot return output, so it is limited to executing one-liners
+Why is a reverse port forward often needed when exploiting SQL servers with OLE? | Servers are typically restricted from sending traffic outside the network boundary
+What is SQL Common Language Runtime (CLR)? | A feature introduced in SQL Server 2005 that integrates the .NET Framework, allowing stored procedures to be written in managed .NET languages
+What .NET languages can be used to write SQL CLR stored procedures? | Any managed .NET language, such as C# and VB.NET
+What class and attribute are required for a C# method to be compatible with SQL CLR? | It must be in a partial class called StoredProcedures and decorated with the SqlProcedureAttribute
+What can SQL CLR stored procedures be used for in an attack? | Running PowerShell one-liners, shellcode injection via P/Invoke, or any arbitrary C# code execution
+What are SQL server links? | Connections between a SQL instance and additional data sources, including other SQL servers
+What security context do you receive on a linked server? | It depends on how the link is configured — it may use hardcoded local credentials, hardcoded domain credentials, or inherit the current session's security context
+What is the significance of a link configured with the local sa account? | You will have sysadmin privileges on the linked server, even if you don't have that access on the initial server
+What is RPC Out and why is it important for linked server attacks? | RPC Out is required to call stored procedures on a linked server; without it, you cannot enable features like xp_cmdshell or CLR on the linked server
+What is SeImpersonatePrivilege? | A token privilege often held by service accounts that can be abused for local privilege escalation
+What types of service accounts commonly have SeImpersonatePrivilege? | Accounts running services such as MS SQL Server and Internet Information Services (IIS)
+What is a local virtual account in the context of SQL Server service accounts? | An account type that can access network resources using the computer account's credentials, but has limited local permissions and is not a local admin
+What is SweetPotato? | A tool that exploits SeImpersonatePrivilege by creating a named pipe, coercing a SYSTEM process to connect to it, impersonating its access token, and spawning an arbitrary process as SYSTEM
+How does SweetPotato achieve privilege escalation? | It creates a named pipe, coerces a SYSTEM process into connecting to it, impersonates that process's access token, and uses it to spawn another process as SYSTEM
+What does SweetPotato ultimately require to execute its privilege escalation? | A program (payload) that exists on disk to be executed as SYSTEM

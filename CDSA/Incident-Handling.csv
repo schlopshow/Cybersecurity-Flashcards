@@ -1,0 +1,61 @@
+What is an event in incident handling terms?|An action occurring in a system or network, such as a user sending an email, a mouse click, or a firewall allowing a connection request
+What is an incident?|An event with a negative consequence, such as a system crash, unauthorized access to sensitive data, or events due to natural disasters or power failures
+What is an IT security incident?|An event with a clear intent to cause harm performed against a computer system, including data theft, funds theft, unauthorized access, and malware installation
+What is incident handling?|A clearly defined set of procedures to manage and respond to security incidents in a computer or network environment
+What is the primary objective of an incident response team?|To minimize the theft of information or disruption of services by performing systematic investigations and remediation steps
+Who typically leads the incident handling team?|An incident manager, often a SOC manager, CISO/CIO, or trusted third-party vendor with authority to direct business units and obtain information from any employee
+What is the Cyber Kill Chain?|A seven-stage lifecycle describing how attacks manifest: Reconnaissance, Weaponization, Delivery, Exploitation, Installation, Command and Control, and Action on Objectives
+What occurs during the Reconnaissance stage?|Attacker chooses target and performs information gathering through passive sources like LinkedIn or active scanning of web applications and IP addresses
+What occurs during the Weaponization stage?|Malware is developed and embedded into exploits or payloads, designed to be lightweight and undetectable while providing remote access and persistence
+What occurs during the Delivery stage?|Exploit or payload is delivered via phishing emails, malicious links, social engineering calls, or physical media like USB drives
+What occurs during the Exploitation stage?|The moment when an exploit or delivered payload is triggered to execute code on the target system
+What are three common techniques in the Installation stage?|Droppers (deliver and install malware), Backdoors (provide ongoing access), and Rootkits (hide malware presence)
+What occurs during Command and Control stage?|Attacker establishes remote access to compromised machine, often using modular tools and multiple malware variants for redundancy
+What is the final stage of the Cyber Kill Chain?|Action on Objectives - where attacker achieves their goal such as data exfiltration or ransomware deployment
+Why don't adversaries operate linearly through the kill chain?|They repeat stages like reconnaissance and installation to identify additional targets and move deeper into the network
+What are the four stages of the NIST incident handling process?|Preparation, Detection and Analysis, Containment Eradication and Recovery, and Post-Incident Activity
+Where do incident handlers spend most of their time?|In the Preparation and Detection and Analysis stages, improving capabilities and looking for malicious events
+What are the two main activities of incident handling?|Investigating (discovering patient zero, determining tools used, documenting compromised systems) and Recovering (creating and implementing recovery plan)
+What are the two objectives of the Preparation stage?|Establishing incident handling capability within the organization and implementing protective measures to prevent incidents
+What are the four preparation prerequisites?|Skilled incident handling team members, trained workforce, clear policies and documentation, and tools (software and hardware)
+What contact information should be documented in preparation?|Incident team members, legal and compliance, management, IT support, media relations, law enforcement, ISPs, facility management, and external incident response teams
+What user accounts should be prepared during incident handling preparation?|Accounts with excessive privileges for on-demand use, enabled when incident confirmed and disabled after, with mandatory password reset
+What is a jump bag?|A prepared bag containing necessary tools ready to be picked up immediately for incident response, preventing days or weeks of gathering tools
+Why should incident handling systems be independent of organization infrastructure?|Entire domain may be compromised and systems unavailable; communications should use channels outside organization's systems to prevent adversary access
+What is DMARC?|Email protection against phishing built on SPF and DKIM that rejects emails pretending to originate from your organization
+What are key endpoint hardening actions?|Disable LLMNR/NetBIOS, implement LAPS, configure PowerShell in ConstrainedLanguage mode, enable ASR rules, implement whitelisting, use host firewalls, deploy EDR
+Where should whitelisting block execution at minimum?|User-writable folders like Downloads, Desktop, and AppData, including script types like .hta, .vbs, .cmd, .bat, .js
+What should host-based firewalls block at minimum?|Workstation-to-workstation communication and outbound traffic to LOLBins
+What is the benefit of network segmentation?|Prevents breach from spreading across entire organization by isolating business-critical systems
+What makes IDS/IPS systems most powerful?|SSL/TLS interception to identify malicious traffic based on content rather than IP reputation
+What is an example of a weak but complex password?|Password1! - has uppercase, lowercase, numbers, and special characters but is easily predictable and found in password lists
+What type of passwords should be taught to employees?|Pass phrases that are harder to guess and difficult to brute force, like "i LIK3 my coffeE warm"
+Where should MFA be implemented at minimum?|For any type of administrative access to ALL applications and devices
+What vulnerabilities should be prioritized for remediation?|At minimum, "high" and "critical" vulnerabilities discovered in continuous scans
+What is the purpose of Purple Team exercises?|Train incident handlers, identify vulnerabilities, test blue team's defensive capability in logging, monitoring, detection, and responsiveness
+What are the four logical levels of detection?|Network perimeter, internal network level, endpoint level, and application level
+What are sources that can detect threats?|Employee noticing abnormal behavior, alerts from tools (EDR, IDS, Firewall, SIEM), threat hunting activities, third-party notifications
+What information should be gathered during initial investigation?|Date/time reported, who detected/reported, how detected, what incident was, impacted systems, who accessed systems, physical location, system details
+What columns should an incident timeline contain?|Date, Time of event, Hostname, Event description, and Data source
+What should timeline focus on?|Primarily attacker behavior - when attack occurred, network connections established, files downloaded, with source and associated systems
+What questions determine incident severity and extent?|Exploitation impact and requirements, business-critical systems affected, remediation steps, number of impacted systems, exploit in wild, worm-like capabilities
+Why must incidents be kept confidential?|Adversary may be an employee, breach communication must be handled by appointed person with legal department, need-to-know basis required
+What is an Indicator of Compromise (IOC)?|A sign that an incident has occurred, documented in structured manner representing artifacts like IP addresses, file hashes, and file names
+What are two widely used IOC standards?|OpenIOC and Yara, which allow documentation and sharing of artifacts in a standard manner
+What logon type typically doesn't cache credentials?|Logon type 3 (Network Logon) typically doesn't cache credentials on remote systems
+What is the difference in PsExec credential caching?|With explicit credentials, they are cached on remote machine; without credentials using current user session, they are not cached
+What should be done after IOC searching?|Identify and eliminate false positives, prioritize hits that can provide new leads after forensic analysis
+What are two common examination types during data analysis?|Malware analysis and disk forensics, with memory forensics becoming increasingly popular for advanced attacks
+What must be tracked during data collection?|Chain of custody to ensure examined data is court-admissible if legal action is taken
+What are the two types of containment?|Short-term containment (minimal footprint actions) and long-term containment (persistent actions and changes)
+What are examples of short-term containment actions?|Isolating system in separate VLAN, pulling network cable, modifying attacker's C2 DNS to controlled or non-existing system
+What are examples of long-term containment actions?|Changing user passwords, applying firewall rules, inserting HIDS, applying system patches, shutting down systems
+What is the purpose of the Eradication stage?|Eliminate root cause and remnants of incident to ensure adversary is out of systems and network
+What activities occur during Eradication?|Removing detected malware, rebuilding systems, restoring from backup, applying additional patches, system-hardening activities
+What must business verify during Recovery stage?|System is working as expected and contains all necessary data before bringing into production environment
+What suspicious events should be monitored after recovery?|Unusual logons (new user or service accounts), unusual processes, changes to registry locations typically modified by malware
+How long can recovery stage take in large incidents?|Months, approached in phases with early phases focusing on quick wins and later phases on permanent long-term changes
+What is the objective of Post-Incident Activity stage?|Document the incident and improve capabilities based on lessons learned by reflecting on what occurred and how actions worked
+What should the final incident report contain?|What happened and when, team performance, business response, containment/eradication actions, preventive measures, needed tools and resources
+What are benefits of incident reports?|Measurable results on incidents handled, time spent, actions performed, reference for future events, source for legal action and identifying costs
+What should be reevaluated during post-incident activity?|Tools, training, team readiness, overall team structure, and updating plans, playbooks, policies, and procedures

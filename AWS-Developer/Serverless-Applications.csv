@@ -1,0 +1,25 @@
+What is CORS responsible for in API Gateway?|Allowing cross-site access to your APIs; without it, you cannot call the API Gateway service from a browser
+What are the three main benefits of serverless stacks?|No server management, flexible scaling, and automated high availability
+What type of endpoints does API Gateway support?|Only HTTPS endpoints (does not support HTTP, FTP, or SSH)
+What types of origins does CloudFront support for serverless stacks?|A variety of origins including Amazon S3 (supports both static and dynamic data)
+Can you run a fully dynamic website in a serverless fashion?|Yes, using JavaScript frameworks like Angular and React with services like S3, API Gateway, Lambda, and DynamoDB
+What types of data are good candidates for caching?|Data accessed repeatedly by multiple users (not frequently changing critical data like bank balances)
+What caching engines does Amazon ElastiCache support?|Redis and Memcached (MySQL and Couchbase are not caching engines)
+What is the default limit for nodes per ElastiCache cluster?|60 nodes per cluster
+What is ElastiCache?|A managed in-memory caching service (not for managing EC2 instances or Elasticsearch)
+What do resolvers do in AWS AppSync GraphQL?|Map GraphQL operations (queries and mutations) to data sources like DynamoDB
+How do you configure a custom domain for an S3-hosted static website?|Use Amazon Route 53 to manage DNS and direct the custom domain to the S3 bucket
+What is the main difference between API Gateway REST APIs and HTTP APIs regarding authorization?|HTTP APIs support out-of-the-box JWT authorization integration; REST APIs have more advanced features but not native JWT support
+What API Gateway feature reduces backend processing time and improves performance?|Enabling caching on an API Gateway stage to store and replay frequently accessed responses
+What GraphQL feature enables pushing data updates to clients in real time?|Subscriptions (clients don't need to initiate regular queries)
+When should you choose Redis over Memcached in ElastiCache?|When you need complex data types (lists, sets, hashes), data persistence, or the ability to sort and rank data
+How can you restrict API Gateway access based on IP addresses?|Use an API Gateway resource policy with an IpAddress condition
+Does API Gateway support WebSocket APIs?|Yes, WebSocket is a third type of API supported by API Gateway (in addition to HTTP and REST APIs)
+Are HTTP APIs generally more or less expensive than REST APIs in API Gateway?|HTTP APIs are generally less expensive than REST APIs
+Does increasing Lambda memory improve API performance as effectively as caching?|No, caching is more effective as it reduces the number of times Lambda must be invoked
+What is the purpose of API Gateway stages?|To deploy your API and make it live (a resource defines the API but isn't deployed until assigned to a stage)
+Can Redis scale horizontally by adding nodes like Memcached?|No, Redis uses replication for scaling reads but is not designed for automatic data partitioning across multiple nodes
+Is Memcached or Redis simpler to deploy?|Memcached is simpler; Redis is more complex due to additional features
+Does Amazon Cognito handle IP-based filtering?|No, Cognito handles user authentication, not IP-based filtering
+Are VPC endpoints suitable for filtering traffic from specific external IPs?|No, VPC endpoints are not suitable for filtering external IP traffic
+Can AWS WAF filter IPs for API Gateway?|Yes, but API Gateway resource policies are a simpler, more direct method for IP-based access control

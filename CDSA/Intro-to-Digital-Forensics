@@ -1,0 +1,1490 @@
+
+Introduction to Digital Forensics
+
+It is essential to clarify that this module does not claim to be an all-encompassing or exhaustive program on Digital Forensics. This module provides a robust foundation for SOC analysts, enabling them to confidently tackle key Digital Forensics tasks. The primary focus of the module will be the analysis of malicious activity within Windows-based environments.
+
+Digital forensics, often referred to as computer forensics or cyber forensics, is a specialized branch of cybersecurity that involves the collection, preservation, analysis, and presentation of digital evidence to investigate cyber incidents, criminal activities, and security breaches. It applies forensic techniques to digital artifacts, including computers, servers, mobile devices, networks, and storage media, to uncover the truth behind cyber-related events. Digital forensics aims to reconstruct timelines, identify malicious activities, assess the impact of incidents, and provide evidence for legal or regulatory proceedings. Digital forensics is an integral part of the incident response process, contributing crucial insights and support at various stages.
+
+Key Concepts:
+
+    Electronic Evidence: Digital forensics deals with electronic evidence, which can include files, emails, logs, databases, network traffic, and more. This evidence is collected from computers, mobile devices, servers, cloud services, and other digital sources.
+    Preservation of Evidence: Ensuring the integrity and authenticity of digital evidence is crucial. Proper procedures are followed to preserve evidence, establish a chain of custody, and prevent any unintentional alterations.
+    Forensic Process: The digital forensics process typically involves several stages:
+        Identification: Determining potential sources of evidence.
+        Collection: Gathering data using forensically sound methods.
+        Examination: Analyzing the collected data for relevant information.
+        Analysis: Interpreting the data to draw conclusions about the incident.
+        Presentation: Presenting findings in a clear and comprehensible manner.
+    Types of Cases: Digital forensics is applied in a variety of cases, including:
+        Cybercrime investigations (hacking, fraud, data theft).
+        Intellectual property theft.
+        Employee misconduct investigations.
+        Data breaches and incidents affecting organizations.
+        Litigation support in legal proceedings.
+
+The basic steps for performing a forensic investigation are as follows:
+
+    Create a Forensic Image
+    Document the System's State
+    Identify and Preserve Evidence
+    Analyze the Evidence
+    Timeline Analysis
+    Identify Indicators of Compromise (IOCs)
+    Report and Documentation
+
+Digital Forensics for SOC Analysts
+
+When we talk about the Security Operations Center (SOC), we're discussing the frontline defense against cyber threats. But what happens when a breach occurs, or when an anomaly is detected? That's where digital forensics comes into play.
+
+First and foremost, digital forensics provides us with a detailed post-mortem of security incidents. By analyzing digital evidence, we can trace back the steps of an attacker, understanding their methods, motives, and possibly even their identity. This retrospective analysis is crucial for improving our defenses and understanding our vulnerabilities.
+
+Moreover, in the heat of a security incident, time is of the essence. Digital forensics tools can rapidly sift through vast amounts of data, pinpointing the exact moment of compromise, the affected systems, and the nature of the malware or attack technique used. This swift identification allows us to contain the threat faster, minimizing potential damage.
+
+Let's not forget about the legal implications. In the event of a significant breach, especially one that affects customers or stakeholders, there's a high likelihood of legal repercussions. Digital forensics not only helps us in identifying the culprits but also provides legally admissible evidence that can be used in court. This evidence is meticulously logged, hashed, and timestamped to ensure its integrity and authenticity.
+
+Furthermore, the insights gained from digital forensics empower our SOC teams to proactively hunt for threats. Instead of merely reacting to alerts, we can actively search our environments for signs of compromise, leveraging indicators of compromise (IoCs) and tactics, techniques, and procedures (TTPs) identified from past incidents.
+
+Another critical aspect is the enhancement of our incident response strategies. By understanding the full scope of an attack, we can better tailor our response, ensuring that every compromised system is addressed and that no stone is left unturned. This comprehensive approach reduces the risk of attackers lingering in our environment or using the same attack vector twice.
+
+Lastly, digital forensics fosters a culture of continuous learning within our SOC teams. Every incident, no matter how small, provides a learning opportunity. By dissecting these incidents, our analysts can stay ahead of the curve, anticipating new attack techniques and bolstering our defenses accordingly.
+
+In conclusion, digital forensics isn't just a reactive measure; it's a proactive tool that amplifies the capabilities of our SOC analysts, ensuring that our organization remains resilient in the face of ever-evolving cyber threats.
+
+
+Windows Forensics Overview
+
+In this section, we will provide a concise overview of the key Windows artifacts and forensic procedures.
+NTFS
+
+NTFS (New Technology File System) is a proprietary file system developed by Microsoft as a part of its Windows NT operating system family. It was introduced with the release of Windows NT 3.1 in 1993, and it has since become the default and most widely used file system in modern Windows operating systems, including Windows XP, Windows 7, Windows 8, Windows 10, and their server counterparts.
+
+NTFS was designed to address several limitations of its predecessor, the FAT (File Allocation Table) file system. It introduced numerous features and enhancements that improved the reliability, performance, security, and storage capabilities of the file system.
+
+Here are some of the key forensic artifacts that digital investigators often analyze when working with NTFS file systems:
+
+    File Metadata: NTFS stores extensive metadata for each file, including creation time, modification time, access time, and attribute information (such as read-only, hidden, or system file attributes). Analyzing these timestamps can help establish timelines and reconstruct user activities.
+    MFT Entries: The Master File Table (MFT) is a crucial component of NTFS that stores metadata for all files and directories on a volume. Examining MFT entries provides insights into file names, sizes, timestamps, and data storage locations. When files are deleted, their MFT entries are marked as available, but the data may remain on the disk until overwritten.
+    File Slack and Unallocated Space: Unallocated space on an NTFS volume may contain remnants of deleted files or fragments of data. File slack refers to the unused portion of a cluster that may contain data from a previous file. Digital forensic tools can help recover and analyze data from these areas.
+    File Signatures: File headers and signatures can be useful in identifying file types even when file extensions have been changed or obscured. This information is critical for reconstructing the types of files present on a system.
+    USN Journal: The Update Sequence Number (USN) Journal is a log maintained by NTFS to record changes made to files and directories. Forensic investigators can analyze the USN Journal to track file modifications, deletions, and renames.
+    LNK Files: Windows shortcut files (LNK files) contain information about the target file or program, as well as timestamps and metadata. These files can provide insights into recently accessed files or executed programs.
+    Prefetch Files: Prefetch files are generated by Windows to improve the startup performance of applications. These files can indicate which programs have been run on the system and when they were last executed.
+    Registry Hives: While not directly related to the file system, Windows Registry hives contain important configuration and system information. Malicious activities or unauthorized changes can leave traces in the registry, which forensic investigators analyze to understand system modifications.
+    Shellbags: Shellbags are registry entries that store folder view settings, such as window positions and sorting preferences. Analyzing shellbags can reveal user navigation patterns and potentially identify accessed folders.
+    Thumbnail Cache: Thumbnail caches store miniature previews of images and documents. These caches can reveal files that were recently viewed, even if the original files have been deleted.
+    Recycle Bin: The Recycle Bin contains files that have been deleted from the file system. Analyzing the Recycle Bin can help recover deleted files and provide insights into user actions.
+    Alternate Data Streams (ADS): ADS are additional streams of data associated with files. Malicious actors may use ADS to hide data, and forensic investigators need to examine these streams to ensure a comprehensive analysis.
+    Volume Shadow Copies: NTFS supports Volume Shadow Copies, which are snapshots of the file system at different points in time. These copies can be valuable for data recovery and analysis of changes made over time.
+    Security Descriptors and ACLs: Access Control Lists (ACLs) and security descriptors determine file and folder permissions. Analyzing these artifacts helps understand user access rights and potential security breaches.
+
+Windows Event Logs
+
+Windows Event Logs are an intrinsic part of the Windows Operating System, storing logs from different components of the system including the system itself, applications running on it, ETW providers, services, and others.
+
+Windows event logging offers comprehensive logging capabilities for application errors, security events, and diagnostic information. As cybersecurity professionals, we leverage these logs extensively for analysis and intrusion detection.
+
+Adversarial tactics from initial compromise using malware or other exploits, to credential accessing, privilege elevation and lateral movement using Windows operating system’s internal tools are often captured via Windows event logs.
+
+By viewing the available Windows event logs, investigators can get a good sense of what is being logged and even search for specific log entries. To access the logs directly for offline analysis, investigators should navigate to the default file path for log storage at C:\Windows\System32\winevt\logs.
+
+The analysis of Windows Event Logs has been addressed in the modules titled Windows Event Logs & Finding Evil and YARA & Sigma for SOC Analysts.
+Execution Artifacts
+
+Windows execution artifacts refer to the traces and evidence left behind on a Windows operating system when programs and processes are executed. These artifacts provide valuable insights into the execution of applications, scripts, and other software components, which can be crucial in digital forensics investigations, incident response, and cybersecurity analysis. By examining execution artifacts, investigators can reconstruct timelines, identify malicious activities, and establish patterns of behavior. Here are some common types of Windows execution artifacts:
+
+    Prefetch Files: Windows maintains a prefetch folder that contains metadata about the execution of various applications. Prefetch files record information such as file paths, execution counts, and timestamps of when applications were run. Analyzing prefetch files can reveal a history of executed programs and the order in which they were run.
+    Shimcache: Shimcache is a Windows mechanism that logs information about program execution to assist with compatibility and performance optimizations. It records details such as file paths, execution timestamps, and flags indicating whether a program was executed. Shimcache can help investigators identify recently executed programs and their associated files.
+    Amcache: Amcache is a database introduced in Windows 8 that stores information about installed applications and executables. It includes details like file paths, sizes, digital signatures, and timestamps of when applications were last executed. Analyzing the Amcache can provide insights into program execution history and identify potentially suspicious or unauthorized software.
+    UserAssist: UserAssist is a registry key that maintains information about programs executed by users. It records details such as application names, execution counts, and timestamps. Analyzing UserAssist artifacts can reveal a history of executed applications and user activity.
+    RunMRU Lists: The RunMRU (Most Recently Used) lists in the Windows Registry store information about recently executed programs from various locations, such as the Run and RunOnce keys. These lists can indicate which programs were run, when they were executed, and potentially reveal user activity.
+    Jump Lists: Jump Lists store information about recently accessed files, folders, and tasks associated with specific applications. They can provide insights into user activities and recently used files.
+    Shortcut (LNK) Files: Shortcut files can contain information about the target executable, file paths, timestamps, and user interactions. Analyzing LNK files can reveal details about executed programs and the context in which they were run.
+    Recent Items: The Recent Items folder maintains a list of recently opened files. It can provide information about recently accessed documents and user activity.
+    Windows Event Logs: Various Windows event logs, such as the Security, Application, and System logs, record events related to program execution, including process creation and termination, application crashes, and more.
+
+Artifact 	Location/Registry Key 	Data Stored
+Prefetch Files 	C:\Windows\Prefetch 	Metadata about executed applications (file paths, timestamps, execution count)
+Shimcache 	Registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache 	Program execution details (file paths, timestamps, flags)
+Amcache 	C:\Windows\AppCompat\Programs\Amcache.hve (Binary Registry Hive) 	Application details (file paths, sizes, digital signatures, timestamps)
+UserAssist 	Registry: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist 	Executed program details (application names, execution counts, timestamps)
+RunMRU Lists 	Registry: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU 	Recently executed programs and their command lines
+Jump Lists 	User-specific folders (e.g., %AppData%\Microsoft\Windows\Recent) 	Recently accessed files, folders, and tasks associated with applications
+Shortcut (LNK) Files 	Various locations (e.g., Desktop, Start Menu) 	Target executable, file paths, timestamps, user interactions
+Recent Items 	User-specific folders (e.g., %AppData%\Microsoft\Windows\Recent) 	Recently accessed files
+Windows Event Logs 	C:\Windows\System32\winevt\Logs 	Various event logs containing process creation, termination, and other events
+Windows Persistence Artifacts
+
+Windows persistence refers to the techniques and mechanisms used by attackers to ensure their unauthorized presence and control over a compromised system, allowing them to maintain access and control even after initial intrusion. These persistence methods exploit various system components, such as registry keys, startup processes, scheduled tasks, and services, enabling malicious actors to withstand reboots and security measures while continuing to carry out their objectives undetected.
+
+Registry
+
+The Windows Registry acts as a crucial database, storing critical system settings for the Windows OS. This encompasses configurations for devices, security, services, and even the storage of user account security configurations in the Security Accounts Manager (SAM). Given its significance, it's no surprise that adversaries often target the Windows Registry for establishing persistence. Therefore, it's essential to routinely inspect Registry autorun keys.
+
+Example of Autorun keys used for persistence:
+
+    Run/RunOnce Keys
+        HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+        HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
+        HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+        HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+        HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
+
+    Keys used by WinLogon Process
+        HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell
+
+    Startup Keys
+        HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
+        HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
+        HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
+        HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User
+
+Schtasks
+
+Windows provides a feature allowing programs to schedule specific tasks. These tasks reside in C:\Windows\System32\Tasks, with each one saved as an XML file. This file details the creator, the task's timing or trigger, and the path to the command or program set to run. To scrutinize scheduled tasks, we should navigate to C:\Windows\System32\Tasks and examine the XML files' content.
+
+Services
+
+Services in Windows are pivotal for maintaining processes on a system, enabling software components to operate in the background without user intervention. Malicious actors often tamper with or craft rogue services to ensure persistence and retain unauthorized access. The registry location to keep an eye on is: HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services.
+Web Browser Forensics
+
+Diving into web browser forensics, it's a discipline centered on analyzing remnants left by web browsers. These remnants can shed light on user actions, online engagements, and potentially harmful behaviors. Some of the pivotal browser forensic artifacts include:
+
+    Browsing History: Records of websites visited, including URLs, titles, timestamps, and visit frequency.
+    Cookies: Small data files stored by websites on a user's device, containing information such as session details, preferences, and authentication tokens.
+    Cache: Cached copies of web pages, images, and other content visited by the user. Can reveal websites accessed even if the history is cleared.
+    Bookmarks/Favorites: Saved links to frequently visited websites or pages of interest.
+    Download History: Records of downloaded files, including source URLs, filenames, and timestamps.
+    Autofill Data: Information automatically entered into forms, such as names, addresses, and passwords.
+    Search History: Queries entered into search engines, along with search terms and timestamps.
+    Session Data: Information about active browsing sessions, tabs, and windows.
+    Typed URLs: URLs entered directly into the address bar.
+    Form Data: Information entered into web forms, such as login credentials and search queries.
+    Passwords: Saved or autofilled passwords for websites.
+    Web Storage: Local storage data used by websites for various purposes.
+    Favicons: Small icons associated with websites, which can reveal visited sites.
+    Tab Recovery Data: Information about open tabs and sessions that can be restored after a browser crash.
+    Extensions and Add-ons: Installed browser extensions and their configurations.
+
+SRUM
+
+Switching gears to SRUM (System Resource Usage Monitor), it's a feature introduced in Windows 8 and subsequent versions. SRUM meticulously tracks resource utilization and application usage patterns. The data is housed in a database file named sru.db found in the C:\Windows\System32\sru directory. This SQLite formatted database allows for structured data storage and efficient data retrieval. SRUM's records, organized by time intervals, can help reconstruct application and resource usage over specific durations.
+
+Key facets of SRUM forensics encompass:
+
+    Application Profiling: SRUM can provide a comprehensive view of the applications and processes that have been executed on a Windows system. It records details such as executable names, file paths, timestamps, and resource usage metrics. This information is crucial for understanding the software landscape on a system, identifying potentially malicious or unauthorized applications, and reconstructing user activities.
+    Resource Consumption: SRUM captures data on CPU time, network usage, and memory consumption for each application and process. This data is invaluable for investigating resource-intensive activities, identifying unusual patterns of resource consumption, and detecting potential performance issues caused by specific applications.
+    Timeline Reconstruction: By analyzing SRUM data, digital forensics experts can create timelines of application and process execution, resource usage, and system activities. This timeline reconstruction is instrumental in understanding the sequence of events, identifying suspicious behaviors, and establishing a clear picture of user interactions and actions.
+    User and System Context: SRUM data includes user identifiers, which helps in attributing activities to specific users. This can aid in user behavior analysis and determining whether certain actions were performed by legitimate users or potential threat actors.
+    Malware Analysis and Detection: SRUM data can be used to identify unusual or unauthorized applications that may be indicative of malware or malicious activities. Sudden spikes in resource usage, abnormal application patterns, or unauthorized software installations can all be detected through SRUM analysis.
+    Incident Response: During incident response, SRUM can provide rapid insights into recent application and process activities, enabling analysts to quickly identify potential threats and respond effectively.
+
+Evidence Acquisition Techniques & Tools
+
+Evidence acquisition is a critical phase in digital forensics, involving the collection of digital artifacts and data from various sources to preserve potential evidence for analysis. This process requires specialized tools and techniques to ensure the integrity, authenticity, and admissibility of the collected evidence. Here's an overview of evidence acquisition techniques commonly used in digital forensics:
+
+    Forensic Imaging
+    Extracting Host-based Evidence & Rapid Triage
+    Extracting Network Evidence
+
+Forensic Imaging
+
+Forensic imaging is a fundamental process in digital forensics that involves creating an exact, bit-by-bit copy of digital storage media, such as hard drives, solid-state drives, USB drives, and memory cards. This process is crucial for preserving the original state of the data, ensuring data integrity, and maintaining the admissibility of evidence in legal proceedings. Forensic imaging plays a critical role in investigations by allowing analysts to examine evidence without altering or compromising the original data.
+
+Below are some forensic imaging tools and solutions:
+
+    FTK Imager: Developed by AccessData (now acquired by Exterro), FTK Imager is one of the most widely used disk imaging tools in the cybersecurity field. It allows us to create perfect copies (or images) of computer disks for analysis, preserving the integrity of the evidence. It also lets us view and analyze the contents of data storage devices without altering the data.
+    AFF4 Imager: A free, open-source tool crafted for creating and duplicating forensic disk images. It's user-friendly and compatible with numerous file systems. A benefit of the AFF4 Imager is its capability to extract files based on their creation time, segment volumes, and reduce the time taken for imaging through compression.
+    DD and DCFLDD: Both are command-line utilities available on Unix-based systems (including Linux and MacOS). DD is a versatile tool included in most Unix-based systems by default, while DCFLDD is an enhanced version of DD with features specifically useful for forensics, such as hashing.
+    Virtualization Tools: Given the prevalent use of virtualization in modern systems, incident responders will often need to collect evidence from virtual environments. Depending on the specific virtualization solution, evidence can be gathered by temporarily halting the system and transferring the directory that houses it. Another method is to utilize the snapshot capability present in numerous virtualization software tools.
+
+Example 1: Forensic Imaging with FTK Imager
+
+Let's now see a demonstration of utilizing FTK Imager to craft a disk image. Be mindful that you'll require an auxiliary storage medium, like an external hard drive or USB flash drive, to save the resultant disk image.
+
+    Select File -> Create Disk Image. FTK Imager interface showing 'File' menu with 'Create Disk Image' option highlighted.
+    Next, select the media source. Typically, it's either Physical Drive or Logical Drive. Dialog box titled 'Select Source' with options for selecting evidence type: Physical Drive, Logical Drive, Image File, Folder Contents, Fermico Device.
+    Choose the drive from which you wish to create an image. Dialog box titled 'Select Drive' with a dropdown showing 'PHYSICALDRIVE0 - VMware Virtual NVMe Disk [64GB SCSI]' and 'Finish' button highlighted.
+    Specify the destination for the image. Dialog box titled 'Create Image' with source '\PHYSICALDRIVE0', options to add image destinations, and checkboxes for verifying images and calculating progress.
+    Select the desired image type. Dialog box titled 'Select Image Type' with options for Raw, SMART, E01, and AFF, with E01 selected.
+    Input evidence details. Dialog box titled 'Evidence Item Information' with fields for Case Number '1', Evidence Number '123', and Unique Description 'Malware Attack 9/9/2023'.
+    Choose the destination folder and filename for the image. At this step, you can also adjust settings for image fragmentation and compression. Dialog box titled 'Select Image Destination' with fields for destination folder 'E:', filename 'E_01_Physical_Image', fragment size '0', and compression '6'.
+    Once all settings are confirmed, click Start. Dialog box titled 'Create Image' with source '\PHYSICALDRIVE0', destination 'E:\E_01_Physical_Image [E01]', and options to verify images and calculate progress.
+    You'll observe the progress of the imaging. Dialog box titled 'Creating Image' with source '\PHYSICALDRIVE0', destination 'E:\E_01_Physical_Image', and progress bar showing elapsed time of 9 seconds.
+    If you opted to verify the image, you'll also see the verification progress. Dialog box titled 'Verifying' with source 'E_01_Physical_Image.E01', progress bar at 46%, elapsed time 7 minutes 22 seconds, and estimated time left 8 minutes 32 seconds.
+    After the image has been verified, you'll receive an imaging summary. Now, you're prepared to analyze this dump. Verification results for E_01_Physical_Image.E01 showing matching MD5 and SHA1 hashes.
+
+Example 2: Mounting a Disk Image with Arsenal Image Mounter
+
+Let's now see another demonstration of utilizing Arsenal Image Mounter to mount a disk image we have previously created (not the one mentioned above) from a compromised Virtual Machine (VM) running on VMWare. The virtual hard disk of the VM has been stored as HTBVM01-000003.vmdk.
+
+After we've installed Arsenal Image Mounter, let's ensure we launch it with administrative rights. In the main window of Arsenal Image Mounter, let's click on the Mount disk image button. From there, we'll navigate to the location of our .VMDK file and select it.
+
+Arsenal Image Mounter interface showing a mounted VM hard disk with file path and mount points D:, F:, G:.
+
+Arsenal Image Mounter will then start its analysis of the VMDK file. We'll also have the choice to decide if we want to mount the disk as read-only or read-write, based on our specific requirements.
+
+Choosing to mount a disk image as read-only is a foundational step in digital forensics and incident response. This approach is vital for preserving the original state of evidence, ensuring its authenticity and integrity remain intact.
+
+Once mounted, the image will appear as a drive, assigned the letter D:\.
+
+File Explorer window showing contents of Local Disk (D:) with folders like Program Files and Windows.
+Extracting Host-based Evidence & Rapid Triage
+Host-based Evidence
+
+Modern operating systems, with Microsoft Windows being a prime example, generate a plethora of evidence artifacts. These can arise from application execution, file modifications, or even the creation of user accounts. Each of these actions leaves behind a trail, providing invaluable insights for incident response analysts.
+
+Evidence on a host system varies in its nature. The term volatility refers to the persistence of data on a host system, with volatile data being information that disappears after events such as logoffs or power shutdowns. One crucial type of volatile evidence is the system's active memory. During investigations, especially those concerning malware infections, this live system memory becomes indispensable. Malware often leaves traces within system memory, and losing this evidence can hinder an analyst's investigation. To capture memory, tools like FTK Imager are commonly employed.
+
+Some other memory acquisition solutions are:
+
+    WinPmem: WinPmem has been the default open source memory acquisition driver for windows for a long time. It used to live in the Rekall project, but has recently been separated into its own repository.
+    DumpIt: A simplistic utility that generates a physical memory dump of Windows and Linux machines. On Windows, it concatenates 32-bit and 64-bit system physical memory into a single output file, making it extremely easy to use.
+    MemDump: MemDump is a free, straightforward command-line utility that enables us to capture the contents of a system's RAM. It’s quite beneficial in forensics investigations or when analyzing a system for malicious activity. Its simplicity and ease of use make it a popular choice for memory acquisition.
+    Belkasoft RAM Capturer: This is another powerful tool we can use for memory acquisition, provided free of charge by Belkasoft. It can capture the RAM of a running Windows computer, even if there's active anti-debugging or anti-dumping protection. This makes it a highly effective tool for extracting as much data as possible during a live forensics investigation.
+    Magnet RAM Capture: Developed by Magnet Forensics, this tool provides a free and simple way to capture the volatile memory of a system.
+    LiME (Linux Memory Extractor): LiME is a Loadable Kernel Module (LKM) which allows the acquisition of volatile memory. LiME is unique in that it's designed to be transparent to the target system, evading many common anti-forensic measures.
+
+Example 1: Acquiring Memory with WinPmem
+
+Let's now see a demonstration of utilizing WinPmem for memory acquisition.
+
+To generate a memory dump, simply execute the command below with Administrator privileges.
+Evidence Acquisition Techniques & Tools
+
+C:\Users\X\Downloads> winpmem_mini_x64_rc2.exe memdump.raw
+
+Command prompt showing memory dump process with details of memory ranges, buffer size, and acquisition mode.
+
+Example 2: Acquiring VM Memory
+
+Here are the steps to acquire memory from a Virtual Machine (VM).
+
+    Open the running VM's options
+    Suspend the running VM
+    Locate the .vmem file inside the VM's directory.
+
+VMware interface showing steps to suspend a guest: 1. Click 'VM' menu, 2. Select 'Power', 3. Choose 'Suspend Guest'. File explorer showing a folder with virtual machine files, highlighting 'Win7-2515354d.vmem' as a VMEM file.
+
+On the other hand, non-volatile data remains on the hard drive, typically persisting through shutdowns. This category includes artifacts such as:
+
+    Registry
+    Windows Event Log
+    System-related artifacts (e.g., Prefetch, Amcache)
+    Application-specific artifacts (e.g., IIS logs, Browser history)
+
+Rapid Triage
+
+This approach emphasizes collecting data from potentially compromised systems. The goal is to centralize high-value data, streamlining its indexing and analysis. By centralizing this data, analysts can more effectively deploy tools and techniques, honing in on systems with the most evidentiary value. This targeted approach allows for a deeper dive into digital forensics, offering a clearer picture of the adversary's actions.
+
+One of the best, if not the best, rapid artifact parsing and extraction solutions is KAPE (Kroll Artifact Parser and Extractor). Let's see how we can employ KAPE to retrieve valuable forensic data from the image we previously mounted with the help of Arsenal Image Mounter (D:\).
+
+KAPE is a powerful tool in the realm of digital forensics and incident response. Designed to aid forensic experts and investigators, KAPE facilitates the collection and analysis of digital evidence from Windows-based systems. Developed and maintained by Kroll (previously known as Magnet Forensics), KAPE is celebrated for its comprehensive collection features, adaptability, and intuitive interface. The diagram below illustrates KAPE's operational flow.
+
+Flowchart showing KAPE process: Source (live system, mounted image, F-Response) to KAPE (target options), Destination (files copied), KAPE (module options), and Module output (programs run).
+
+Image reference: https://ericzimmerman.github.io/KapeDocs/#!index.md
+
+KAPE operates based on the principles of Targets and Modules. These elements guide the tool in processing data and extracting forensic artifacts. When we feed a source to KAPE, it duplicates specific forensic-related files to a designated output directory, all while maintaining the metadata of each file.
+
+KAPE workflow diagram: Source of data to KAPE for data parsing, processing, and extraction of Windows forensic artifacts, leading to KAPE output.
+
+After downloading, let's unzip the file and launch KAPE. Within the KAPE directory, we'll notice two executable files: gkape.exe and kape.exe. KAPE provides users with two modes: CLI (kape.exe) and GUI (gkape.exe).
+
+File explorer showing KAPE files: 'gkape.exe' for GUI version and 'kape.exe' for CLI version.
+
+Let's opt for the GUI version to explore the available options more visually.
+
+gkape interface showing source and destination selection, KAPE target configuration, module options, and execution button.
+
+The crux of the process lies in selecting the appropriate target configurations.
+
+Table showing KAPE target configuration with 'KapeTriage' selected, described as a compound collection for DFIR investigation.
+
+In KAPE's terminology, Targets refer to the specific artifacts we aim to extract from an image or system. These are then duplicated to the output directory.
+
+KAPE's target files have a .tkape extension and reside in the <path to kape>\KAPE\Targets directory. For instance, the target RegistryHivesSystem.tkape in the screenshot below specifies the locations and file masks associated with system-related registry hives. In this target configuration, RegistryHivesSystem.tkape contains information to collect the files with file mask SAM.LOG* from the C:\Windows\System32\config directory.
+
+File explorer showing 'RegistryHivesSystem.tkape' file, with details on SAM registry transaction files located at C:\Windows\System32\config.
+
+KAPE also offers Compound Targets, which are essentially amalgamations of multiple targets. This feature accelerates the collection process by gathering multiple files defined across various targets in a single run. The Compound directory's KapeTriage file provides an overview of the contents of this compound target.
+
+Image showing KAPE Targets directory with 'Compound' sub-directory. Highlights 'KapeTriage.tkape' as a compound target file, detailing evidence collection paths for Antivirus, EventLogs, EvidenceOfExecution, and Amcache.
+
+Let's specify our source (in our scenario, it's D:\) and designate a location to store the harvested data. We can also determine an output folder to house the processed data from KAPE.
+
+After configuring our options, let's hit the Execute button to initiate the data collection.
+
+gkape interface showing steps: 1. Specify source and destination, 2. Select target configurations, 3. Choose output type, 4. Execute KAPE.
+
+Upon execution, KAPE will commence the collection, storing the results in the predetermined destination.
+Evidence Acquisition Techniques & Tools
+
+KAPE version 1.3.0.2, Author: Eric Zimmerman, Contact: https://www.kroll.com/kape (kape@kroll.com)
+
+KAPE directory: C:\htb\dfir_module\data\kape\KAPE
+Command line:   --tsource D: --tdest C:\htb\dfir_module\data\investigation\image --target !SANS_Triage --gui
+
+System info: Machine name: REDACTED, 64-bit: True, User: REDACTED OS: Windows10 (10.0.22621)
+
+Using Target operations
+Found 18 targets. Expanding targets to file list...
+Target ApplicationEvents with Id 2da16dbf-ea47-448e-a00f-fc442c3109ba already processed. Skipping!
+Target ApplicationEvents with Id 2da16dbf-ea47-448e-a00f-fc442c3109ba already processed. Skipping!
+Target ApplicationEvents with Id 2da16dbf-ea47-448e-a00f-fc442c3109ba already processed. Skipping!
+Target ApplicationEvents with Id 2da16dbf-ea47-448e-a00f-fc442c3109ba already processed. Skipping!
+Target ApplicationEvents with Id 2da16dbf-ea47-448e-a00f-fc442c3109ba already processed. Skipping!
+Found 639 files in 4.032 seconds. Beginning copy...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDefenderApiLogger.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDefenderAuditLogger.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDiagLog.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDiagtrack-Listener.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTEventLog-Application.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTEventlog-Security.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTEventLog-System.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTSgrmEtwSession.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTUBPM.etl due to UnauthorizedAccessException...
+  Deferring D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTWFP-IPsec Diagnostics.etl due to UnauthorizedAccessException...
+  Deferring D:\$MFT due to UnauthorizedAccessException...
+  Deferring D:\$LogFile due to UnauthorizedAccessException...
+  Deferring D:\$Extend\$UsnJrnl:$J due to NotSupportedException...
+  Deferring D:\$Extend\$UsnJrnl:$Max due to NotSupportedException...
+  Deferring D:\$Secure:$SDS due to NotSupportedException...
+  Deferring D:\$Boot due to UnauthorizedAccessException...
+  Deferring D:\$Extend\$RmMetadata\$TxfLog\$Tops:$T due to NotSupportedException...
+Deferred file count: 17. Copying locked files...
+  Copied deferred file D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDefenderApiLogger.etl to C:\htb\dfir_module\data\investigation\image\D\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDefenderApiLogger.etl. Hashing source file...
+  Copied deferred file D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDiagLog.etl to C:\htb\dfir_module\data\investigation\image\D\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDiagLog.etl. Hashing source file...
+  Copied deferred file D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDiagtrack-Listener.etl to C:\htb\dfir_module\data\investigation\image\D\Windows\System32\LogFiles\WMI\RtBackup\EtwRTDiagtrack-Listener.etl. Hashing source file...
+  Copied deferred file D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTEventLog-Application.etl to C:\htb\dfir_module\data\investigation\image\D\Windows\System32\LogFiles\WMI\RtBackup\EtwRTEventLog-Application.etl. Hashing source file...
+  Copied deferred file D:\Windows\System32\LogFiles\WMI\RtBackup\EtwRTEventLog-System.etl to C:\htb\dfir_module\data\investigation\image\D\Windows\System32\LogFiles\WMI\RtBackup\EtwRTEventLog-System.etl. Hashing source file...
+  Copied deferred file D:\$MFT to C:\htb\dfir_module\data\investigation\image\D\$MFT. Hashing source file...
+  Copied deferred file D:\$LogFile to C:\htb\dfir_module\data\investigation\image\D\$LogFile. Hashing source file...
+  Copied deferred file D:\$Extend\$UsnJrnl:$J to C:\htb\dfir_module\data\investigation\image\D\$Extend\$J. Hashing source file...
+  Copied deferred file D:\$Extend\$UsnJrnl:$Max to C:\htb\dfir_module\data\investigation\image\D\$Extend\$Max. Hashing source file...
+  Copied deferred file D:\$Secure:$SDS to C:\htb\dfir_module\data\investigation\image\D\$Secure_$SDS. Hashing source file...
+  Copied deferred file D:\$Boot to C:\htb\dfir_module\data\investigation\image\D\$Boot. Hashing source file...
+
+The output directory of KAPE houses the fruits of the artifact collection and processing. The exact contents of this directory can differ based on the artifacts selected and the configurations set. In our demonstration, we opted for the !SANS_Triage collection target configuration. Let's navigate to KAPE's output directory to inspect the harvested data.
+
+File explorer showing KAPE's output with folders: Extend, ProgramData, Users, Windows, and files :Boot, LogFile, MFT, $Secure_SDS.
+
+From the displayed results, it's evident that the $MFT file has been collected, along with the Users and Windows directories.
+
+It's worth noting that KAPE has also harvested the Windows event logs, which are nestled within the Windows directory sub-folders.
+
+File explorer showing event logs in the System32 directory, including 'Microsoft-Windows-Sysmon%40Operational.evtx' highlighted.
+
+What if we wanted to perform artifact collection remotely and en masse? This is where EDR solutions and Velociraptor come into play.
+
+Endpoint Detection and Response (EDR) platforms offer a significant advantage for incident response analysts. They enable remote acquisition and analysis of digital evidence. For instance, EDR platforms can display recently executed binaries or newly added files. Instead of sifting through individual systems, analysts can search for such indicators across the entire network. Another benefit is the capability to gather evidence, be it specific files or comprehensive forensic packages. This functionality expedites evidence collection and facilitates large-scale searching and collection.
+
+Velociraptor is a potent tool for gathering host-based information using Velociraptor Query Language (VQL) queries. Beyond this, Velociraptor can execute Hunts to amass various artifacts. A frequently utilized artifact is the Windows.KapeFiles.Targets. While KAPE (Kroll Artifact Parser and Extractor) itself isn't open-source, its file collection logic, encoded in YAML, is accessible via the KapeFiles project. This approach is a staple in Rapid Triage.
+
+To utilize Velociraptor for KapeFiles artifacts:
+
+    Initiate a new Hunt. Velociraptor interface showing a hunt with ID H.CJOH7UEPS5CUK, created and started on 2023-08-31, scheduled 102 times by admin.
+
+    Velociraptor interface for configuring a new hunt: Description 'Test hunt', expiry set to 8/14/2023, conditions set to 'Run everywhere', all orgs selected, and 'Start Hunt Immediately' checked.
+
+    Choose Windows.KapeFiles.Targets as the artifacts for collection. Velociraptor interface for selecting artifacts to collect, highlighting 'Windows.KapeFiles.Targets' with a description of KAPE as a bulk collector tool for system triage.
+
+    Specify the collection to use. Velociraptor interface for configuring artifact parameters, highlighting 'Configure Windows.KapeFiles.Targets' with a wrench icon.
+
+    Velociraptor interface for configuring artifact parameters, highlighting '_SANS_Triage' with a detailed list of logs and files to collect.
+
+    Click on Launch to start the hunt. Velociraptor interface showing hunt details: ID H.CJ8HPB1P8F9S0, description 'Test hunt', created and started on 2023-08-07, expires 2023-08-14, state RUNNING, artifact 'Windows.KapeFiles.Targets', scheduled 1, finished clients 0.
+
+    Once completed, download the results. Velociraptor interface showing hunt ID H.CJ8HPB1P8F9S0, 'Test hunt', created by admin, running state, with download options for results, including full and summary downloads.
+
+Extracting the archive will reveal files related to the collected artifacts and all gathered files.
+
+File explorer showing folders: results, uploads, and files: client_info.json, collection_context.json, logs.csv, logs.json, requests.json, uploads.csv, uploads.json, uploads.json.index.
+
+File explorer showing folders: ProgramData, Users, Windows.
+
+For remote memory dump collection using Velociraptor:
+
+    Start a new Hunt, but this time, select the Windows.Memory.Acquisition artifact. Velociraptor interface for selecting artifacts, highlighting 'Windows.Memory.Acquisition' with WinPmem64 tool for full memory image acquisition.
+    After the Hunt concludes, download the resulting archive. Within, you'll find a file named PhysicalMemory.raw, containing the memory dump. Velociraptor interface showing hunts: 'memdump' and 'Test hunt', with details for 'memdump' including Hunt ID H.CJ8HV71H9V370, created by admin, running state, and download options.
+
+Extracting Network Evidence
+
+Throughout our exploration of the modules in the SOC Analyst path, we've delved extensively into the realm of network evidence, a fundamental aspect for any SOC analyst.
+
+    First up, our Intro to Network Traffic Analysis and Intermediate Network Traffic Analysis modules covered traffic capture analysis. Think of traffic capture as a snapshot of all the digital conversations happening in our network. Tools like Wireshark or tcpdump allow us to capture and dissect these packets, giving us a granular view of data in transit.
+
+    Then, our Working with IDS/IPS and Detecting Windows Attacks with Splunk modules covered the usage of IDS/IPS-derived data. Intrusion Detection Systems (IDS) are our watchful sentinels, constantly monitoring network traffic for signs of malicious activity. When they spot something amiss, they alert us. On the other hand, Intrusion Prevention Systems (IPS) take it a step further. Not only do they detect, but they also take pre-defined actions to block or prevent those malicious activities.
+
+    Traffic flow data, often sourced from tools like NetFlow or sFlow, provides us with a broader view of our network's behavior. While it might not give us the nitty-gritty details of each packet, it offers a high-level overview of traffic patterns.
+
+    Lastly, our trusty firewalls. These are not just barriers that block or allow traffic based on predefined rules. Modern firewalls are intelligent beasts. They can identify applications, users, and even detect and block threats. By analyzing firewall logs, we can uncover attempts to exploit vulnerabilities, unauthorized access attempts, and other malicious activities.
+
+Memory Forensics
+Memory Forensics Definition & Process
+
+Memory forensics, also known as volatile memory analysis, is a specialized branch of digital forensics that focuses on the examination and analysis of the volatile memory (RAM) of a computer or digital device. Unlike traditional digital forensics, which involves analyzing data stored on non-volatile storage media like hard drives or solid-state drives, memory forensics deals with the live state of a system at a particular moment in time.
+
+Here are some types of data found in RAM that are valuable for incident investigation:
+
+    Network connections
+    File handles and open Files
+    Open registry keys
+    Running processes on the system
+    Loaded modules
+    Loaded device drivers
+    Command history and console sessions
+    Kernel data structures
+    User and credential information
+    Malware artifacts
+    System configuration
+    Process memory regions
+
+As we discussed both in the previous section and in the YARA & Sigma for SOC Analysts module, when malware operates, it often leaves traces or footprints in a system's active memory. By analyzing this memory, investigators can uncover malicious processes, identify indicators of compromise, and reconstruct the malware's actions.
+
+It should be noted that in some cases, important data or encryption keys may reside in memory. Memory forensics can help recover this data, which may be crucial for an investigation.
+
+The following outlines a systematic approach to memory forensics, formulated to aid in in-memory investigations and drawing inspiration from SANS's six-step memory forensics methodology.
+
+    Process Identification and Verification: Let's begin by identifying all active processes. Malicious software often masquerades as legitimate processes, sometimes with subtle name variations to avoid detection. We need to:
+        Enumerate all running processes.
+        Determine their origin within the operating system.
+        Cross-reference with known legitimate processes.
+        Highlight any discrepancies or suspicious naming conventions.
+
+    Deep Dive into Process Components: Once we've flagged potentially rogue processes, our next step is to scrutinize the associated Dynamic Link Libraries (DLLs) and handles. Malware often exploits DLLs to conceal its activities. We should:
+        Examine DLLs linked to the suspicious process.
+        Check for unauthorized or malicious DLLs.
+        Investigate any signs of DLL injection or hijacking.
+
+    Network Activity Analysis: Many malware strains, especially those that operate in stages, necessitate internet connectivity. They might beacon to Command and Control (C2) servers or exfiltrate data. To uncover these:
+        Review active and passive network connections in the system's memory.
+        Identify and document external IP addresses and associated domains.
+        Determine the nature and purpose of the communication.
+            Validate the process' legitimacy.
+            Assess if the process typically requires network communication.
+            Trace back to the parent process.
+            Evaluate its behavior and necessity.
+
+    Code Injection Detection: Advanced adversaries often employ techniques like process hollowing or utilize unmapped memory sections. To counter this, we should:
+        Use memory analysis tools to detect anomalies or signs of these techniques.
+        Identify any processes that seem to occupy unusual memory spaces or exhibit unexpected behaviors.
+
+    Rootkit Discovery: Achieving stealth and persistence is a common goal for adversaries. Rootkits, which embed deep within the OS, grant threat actors continuous, often elevated, system access while evading detection. To tackle this:
+        Scan for signs of rootkit activity or deep OS alterations.
+        Identify any processes or drivers operating at unusually high privileges or exhibiting stealth behaviors.
+
+    Extraction of Suspicious Elements: After pinpointing suspicious processes, drivers, or executables, we need to isolate them for in-depth analysis. This involves:
+        Dumping the suspicious components from memory.
+        Storing them securely for subsequent examination using specialized forensic tools.
+
+The Volatility Framework
+
+The preferred tool for conducting memory forensics is Volatility. Volatility is a leading open-source memory forensics framework. At the heart of this framework lies the Volatility Python script. This script harnesses a plethora of plugins, enabling it to dissect memory images with precision. Given its Python foundation, we can execute Volatility on any platform that's Python-compatible. Moreover, our team can leverage Volatility to scrutinize memory image files from a broad spectrum of widely-used operating systems. This includes Windows, spanning from Windows XP to Windows Server 2016, macOS, and, of course, prevalent Linux distributions.
+
+Volatility modules or plugins are extensions or add-ons that enhance the functionality of the Volatility Framework by extracting specific information or perform specific analysis tasks on memory images.
+
+Some commonly used modules include:
+
+    pslist: Lists the running processes.
+    cmdline: Displays process command-line arguments
+    netscan: Scans for network connections and open ports.
+    malfind: Scans for potentially malicious code injected into processes.
+    handles: Scans for open handles
+    svcscan: Lists Windows services.
+    dlllist: Lists loaded DLLs (Dynamic-link Libraries) in a process.
+    hivelist: Lists the registry hives in memory.
+
+Volatility offers extensive documentation. You can find modules and their associated documentation using the following links:
+
+    Volatility v2: https://github.com/volatilityfoundation/volatility/wiki/Command-Reference
+    Volatility v3: https://volatility3.readthedocs.io/en/latest/index.html
+
+A useful Volatility (v2 & v3) cheatsheet can be found here: https://blog.onfvp.com/post/volatility-cheatsheet/
+Volatility v2 Fundamentals
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's SSH into the Target IP using the provided credentials. The vast majority of the actions/commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+
+Let's now see a demonstration of utilizing Volatility v2 to analyze a memory dump saved as Win7-2515534d.vmem inside the /home/htb-student/MemoryDumps directory of this section's target.
+
+Volatility's help section and available plugins can be seen as follows
+To find _TCPT_OBJECT structures using pool tag scanning, use the connscan command. This can find artifacts from previous connections that have since been terminated, in addition to the active ones.
+Identifying Injected Code
+
+The malfind plugin can be used to identify and extract injected code and malicious payloads from the memory of a running process as follows.
+Identifying Handles
+
+The handles plugin in Volatility is used for analyzing the handles (file and object references) held by a specific process within a memory dump. Understanding the handles associated with a process can provide valuable insights during incident response and digital forensics investigations, as it reveals the resources and objects a process is interacting with. Here's how to use the handles plugin.
+Identifying Loaded DLLs
+
+The dlllist plugin in Volatility is used for listing the dynamic link libraries (DLLs) loaded into the address space of a specific process within a memory dump. Here's how to use the dlllist plugin.
+Identifying Hives
+
+The hivelist plugin in Volatility is used for listing the hives (registry files) present in the memory dump of a Windows system. Here's how to use the hivelist plugin.
+
+Rootkit Analysis with Volatility v2
+
+Let's now see a demonstration of utilizing Volatility v2 to analyze a memory dump saved as rootkit.vmem inside the /home/htb-student/MemoryDumps directory of this section's target.
+Understanding the EPROCESS Structure
+
+EPROCESS is a data structure in the Windows kernel that represents a process. Each running process in the Windows operating system has a corresponding EPROCESS block in kernel memory. During memory analysis, the examination of EPROCESS structures is crucial for understanding the running processes on a system, identifying parent-child relationships, and determining which processes were active at the time of the memory capture.
+FLINK and BLINK
+
+A doubly-linked list is a fundamental data structure in computer science and programming. It is a type of linked list where each node (record) contains two references or pointers:
+
+    Next Pointer: This points to the next node in the list, allowing us to traverse the list in a forward direction.
+    Previous Pointer: This points to the previous node in the list, allowing us to traverse the list in a backward direction.
+
+Within the EPROCESS structure, we have ActiveProcessLinks as the doubly-linked list which contains the flink field and the blink field.
+
+    flink: Is a forward pointer that points to the ActiveProcessLinks list entry of the _next_ EPROCESS structure in the list of active processes.
+    blink: Is a backward pointer within the EPROCESS structure that points to the ActiveProcessLinks list entry of the _previous_ EPROCESS structure in the list of active processes.
+
+These linked lists of EPROCESS structures are used by the Windows kernel to quickly iterate through all running processes on the system. The below diagram shows how this linked list looks like.
+Identifying Rootkit Signs
+
+Direct Kernel Object Manipulation (DKOM) is a sophisticated technique used by rootkits and advanced malware to manipulate the Windows operating system's kernel data structures in order to hide malicious processes, drivers, files, and other artifacts from detection by security tools and utilities running in userland (i.e., in user mode).
+
+If, for example, a monitoring tool is dependent on the EPROCESS structure for the enumeration of the running processes, and there's a rootkit running on the system which manipulates the EPROCESS structure directly in kernel memory by altering the EPROCESS structure or unlinking a process from lists, the monitoring tool will not be able to get the hidden process in the currently running processes list.
+
+The below screenshot shows a graphical representation of how this unlinking actually works.
+The psscan plugin is used to enumerate running processes. It scans the memory pool tags associated with each process's EPROCESS structure. This technique can help identify processes that may have been hidden or unlinked by rootkits, as well as processes that have been terminated but have not been removed from memory yet. This plugin can be used as follows.
+Memory Analysis Using Strings
+
+Analyzing strings in memory dumps is a valuable technique in memory forensics and incident response. Strings often contain human-readable information, such as text messages, file paths, IP addresses, and even passwords.
+
+We can either use the Strings tool from the Sysinternals suite if our system is Windows-based, or the strings command from Binutils, if our system is Linux-based.
+
+Let's see some examples against a memory dump named Win7-2515534d.vmem that resides in the /home/htb-student/MemoryDumps directory of this section's target.
+Identifying IPv4 Addresses
+These are just a few examples of common string searches during memory forensics and incident response. You can adapt and customize these searches based on your specific investigation's needs and the types of information you are looking for in the memory dump. Regular expressions can be powerful tools for pattern matching and data extraction during forensic analysis.
+
+
+    Page 5
+    Disk Forensics
+
+Disk Forensics
+
+As we've previously highlighted, adhering to the sequence of data volatility is crucial. It's imperative that we scrutinize each byte to detect the subtle traces left by cyber adversaries. Having covered memory forensics, let's now shift our attention to the area of disk forensics (disk image examination and analysis).
+
+Many disk forensic tools, both commercial and open-source, come packed with features. However, for incident response teams, certain functionalities stand out:
+
+    File Structure Insight: Being able to navigate and see the disk's file hierarchy is crucial. Top-tier forensic tools should display this structure, allowing quick access to specific files, especially in known locations on a suspect system.
+    Hex Viewer: For those moments when you need to get up close and personal with your data, viewing files in hexadecimal is essential. This capability is especially handy when dealing with threats like tailored malware or unique exploits.
+    Web Artifacts Analysis: With so much user data tied to web activities, a forensic tool must efficiently sift through and present this data. It's a game-changer when you're piecing together events leading up to a user landing on a malicious website.
+    Email Carving: Sometimes, the trail leads to internal threats. Maybe it's a rogue employee or just someone who slipped up. In such cases, emails often hold the key. A tool that can extract and present this data streamlines the process, making it easier to connect the dots.
+    Image Viewer: At times, the images stored on systems can tell a story of their own. Whether it's for policy checks or deeper dives, having a built-in viewer is a boon.
+    Metadata Analysis: Details like file creation timestamps, hashes, and disk location can be invaluable. Consider a scenario where you're trying to match the launch time of an app with a malware alert. Such correlations can be the linchpin in your investigation.
+
+Enter Autopsy: a user-friendly forensic platform built atop the open-source Sleuth Kit toolset. It mirrors many features you'd find in its commercial counterparts: timeline assessments, keyword hunts, web and email artifact retrievals, and the ability to sift results based on known malicious file hashes.
+
+Once you've loaded a forensic image and processed the data, you'll see the forensic artifacts neatly organized on the side panel. From here, you can:
+
+Autopsy interface showing data sources and artifacts, including file views, data artifacts like Chromium extensions, and analysis results with keyword hits.
+
+    Dive into Data Sources to explore files and directories. File explorer showing data sources with folders: OrphanFiles, CarvedFiles, Extend, Recycle.Bin, $Unalloc, Config.Msi, Documents and Settings, PerfLogs, Program Files, Program Files (x86), ProgramData, Recovery, System Volume Information, Tools, Users, Windows.
+
+    Examine Web Artifacts. Autopsy interface showing data artifacts with a focus on 'Web Cache', listing URLs, domains, and creation dates from a keyword search for 'powershell.exe'.
+
+    Check Attached Devices. Autopsy interface showing 'USB Device Attached' data artifacts, listing device make, model, ID, and timestamps for attached devices.
+
+    Recover Deleted Files. Autopsy interface showing data sources and deleted files listing, with file names, modified times, and locations from a keyword search for 'powershell.exe'.
+
+    Conduct Keyword Searches. Autopsy interface showing data sources and a keyword search for 'powershell.exe' with substring match selected, listing 'fulldisk.raw.001' as the data source.
+
+    Autopsy interface showing a keyword search for 'powershell.exe', listing files like Windows PowerShell.lnk, NTUSER.DAT.LOG1, $LogFile, with locations and modified times.
+
+    Use Keyword Lists for targeted searches. Autopsy interface showing keyword lists with options for Phone Numbers, IP Addresses, Email Addresses, URLs, and Credit Card Numbers, with 'fulldisk.raw.001' as the data source.
+
+    Autopsy interface showing keyword search results for 'powershell.exe', listing files like f0150936.dll and f0250748.dll, with locations and IP address details highlighted.
+
+    Undertake Timeline Analysis to map out events. Timeline Editor showing events for applications like Notepad++, WinRAR, Process Hacker, and Google Chrome, with visual counts and details from August 10, 2023.
+
+We'll be heavily utilizing Autopsy in the forthcoming "Practical Digital Forensics Scenario" section.
+Rapid Triage Examination & Analysis Tools
+
+When it comes to Rapid Triage analysis, the right external tools are essential for thorough examination and analysis.
+
+Eric Zimmerman has curated a suite of indispensable tools tailored for this very purpose. These tools are meticulously designed to aid forensic analysts in their quest to extract vital information from digital devices and artifacts.
+
+For a comprehensive list of these tools, check out: https://ericzimmerman.github.io/#!index.md
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's RDP into the Target IP using the provided credentials. The vast majority of the actions/commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+
+To streamline the download process, we can visit the official website and select either the .net 4 or .net 6 link. This action will initiate the download of all the tools in a compressed format.
+
+Screenshot of Eric Zimmerman's tools webpage. Highlights include instructions to read requirements, use Get-ZimmermanTools for downloads, and options for .net versions. Contribution links for GitHub, PayPal, and Patreon are shown. A section for forensic tools offers a zip file download for .net 4 and .net 6.
+
+We can also leverage the provided PowerShell script, as outlined in step 2 of the screenshot above, to download all the tools.
+
+While we'll be utilizing a subset of these tools to analyze the KAPE output data, it's prudent for us to familiarize ourselves with the entire toolkit. Understanding the full capabilities of each tool can significantly enhance our investigative prowess.
+
+In this section we will be working with certain tools and evidence that reside in the following directories of this section's target.
+
+    Evidence location: C:\Users\johndoe\Desktop\forensic_data
+        KAPE's output location: C:\Users\johndoe\Desktop\forensic_data\kape_output
+    Eric Zimmerman's tools location: C:\Users\johndoe\Desktop\Get-ZimmermanTools
+    Active@ Disk Editor's location: C:\Program Files\LSoft Technologies\Active@ Disk Editor
+    EQL's location: C:\Users\johndoe\Desktop\eqllib-master
+    RegRipper's location: C:\Users\johndoe\Desktop\RegRipper3.0-master
+
+MAC(b) Times in NTFS
+
+The term MAC(b) times denotes a series of timestamps linked to files or objects. These timestamps are pivotal as they shed light on the chronology of events or actions on a file system. The acronym MAC(b) is an abbreviation for Modified, Accessed, Changed, and (b) Birth times. The inclusion of b signifies the Birth timestamp, which isn't universally present across all file systems or easily accessible via standard Windows API functions. Let's delve deeper into the nuances of MACB timestamps.
+
+    Modified Time (M): This timestamp captures the last instance when the content within the file underwent modifications. Any alterations to the file's data, such as content edits, trigger an update to this timestamp.
+    Accessed Time (A): This timestamp reflects the last occasion when the file was accessed or read, updating whenever the file is opened or otherwise engaged.
+    Changed [Change in MFT Record ] (C): This timestamp signifies changes to the MFT record. It captures the moment when the file was initially created. However, it's worth noting that certain file systems, like NTFS, might update this timestamp if the file undergoes movement or copying.
+    Birth Time (b): Often referred to as the Birth or Born timestamp, this represents the precise moment when the file or object was instantiated on the file system. Its significance in forensic investigations cannot be overstated, especially when determining a file's original creation time.
+
+General Rules for Timestamps in the Windows NTFS File System
+
+The table below delineates the general rules governing how various file operations influence the timestamps within the Windows NTFS (New Technology File System).
+Operation 	Modified 	Accessed 	Birth (Created)
+File Create 	Yes 	Yes 	Yes
+File Modify 	Yes 	No 	No
+File Copy 	No (Inherited) 	Yes 	Yes
+File Access 	No 	No* 	No
+
+    File Create:
+        Modified Timestamp (M): The Modified timestamp is updated to reflect the time of file creation.
+        Accessed Timestamp (A): The Accessed timestamp is updated to reflect that the file was accessed at the time of creation.
+        Birth (Created) Timestamp (b): The Birth timestamp is set to the time of file creation.
+
+    File Modify:
+        Modified Timestamp (M): The Modified timestamp is updated to reflect the time when the file's content or attributes were last modified.
+        Accessed Timestamp (A): The Accessed timestamp is not updated when the file is modified.
+        Birth (Created) Timestamp (b): The Birth timestamp is not updated when the file is modified.
+
+    File Copy:
+        Modified Timestamp (M): The Modified timestamp is typically not updated when a file is copied. It usually inherits the timestamp from the source file.
+        Accessed Timestamp (A): The Accessed timestamp is updated to reflect that the file was accessed at the time of copying.
+        Birth (Created) Timestamp (b): The Birth timestamp is updated to the time of copying, indicating when the copy was created.
+
+    File Access:
+        Modified Timestamp (M): The Modified timestamp is not updated when the file is accessed.
+        Accessed Timestamp (A): The Accessed timestamp is updated to reflect the time of access.
+        Birth (Created) Timestamp (b): The Birth timestamp is not updated when the file is accessed.
+
+All these timestamps reside in the $MFT file, located at the root of the system drive. While the $MFT file will be covered in greater depth later, our current focus remains on understanding these timestamps.
+
+These timestamps are housed within the $MFT across two distinct attributes:
+
+    $STANDARD_INFORMATION
+    $FILE_NAME
+
+The timestamps visible in the Windows file explorer are derived from the $STANDARD_INFORMATION attribute.
+Timestomping Investigation
+
+Identifying instances of timestamp manipulation, commonly termed as timestomping (T1070.006), presents a formidable challenge in digital forensics. Timestomping entails the alteration of file timestamps to obfuscate the sequence of file activities. This tactic is frequently employed by various tools, as illustrated in the MITRE ATT&CK's timestomp technique.
+|When adversaries manipulate file creation times or deploy tools for such purposes, the timestamp displayed in the file explorer undergoes modification.
+
+For instance, if we load C:\Users\johndoe\Desktop\forensic_data\kape_output\D\$MFT into MFT Explorer (available at C:\Users\johndoe\Desktop\Get-ZimmermanTools\net6\MFTExplorer) we will notice that the creation time of the file ChangedFileTime.txt has been tampered with, displaying 03-01-2022 in the file explorer, which deviates from the actual creation time.
+
+Note: MFT Explorer will take 15-25 minutes to load the file.
+
+Screenshot of MFT Explorer v2.0.0.0 showing file details in a forensic analysis. The file 'ChangedFileTime.txt' in the Temp directory is highlighted, with timestamps indicating creation on 2022-01-03 and modification on 2023-09-07. The properties pane shows 'Possible Timestamped' checked.
+
+However, given our knowledge that the timestamps in the file explorer originate from the $STANDARD_INFORMATION attribute, we can cross-verify this data with the timestamps from the $FILE_NAME attribute through MFTEcmd (available at C:\Users\johndoe\Desktop\Get-ZimmermanTools\net6) as follows.
+
+In standard Windows file systems like NTFS, regular users typically lack the permissions to directly modify the timestamps of filenames in $FILE_NAME. Such modifications are exclusively within the purview of the system kernel.
+
+To kickstart our exploration, let's first acquaint ourselves with filesystem-based artifacts. We'll commence with the $MFT file, nestled in the root directory of the KAPE output.
+MFT File
+
+The $MFT file, commonly referred to as the Master File Table, is an integral part of the NTFS (New Technology File System) used by contemporary Windows operating systems. This file is instrumental in organizing and cataloging files and directories on an NTFS volume. Each file and directory on such a volume has a corresponding entry in the Master File Table. Think of the MFT as a comprehensive database, meticulously documenting metadata and structural details about every file and directory.
+
+For those in the realm of digital forensics, the $MFT is a treasure trove of information. It offers a granular record of file and directory activities on the system, encompassing actions like file creation, modification, deletion, and access. By leveraging the $MFT, forensic analysts can piece together a detailed timeline of system events and user interactions.
+
+Note: A standout feature of the MFT is its ability to retain metadata about files and directories, even post their deletion from the filesystem. This trait elevates the MFT's significance in forensic analysis and data recovery.
+
+The MFT is strategically positioned at the root of the system drive.
+
+We've already extracted the MFT while showcasing KAPE's capabilities and saved it at C:\Users\johndoe\Desktop\forensic_data\kape_output\D\$MFT.
+
+Let's navigate to the $MFT file within the KAPE Output directory above and load it in MFT Explorer. This tool, one of Eric Zimmerman's masterpieces, empowers us to inspect and analyze the metadata nestled in the MFT. This encompasses a wealth of information about files and directories, from filenames and timestamps (created, modified, accessed) to file sizes, permissions, and attributes. A standout feature of the MFT Explorer is its intuitive interface, presenting file records in a graphical hierarchy reminiscent of the familiar Windows Explorer.
+
+MFT Explorer showing a loaded $MFT file from KAPE output. Displays a graphical hierarchy of the file system, properties, and MFT file record details for 'discord.exe' in the Temp directory.
+
+Note: It's worth noting that MFT records, once created, aren't discarded. Instead, as new files and directories emerge, new records are added to the MFT. Records corresponding to deleted files are flagged as "free" and stand ready for reuse.
+Structure of MFT File Record
+
+Every file or directory on an NTFS volume is symbolized by a record in the MFT. These records adhere to a structured format, brimming with attributes and details about the associated file or directory. Grasping the MFT's structure is pivotal for tasks like forensic analysis, system management, and data recovery in Windows ecosystems. It equips forensic experts to pinpoint which attributes are brimming with intriguing insights.
+
+Diagram of a file record structure showing a header and attributes: STRANDARD, INFORMATION, FILE_NAME, $DATA, and additional attributes, totaling 1024 bytes.
+
+Here's a snapshot of the components:
+
+    File Record Header: Contains metadata about the file record itself. Includes fields like signature, sequence number, and other administrative data.
+    Standard Information Attribute Header: Stores standard file metadata such as timestamps, file attributes, and security identifiers.
+    File Name Attribute Header: Contains information about the filename, including its length, namespace, and Unicode characters.
+    Data Attribute Header: Describes the file data attribute, which can be either resident (stored within the MFT record) or non-resident (stored in external clusters).
+        File Data (File content): This section holds the actual file data, which can be the file's content or references to non-resident data clusters. For small files (less than 512 bytes), the data might be stored within the MFT record (resident). For larger files, it references non-resident data clusters on the disk. We'll see an example of this later on.
+    Additional Attributes (optional): NTFS supports various additional attributes, such as security descriptors (SD), object IDs (OID), volume name (VOLNAME), index information, and more.
+
+These attributes can vary depending on the file's characteristics. We can see the common type of information which is stored inside these header and attributes in the image below.
+
+Diagram of an MFT file record showing sections: FILE Record Header, Attribute $10 (STANDARD_INFORMATION), Attribute \30 (FILE_NAME), and Attribute \80 ($DATA), with detailed hex and attribute information.
+File Record Header
+
+Contains metadata about the file record itself. Includes fields like signature, sequence number, and other administrative data.
+
+Diagram of a FILE Record Header showing attributes like Signature, Update Sequence, and Entry ID. Includes hex and decimal values for MFTCmd usage.
+
+The file record begins with a header that contains metadata about the file record itself. This header typically includes the following information:
+
+    Signature: A four-byte signature, usually "FILE" or "BAAD," indicating whether the record is in use or has been deallocated.
+    Offset to Update Sequence Array: An offset to the Update Sequence Array (USA) that helps maintain the integrity of the record during updates.
+    Size of Update Sequence Array: The size of the Update Sequence Array in words.
+    Log File Sequence Number: A number that identifies the last update to the file record.
+    Sequence Number: A number identifying the file record. The MFT records are numbered sequentially, starting from 0.
+    Hard Link Count: The number of hard links to the file. This indicates how many directory entries point to this file record.
+    Offset to First Attribute: An offset to the first attribute in the file record.
+
+When we sift through the MFT file using MFTECmd and extract details about a record, the information from the file record is presented as depicted in the subsequent screenshot.
+Each attribute signifies some entry information, identified by type.
+Type 	Attribute 	Description
+0x10 (16) 	$STANDARD_INFORMATION 	General information - flags, MAC times, owner, and security id.
+0x20 (32) 	$ATTRIBUTE_LIST 	Pointers to other attributes and a list of nonresident attributes.
+0x30 (48) 	$FILE_NAME 	File name - (Unicode) and outdated MAC times
+0x40 (64) 	$VOLUME_VERSION 	Volume information - NTFS v1.2 only and Windows NT, no longer used
+0x40 (64) 	$OBJECT_ID 	16B unique identifier - for file or directory (NTFS 3.0+; Windows 2000+)
+0x50 (80) 	$SECURITY_DESCRIPTOR 	File's access control list and security properties
+0x60 (96) 	$VOLUME_NAME 	Volume name
+0x70 (112) 	$VOLUME_INFORMATION 	File system version and other information
+0x80 (128) 	$DATA 	File contents
+0x90 (144) 	$INDEX_ROOT 	Root node of an index tree
+0xA0 (160) 	$INDEX_ALLOCATION 	Nodes of an index tree - with a root in $INDEX_ROOT
+0xB0 (176) 	$BITMAP 	Bitmap - for the $MFT file and for indexes (directories)
+0xC0 (192) 	$SYMBOLIC_LINK 	Soft link information - (NTFS v1.2 only and Windows NT)
+0xC0 (192) 	$REPARSE_POINT 	Data about a reparse point - used for a soft link (NTFS 3.0+; Windows 2000+)
+0xD0 (208) 	$EA_INFORMATION 	Used for backward compatibility with OS/2 applications (HPFS)
+0xE0 (224) 	$EA 	Used for backward compatibility with OS/2 applications (HPFS)
+0x100 (256) 	$LOGGED_UTILITY_STREAM 	Keys and other information about encrypted attributes (NTFS 3.0+; Windows 2000+)
+
+To demystify the structure of an NTFS MFT file record, we're harnessing the capabilities of Active@ Disk Editor. This potent, freeware disk editing tool is available at C:\Program Files\LSoft Technologies\Active@ Disk Editor and facilitates the viewing and modification of raw disk data, including the Master File Table of an NTFS system. The same insights can be gleaned from other MFT parsing tools, such as MFT Explorer.
+
+We can have a closer look by opening C:\Users\johndoe\Desktop\forensic_data\kape_output\D\$MFT on Active@ Disk Editor and then pressing Inspect File Record.
+
+Active@ Disk Editor showing hex data, ASCII, and Unicode columns for a file. General file information is displayed on the right.
+
+Active@ Disk Editor displaying hex, ASCII, and Unicode data for a file. Volume information is shown on the right.
+
+In Disk Editor, we're privy to the raw data of MFT entries. This includes a hexadecimal representation of the MFT record, complete with its header and attributes.
+
+Non-Resident Flag
+
+Diagram of MFT file record structure showing HEADER, STANRD, INFORMATION, FILE_NAME, and $DATA sections. Indicates non-resident flag and file size details.
+
+When parsing the entry in MFTECmd, this is how the non-resident data header appears.
+
+Screenshot of MFTECmd output showing details for 'update.exe'. Highlights include file creation and modification dates, non-resident data status, and size information.
+
+Resident Flag
+
+Diagram of MFT file record structure showing HEADER, STANDARD, INFORMATION FILE_NAME, and $DATA sections. Indicates resident flag and file size details for 'users.txt'.
+
+When parsing the entry in MFTECmd, this is how the resident data header appears.
+
+Details of 'users.txt' file showing creation and modification dates, content size of 307 bytes, and resident data status. ASCII section lists user accounts.
+Zone.Identifier data in MFT File Record
+
+The Zone.Identifier is a specialized file metadata attribute in the Windows OS, signifying the security zone from which a file was sourced. It's an integral part of the Windows Attachment Execution Service (AES) and is instrumental in determining how Windows processes files procured from the internet or other potentially untrusted origins.
+
+When a file is fetched from the internet, Windows assigns it a Zone Identifier (ZoneId). This ZoneId, embedded in the file's metadata, signifies the source or security zone of the file's origin. For instance, internet-sourced files typically bear a ZoneId of 3, denoting the Internet Zone.
+
+For instance, we downloaded various tools inside the C:\Users\johndoe\Downloads directory of this section's target. Post-download, a ZoneID replete with the Zone.Identifier (i.e., the source URL) has been assigned to them.
+One of the security mechanisms, known as the Mark of the Web (MotW), hinges on the Zone Identifier. Here, the MotW marker differentiates files sourced from the internet or other potentially dubious sources from those originating from trusted or local contexts. It's frequently employed to bolster the security of applications like Microsoft Word. When an app, say Microsoft Word, opens a file bearing a MotW, it can institute specific security measures based on the MotW's presence. For instance, a Word document with a MotW might be launched in Protected View, a restricted mode that isolates the document from the broader system, mitigating potential security threats.
+
+While its primary function is to bolster security for files downloaded from the web, forensic analysts can harness it for investigative pursuits. By scrutinizing this attribute, they can ascertain the file's download method. See an example below.
+
+Desktop with MFT Explorer and PowerShell open. MFT Explorer shows file details for 'pass.exe' in Temp directory, highlighting 'Has ADS'. PowerShell displays metadata for the same file, including creation dates and non-resident data status.
+Analyzing with Timeline Explorer
+
+Timeline Explorer is another digital forensic tool developed by Eric Zimmerman which is used to assist forensic analysts and investigators in creating and analyzing timeline artifacts from various sources. Timeline artifacts provide a chronological view of system events and activities, making it easier to reconstruct a sequence of events during an investigation. We can filter timeline data based on specific criteria, such as date and time ranges, event types, keywords, and more. This feature helps focus the investigation on relevant information.
+
+This arrangement of different events following one after another in time is really useful to create a story or timeline about what happened before and after specific events. This sequencing of events helps establish a timeline of activities on a system.
+
+Loading a converted CSV file into Timeline Explorer is a straightforward process. Timeline Explorer is designed to work with timeline data, including CSV files that contain timestamped events or activities. To load the event data csv file into the Timeline Explorer, we can launch Timeline Explorer, and simply drag and drop from its location (e.g., our KAPE analysis directory) onto the Timeline Explorer window.
+
+Once ingested, Timeline Explorer will process and display the data. The duration of this process hinges on the file's size.
+
+Timeline Explorer v2.0.0.1 interface showing a loading message for 'kape_event_log.csv' and a prompt to drag and drop a CSV file.
+
+We will see the timeline populated with the events from the CSV file in chronological order. With the timeline data now loaded, we can explore and analyze the events using the various features provided by Timeline Explorer. We can zoom in on specific time ranges, filter events, search for keywords, and correlate related activities.
+
+Timeline Explorer v2.0.0.1 displaying 'kape_event_log.csv' with a chronological view of events, highlighting file creation and registry events.
+
+We will provide multiple examples of using Timeline Explorer in this section.
+USN Journal
+
+USN, or Update Sequence Number, is a vital component of the NTFS file system in Windows. The USN Journal is essentially a change journal feature that meticulously logs alterations to files and directories on an NTFS volume.
+
+For those in digital forensics, the USN Journal is a goldmine. It enables us to monitor operations such as File Creation, Rename, Deletion, and Data Overwrite.
+
+In the Windows environment, the USN Journal file is designated as $J. The KAPE Output directory houses the collected USN Journal in the following directory: <KAPE_output_folder>\<Drive>\$Extend
+
+Here is how it looks in our KAPE's output (C:\Users\johndoe\Desktop\forensic_data\kape_output\D\$Extend)
+
+File Explorer showing the path C:\Users\johndoe\Desktop\forensic_data\kape_output\D$Extend with files J and Max, both modified on 8/28/2023.
+Analyzing the USN Journal Using MFTECmd
+
+We previously utilized MFTECmd, one of Eric Zimmerman's tools, to parse the MFT file. While its primary focus is the MFT, MFTECmd can also be instrumental in analyzing the USN Journal. This is because entries in the USN Journal often allude to modifications to files and directories that are documented in the MFT. Hence, we'll employ this tool to dissect the USN Journal.
+
+To facilitate the analysis of the USN Journal using MFTECmd, execute a command akin to the one below:
+The resultant output file is saved as MFT-J.csv inside the C:\Users\johndoe\Desktop\forensic_data\mft_analysis directory. Let's import it into Timeline Explorer (available at C:\Users\johndoe\Desktop\Get-ZimmermanTools\net6\TimelineExplorer).
+
+Note: Please remove the filter on the Entry Number to see the whole picture.
+
+Timeline Explorer v2.0.0.1 displaying 'MFT-J.csv' with update timestamps, file names, extensions, and update reasons like SecurityChange and RenameNewName.
+
+Upon inspection, we can discern a chronologically ordered timeline of events. Notably, the entry for uninstall.exe is evident.
+
+By applying a filter on the Entry Number 93866, which corresponds to the Entry ID for uninstall.exe, we can glean the nature of modifications executed on this specific file.
+
+Timeline Explorer showing file entries with timestamps, entry number 93866, and update reasons like FileCreate, DataTruncation, and RenameNewName for various file types.
+
+The file extension, .crdownload, is indicative of a partially downloaded file. This type of file is typically generated when downloading content via browsers like Microsoft Edge, Google Chrome, or Chromium. This revelation is intriguing. If the file was downloaded via a browser, it's plausible that the Zone.Identifier could unveil the source IP/domain of its origin.
+
+To investigate this assumption we should:
+
+    Create a CSV file for C:\Users\johndoe\Desktop\forensic_data\kape_output\D\$MFT using MFTECmd as we did for C:\Users\johndoe\Desktop\forensic_data\kape_output\D\$Extend\$J.
+    Import the $MFT-related CSV into Timeline Explorer.
+    Apply a filter on the entry Number 93866.
+This directory is populated with .evtx files, encapsulating a myriad of windows event logs, including but not limited to Security, Application, System, and Sysmon (if activated).
+
+Our mission is to sift through these event logs, on the hunt for any anomalies, patterns, or indicators of compromise (IOCs). As forensic sleuths, we should be vigilant, paying heed to event IDs, timestamps, source IPs, usernames, and other pertinent log details. A plethora of forensic utilities and scripts, such as log parsing tools and SIEM systems, can bolster our analysis. It's imperative to identify the tactics, techniques, and procedures (TTPs) evident in any dubious activity. This might entail delving into known attack patterns and malware signatures. Another crucial step is to correlate events from diverse log sources, crafting a comprehensive timeline of events. This holistic view aids in piecing together the sequence of events.
+
+The analysis of Windows Event Logs has been addressed in the modules titled Windows Event Logs & Finding Evil and YARA & Sigma for SOC Analysts.
+Windows Event Logs Parsing Using EvtxECmd (EZ-Tool)
+
+EvtxECmd (available at C:\Users\johndoe\Desktop\Get-ZimmermanTools\net6\EvtxeCmd) is another brainchild of Eric Zimmerman, tailored for Windows Event Log files (EVTX files). With this tool at our disposal, we can extract specific event logs or a range of events from an EVTX file, converting them into more digestible formats like JSON, XML, or CSV.
+
+Let's initiate the help menu of EvtxECmd to familiarize ourselves with the various options. The command to access the help section is as follows.
+
+Maps in EvtxECmd
+
+Maps in EvtxECmd are pivotal. They metamorphose customized data into standardized fields in the CSV (and JSON) data. This granularity and precision are indispensable in forensic investigations, enabling analysts to interpret and extract salient information from Windows Event Logs with finesse.
+
+Standardized fields in maps:
+
+    UserName: Contains information about user and/or domain found in various event logs
+    ExecutableInfo: Contains information about process command line, scheduled tasks etc.
+    PayloadData1,2,3,4,5,6: Additional fields to extract and put contextual data from event logs
+    RemoteHost: Contains information about IP address
+
+EvtxECmd plays a significant role in:
+
+    Converting the unique part of an event, known as EventData, into a more standardized and human-readable format.
+    Ensuring that the map files are tailored to specific event logs, such as Security, Application, or custom logs, to handle differences in event structures and data.
+    Using a unique identifier, the Channel element, to specify which event log a particular map file is designed for, preventing confusion when event IDs are reused across different logs.
+
+To ensure the most recent maps are in place before converting the EVTX files to CSV/JSON, employ the command below.
+With the latest maps integrated, we're equipped to infuse contextual information into distinct fields, streamlining the log analysis process. Now, it's time to transmute the logs into a format that's more palatable.
+
+To render the EVTX files more accessible, we can employ EvtxECmd to seamlessly convert event log files into user-friendly formats like JSON or CSV.
+
+For instance, the command below facilitates the conversion of the C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\System32\winevt\logs\Microsoft-Windows-Sysmon%4Operational.evtx file to a CSV file:
+After importing the resultant CSV into Timeline Explorer, we should see the below.
+
+Timeline Explorer showing converted logs with events like 'Engine state changed', 'RegistryEvent', and 'Process creation', highlighting command lines and event details.
+
+Executable Information:
+
+Executable Info showing command lines for power settings, registry edits, scheduled tasks, and call traces involving system and application files.
+Investigating Windows Event Logs with EQL
+
+Endgame's Event Query Language (EQL) is an indispensable tool for sifting through event logs, pinpointing potential security threats, and uncovering suspicious activities on Windows systems. EQL offers a structured language that facilitates querying and correlating events across multiple log sources, including the Windows Event Logs.
+
+Currently, the EQL module is compatible with Python versions 2.7 and 3.5+. If you have a supported Python version installed, execute the following command.
+Rapid Triage Examination & Analysis Tools
+
+C:\Users\johndoe>pip install eql
+
+Should Python be properly configured and included in your PATH, eql should be accessible. To verify this, execute the command below.
+Rapid Triage Examination & Analysis Tools
+
+C:\Users\johndoe>eql --version
+eql 0.9.18
+
+Within EQL's repository (available at C:\Users\johndoe\Desktop\eqllib-master), there's a PowerShell module brimming with essential functions tailored for parsing Sysmon events from Windows Event Logs. This module resides in the utils directory of eqllib, and is named scrape-events.ps1.
+
+From the EQL directory, initiate the scrape-events.ps1 module with the following command:
+Rapid Triage Examination & Analysis Tools
+
+PS C:\Users\johndoe\Desktop\eqllib-master\utils> import-module .\scrape-events.ps1
+
+By doing so, we activate the Get-EventProps function, which is instrumental in parsing event properties from Sysmon logs. To transform, for example, C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\System32\winevt\logs\Microsoft-Windows-Sysmon%4Operational.evtx into a JSON format suitable for EQL queries, execute the command below.
+Rapid Triage Examination & Analysis Tools
+
+PS C:\Users\johndoe\Desktop\eqllib-master\utils> Get-WinEvent -Path C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\System32\winevt\logs\Microsoft-Windows-Sysmon%4Operational.evtx -Oldest | Get-EventProps | ConvertTo-Json | Out-File -Encoding ASCII -FilePath C:\Users\johndoe\Desktop\forensic_data\event_logs\eql_format_json\eql-sysmon-data-kape.json
+
+This action will yield a JSON file, primed for EQL queries.
+
+Let's now see how we could have identified user/group enumeration through an EQL query against the JSON file we created.
+Rapid Triage Examination & Analysis Tools
+
+C:\Users\johndoe>eql query -f C:\Users\johndoe\Desktop\forensic_data\event_logs\eql_format_json\eql-sysmon-data-kape.json "EventId=1 and (Image='*net.exe' and (wildcard(CommandLine, '* user*', '*localgroup *', '*group *')))"
+{"CommandLine": "net  localgroup \"Remote Desktop Users\" backgroundTask /add", "Company": "Microsoft Corporation", "CurrentDirectory": "C:\\Temp\\", "Description": "Net Command", "EventId": 1, "FileVersion": "10.0.19041.1 (WinBuild.160101.0800)", "Hashes": "MD5=0BD94A338EEA5A4E1F2830AE326E6D19,SHA256=9F376759BCBCD705F726460FC4A7E2B07F310F52BAA73CAAAAA124FDDBDF993E,IMPHASH=57F0C47AE2A1A2C06C8B987372AB0B07", "Image": "C:\\Windows\\System32\\net.exe", "IntegrityLevel": "High", "LogonGuid": "{b5ae2bdd-9f94-64ec-0000-002087490200}", "LogonId": "0x24987", "ParentCommandLine": "C:\\Windows\\system32\\cmd.exe /c install.bat", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "ParentProcessGuid": "{b5ae2bdd-8a0f-64f9-0000-00104cfc4700}", "ParentProcessId": "6540", "ProcessGuid": "{b5ae2bdd-8a14-64f9-0000-0010e8804800}", "ProcessId": "3808", "Product": "Microsoft? Windows? Operating System", "RuleName": null, "TerminalSessionId": "1", "User": "HTBVM01\\John Doe", "UtcTime": "2023-09-07 08:30:12.178"}
+{"CommandLine": "net  users  ", "Company": "Microsoft Corporation", "CurrentDirectory": "C:\\Temp\\", "Description": "Net Command", "EventId": 1, "FileVersion": "10.0.19041.1 (WinBuild.160101.0800)", "Hashes": "MD5=0BD94A338EEA5A4E1F2830AE326E6D19,SHA256=9F376759BCBCD705F726460FC4A7E2B07F310F52BAA73CAAAAA124FDDBDF993E,IMPHASH=57F0C47AE2A1A2C06C8B987372AB0B07", "Image": "C:\\Windows\\System32\\net.exe", "IntegrityLevel": "High", "LogonGuid": "{b5ae2bdd-9f94-64ec-0000-002087490200}", "LogonId": "0x24987", "ParentCommandLine": "cmd.exe /c ping -n 10 127.0.0.1 > nul && net users > users.txt && net localgroup > groups.txt && ipconfig >ipinfo.txt && netstat -an >networkinfo.txt && del /F /Q C:\\Temp\\discord.exe", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "ParentProcessGuid": "{b5ae2bdd-8a19-64f9-0000-0010c5914800}", "ParentProcessId": "4040", "ProcessGuid": "{b5ae2bdd-8a22-64f9-0000-0010c59f4800}", "ProcessId": "5364", "Product": "Microsoft? Windows? Operating System", "RuleName": null, "TerminalSessionId": "1", "User": "HTBVM01\\John Doe", "UtcTime": "2023-09-07 08:30:26.851"}
+{"CommandLine": "net  localgroup  ", "Company": "Microsoft Corporation", "CurrentDirectory": "C:\\Temp\\", "Description": "Net Command", "EventId": 1, "FileVersion": "10.0.19041.1 (WinBuild.160101.0800)", "Hashes": "MD5=0BD94A338EEA5A4E1F2830AE326E6D19,SHA256=9F376759BCBCD705F726460FC4A7E2B07F310F52BAA73CAAAAA124FDDBDF993E,IMPHASH=57F0C47AE2A1A2C06C8B987372AB0B07", "Image": "C:\\Windows\\System32\\net.exe", "IntegrityLevel": "High", "LogonGuid": "{b5ae2bdd-9f94-64ec-0000-002087490200}", "LogonId": "0x24987", "ParentCommandLine": "cmd.exe /c ping -n 10 127.0.0.1 > nul && net users > users.txt && net localgroup > groups.txt && ipconfig >ipinfo.txt && netstat -an >networkinfo.txt && del /F /Q C:\\Temp\\discord.exe", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "ParentProcessGuid": "{b5ae2bdd-8a19-64f9-0000-0010c5914800}", "ParentProcessId": "4040", "ProcessGuid": "{b5ae2bdd-8a22-64f9-0000-001057a24800}", "ProcessId": "4832", "Product": "Microsoft? Windows? Operating System", "RuleName": null, "TerminalSessionId": "1", "User": "HTBVM01\\John Doe", "UtcTime": "2023-09-07 08:30:26.925"}
+
+Event Analysis showing command lines for adding users to groups and user enumeration, highlighting suspicious events with net.exe and command-line usage.
+Windows Registry
+
+A deep dive into the registry hives can furnish us with invaluable insights, such as the computer's name, Windows version, owner's name, and network configuration.
+
+Registry-related files harvested from KAPE are typically housed in <KAPE_output_folder>\Windows\System32\config
+
+File Explorer showing config folder with files: DEFAULT, SAM, SECURITY, SOFTWARE, SYSTEM, dated 9/7/2023.
+
+Additionally, there are user-specific registry hives located within individual user directories, as exemplified in the following screenshot.
+
+Registry Explorer showing SYSTEM hive with ComputerName key set to HTBVM01, last modified on 8/28/2023.
+
+For a comprehensive analysis, we can employ Registry Explorer (available at C:\Users\johndoe\Desktop\Get-ZimmermanTools\net6\RegistryExplorer) a GUI-based tool masterminded by Eric Zimmerman. This tool offers a streamlined interface to navigate and dissect the contents of Windows Registry hives. By simply dragging and dropping these files into Registry Explorer, the tool processes the data, presenting it within its GUI. The left panel displays the registry hives, while the right panel reveals their corresponding values.
+
+In the screenshot below we have loaded the SYSTEM hive, that can be found inside the C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\System32\config directory of this section's target.
+
+Registry Explorer showing SOFTWARE hive with CurrentVersion key, ProductName as Windows 10 Enterprise LTSC 2021 Evaluation, and RegisteredOwner as John Doe.
+
+Registry Explorer boasts a suite of features, including hive analysis, search capabilities, filtering options, timestamp viewing, and bookmarking. The bookmarking utility is particularly handy, allowing users to earmark pivotal locations or keys for subsequent reference.
+
+In the screenshot below we have loaded the SOFTWARE hive, that can be found inside the C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\System32\config directory of this section's target. Notice the available bookmarks within Registry Explorer.
+
+Registry Explorer showing SOFTWARE hive with CurrentVersion key, ProductName as Windows 10 Enterprise LTSC 2021 Evaluation, and RegisteredOwner as John Doe.
+RegRipper
+
+Another potent tool in our arsenal is RegRipper (available at C:\Users\johndoe\Desktop\RegRipper3.0-master), a command-line utility adept at swiftly extracting information from the Registry.
+
+To acquaint ourselves with RegRipper's functionalities, let's invoke the help section by executing rip.exe accompanied by the -h parameter.
+For a seamless experience with RegRipper, it's essential to familiarize ourselves with its plugins. To enumerate all available plugins and catalog them in a CSV file (e.g., rip_plugins.csv), use the command below.
+Rapid Triage Examination & Analysis Tools
+
+PS C:\Users\johndoe\Desktop\RegRipper3.0-master> .\rip.exe -l -c > rip_plugins.csv
+
+This action compiles a comprehensive list of plugins, detailing the associated hives, and saves it as a CSV file.
+
+The screenshot below elucidates the contents of this file, highlighting the plugin name, its corresponding registry hive, and a brief description.
+
+LibreOffice Calc showing rip_plugins.csv with columns: Plugin, Version, Hive, and Description, listing plugins like cmdproc and cmd_shell.
+
+To kick things off, let's execute the compname command on the SYSTEM hive (located at C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\System32\config), which retrieves the computer's name.
+
+Program Execution Artifacts
+
+When we talk about execution artifacts in digital forensics, we're referring to the traces and evidence left behind on a computer system or device when a program runs. These little bits of information can clue us in on the activities and behaviors of software, users, and even those with malicious intent. If we want to piece together what went down on a computer, diving into these execution artifacts is a must.
+
+You might stumble upon some well-known execution artifacts in these Windows components:
+
+    Prefetch
+    ShimCache
+    Amcache
+    BAM (Background Activity Moderator)
+
+Let's dive deeper into each of these to get a better grasp on the kind of program execution details they capture.
+Investigation of Prefetch
+
+Prefetch is a Windows operating system feature that helps optimize the loading of applications by preloading certain components and data. Prefetch files are created for every program that is executed on a Windows system, and this includes both installed applications and standalone executables. The naming convention of Prefetch files is indeed based on the original name of the executable file, followed by a hexadecimal value of the path where the executable file resides, and it ends with the .pf file extension.
+
+In digital forensics, the Prefetch folder and associated files can provide valuable insights into the applications that have been executed on a Windows system. Forensic analysts can examine Prefetch files to determine which applications have been run, how often they were executed, and when they were last run.
+
+In general, prefetch files are stored in the C:\Windows\Prefetch\ directory.
+
+Prefetch-related files harvested from KAPE are typically housed in <KAPE_output_folder>\Windows\prefetch.
+
+File Explorer showing Windows prefetch folder with files like DISCORD.EXE-7191FAD6.pf, size 10 KB.
+
+Eric Zimmerman provides a tool for prefetch files: PECmd (available at C:\Users\johndoe\Desktop\Get-ZimmermanTools\net6).
+
+Here's an example of how to launch PECmd's help menu from the EricZimmerman tools directory.
+PECmd will analyze the prefetch file (.pf) and display various information about the application execution. This generally includes details such as:
+
+    First and last execution timestamps.
+    Number of times the application has been executed.
+    Volume and directory information.
+    Application name and path.
+    File information, such as file size and hash values.
+
+Let's see by providing a path to a single prefetch file, for example the prefetch file related to discord.exe (i.e. DISCORD.EXE-7191FAD6.pf located at C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\prefetch).
+Upon scrolling down the output, we can see the directories referenced by this executable.
+
+Eric Zimmerman Tools showing 23 directories referenced, including paths like \VOLUME\USERS\JOHN DOE\APPDATA\LOCAL\MICROSOFT\WINDOWS and \VOLUME\WINDOWS\SYSTEM32, with 76 files referenced.
+
+Further scrolling down the output reveals the files referenced by this executable.
+
+Eric Zimmerman Tools showing 76 files referenced, including paths like \VOLUME\WINDOWS\SYSTEM32\NTDLL.DLL and \VOLUME\TEMP\DISCORD.EXE.
+Suspicious Activity in Referenced Files
+
+We should also consider the directory where the application was executed from. If it was run from an unusual or unexpected location, it may be suspicious. For example the below screenshot shows some suspicious locations and files.
+
+Eric Zimmerman Tools showing file paths, including \VOLUME\USERS\JOHN DOE\APPDATA\LOCAL\TEMP\DISCORDSETUP.EXE and \VOLUME\TEMP\INSTALL.BAT.
+Convert Prefetch Files to CSV
+
+For easier analysis, we can convert the prefetch data into CSV as follows.
+The destination directory contains the parsed output in CSV format.
+
+File Explorer showing prefetch_analysis folder with files: 20230911095240_PECmd_Output.csv and 20230911095240_PECmd_Output_Timeline.csv.
+
+Now we can easily analyse the output in Timeline Explorer. Let's load both files.
+
+Timeline Explorer showing PECmd output with columns for Source Created, Executable Name, Files Loaded, Directories, Run Count, and execution timestamps.
+
+The second output file is the timeline file, which shows the executable details sorted by the run time.
+
+Timeline Explorer showing PECmd output with columns for Line, Tag, Run Time, and Executable Name, including entries like DISCORD.EXE and CMD.EXE.
+Investigation of ShimCache (Application Compatibility Cache)
+
+ShimCache (also known as AppCompatCache) is a Windows mechanism used by the Windows operating systems in order to identify application compatibility issues. This database records information about executed applications, and is stored in the Windows Registry. This information can be used by developers to track compatibility issues with executed programs.
+
+In the AppCompatCache cache entries, we can see the information such as:
+
+    Full file paths
+    Timestamps
+        Last modified time ($Standard_Information)
+        Last updated time (Shimcache)
+    Process execution flag
+    Cache entry position
+
+Forensic investigators can use this information to detect the execution of potentially malicious files.
+
+The AppCompatCache key is located at the HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\ControlSet001\Control\Session Manager\AppCompatCache registry location.
+
+Let's load the SYSTEM registry hive (available at C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\System32\config) in Registry Explorer and see what kind of information it contains. We can do that by opening Registry Explorer and dropping the registry hive files into it. Then we will need to go to bookmarks and select AppCompatCache. In the bottom right side, we should see the evidence of application execution as shown in the screenshot.
+
+Registry Explorer showing SYSTEM hive with AppCompatCache key, listing programs like NETSTAT.EXE and CMD.EXE with modified times.
+Investigation of Amcache
+
+AmCache refers to a Windows registry file which is used to store evidence related to program execution. It serves as a valuable resource for digital forensics and security investigations, helping analysts understand the history of application execution and detect signs of any suspicious execution.
+
+The information that it contains include the execution path, first executed time, deleted time, and first installation. It also provides the file hash for the executables.
+
+On Windows OS the AmCache hive is located at C:\Windows\AppCompat\Programs\AmCache.hve
+
+AmCache-related files harvested from KAPE are typically housed in <KAPE_output_folder>\Windows\AppCompat\Programs.
+
+Let's load C:\Users\johndoe\Desktop\forensic_data\kape_output\D\Windows\AppCompat\Programs\AmCache.hve in Registry Explorer to see what kind of information it contains.
+
+PowerShell showing service query for 'bam' with display name 'Background Activity Moderator Driver'.
+
+Using Eric Zimmerman's AmcacheParser, we can parse and convert this file into a CSV, and analyze it in detail inside Timeline Explorer.
+
+Investigation of Windows BAM (Background Activity Moderator)
+
+The Background Activity Moderator (BAM) is a component in the Windows operating system that tracks and logs the execution of certain types of background or scheduled tasks. BAM is actually a kernel device driver as shown in the below screenshot.
+
+Registry Explorer interface showing SYSTEM hive with user settings and program execution details, including timestamps.
+
+It is primarily responsible for controlling the activity of background applications but it can help us in providing the evidence of program execution which it lists under the bam registry hive. The BAM key is located at the below registry location. HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\bam\State\UserSettings\{USER-SID}
+
+Using Registry Explorer, we can browse this inside the SYSTEM hive to see the executable names. Registry explorer already has a bookmark for bam.
+
+Registry Explorer showing SYSTEM hive with user settings and program execution timestamps.
+
+We can also use RegRipper to get similar information through its bam plugin.
+Analyzing Captured API Call Data (.apmx64)
+
+.apmx64 files are generated by API Monitor, which records API call data. These files can be opened and analyzed within the tool itself. API Monitor is a software that captures and displays API calls initiated by applications and services. While its primary function is debugging and monitoring, its capability to capture API call data makes it handy for uncovering forensic artifacts. Let's proceed by loading C:\Users\johndoe\Desktop\forensic_data\APMX64\discord.apmx64 into API Monitor (available at C:\Program Files\rohitab.com\API Monitor) and examining its contents for valuable information.
+
+Launching the API Monitor will initiate certain necessary files.
+
+API Monitor v2 loading definitions, progress at 1356 of 2119 files.
+
+Upon opening the API Monitor application, let's head over to the File menu and choose Open From there, let's navigate to the location of the .apmx64 file and select it.
+
+API Monitor v2 interface with File menu open, showing options like Open and Save, and no monitored processes.
+
+After opening the file, a list of recorded API calls made by the monitored application will be displayed. Typically, this list contains details such as the API function name, parameters, return values, and timestamps. The screenshot below offers a comprehensive view of the API Monitor user interface and its various sections.
+
+API Monitor showing API calls, modules, monitored processes, parameters, and call stack summary.
+
+Clicking on the monitored processes to the left will display the recorded API call data for the chosen process in the summary view to the right. For illustration, consider selecting the discord.exe process. In the summary view, we will observe the API calls initiated by discord.exe.
+
+API Monitor showing monitored processes, function calls, parameters, and return values.
+
+A notable observation from the screenshot is the call to the getenv function. Here's the syntax of this function.
+Rapid Triage Examination & Analysis Tools
+
+char *getenv(
+   const char *varname
+);
+
+This function retrieves the value of a specified environment variable. It requires a varname parameter, representing a valid environment variable name, and returns a pointer pointing to the table entry containing the respective environment variable's value.
+
+API Monitor boasts a plethora of filtering and search capabilities. This allows us to hone in on specific API calls based on functions or time frames. By browsing through the summary or utilizing the filter and search functionalities, we can unearth intriguing details, such as API calls concerning file creation, process creation, registry alterations, and more.
+
+Registry Persistence via Run Keys
+
+An oft-employed strategy by adversaries to maintain unauthorized access to a compromised system is inserting an entry into the run keys within the Windows Registry. Let's investigate if there's any reference to the RegOpenKeyExA function, which accesses the designated registry key. To perform this search, simply type RegOpenKey into the search box, usually situated atop the API Monitor window, and press Enter.
+
+API Monitor showing monitored processes, RegOpenKeyExA function call, parameters, and return value.
+
+From the displayed results, it's evident that the registry key SOFTWARE\Microsoft\Windows\CurrentVersion\Run corresponds to the Run registry key, which triggers the designated program upon every user login. Malicious entities often exploit this key to embed entries pointing to their backdoor, a task achievable via the registry API function RegSetValueExA.
+
+To explore further, let's seek any mention of the RegSetValueExA function, which defines data and type for a specified value within a registry key. Engage the search box, type RegSet, and hit Enter.
+
+API Monitor showing RegSetValueExA function call with parameters and return value.
+
+A notable observation is the RegSetValueExA invocation. Before diving deeper, let's familiarize ourselves with this function's documentation.
+Rapid Triage Examination & Analysis Tools
+
+LSTATUS RegSetValueExA(
+  [in]           HKEY       hKey,
+  [in, optional] LPCSTR     lpValueName,
+                 DWORD      Reserved,
+  [in]           DWORD      dwType,
+  [in]           const BYTE *lpData,
+  [in]           DWORD      cbData
+);
+
+    hKey1 is a handle to the registry key where you want to set a registry value.
+    lpValueName is a pointer to a null-terminated string that specifies the name of the registry value you want to set. In this case, it is named as DiscordUpdate.
+    The Reserved parameter is reserved and must be zero.
+    dwType specifies the data type of the registry value. It's likely an integer constant that represents the data type (e.g., REG_SZ for a string value).
+    (BYTE*)lpData is a type cast that converts the _lpData_ variable to a pointer to a byte (BYTE*). This is done to ensure that the data pointed to by _lpData_ is treated as a byte array, which is the expected format for binary data in the Windows Registry. In our case, this is shown in the buffer view as C:\Windows\Tasks\update.exe.
+    cbData is an integer that specifies the size, in bytes, of the data pointed to by _lpData_.
+
+API Monitor showing RegSetValueExA function call with parameters and return value.
+
+A critical takeaway from this API call is the lpData parameter, which reveals the backdoor's location, C:\Windows\Tasks\update.exe.
+
+Process Injection
+
+To scrutinize process creation, let's search for the CreateProcessA function. Let's key in CreateProcess in the search box and press Enter.
+
+API Monitor showing CreateProcessA function call with parameters and return value.
+
+Presented below is the syntax of the Windows API function, CreateProcessA.
+Rapid Triage Examination & Analysis Tools
+
+BOOL CreateProcessA(
+  [in, optional]      LPCSTR                lpApplicationName,
+  [in, out, optional] LPSTR                 lpCommandLine,
+  [in, optional]      LPSECURITY_ATTRIBUTES lpProcessAttributes,
+  [in, optional]      LPSECURITY_ATTRIBUTES lpThreadAttributes,
+  [in]                BOOL                  bInheritHandles,
+  [in]                DWORD                 dwCreationFlags,
+  [in, optional]      LPVOID                lpEnvironment,
+  [in, optional]      LPCSTR                lpCurrentDirectory,
+  [in]                LPSTARTUPINFOA        lpStartupInfo,
+  [out]               LPPROCESS_INFORMATION lpProcessInformation
+);
+
+An intriguing element within this API is the lpCommandLine parameter. It discloses the executed command line, which, in this context, is C:\Windows\System32\comp.exe. Notably, the lpCommandLine can be specified without delineating the complete executable path in the lpApplicationName value.
+
+Another pivotal parameter worth noting is dwCreationFlags, set to CREATE_SUSPENDED. This indicates that the new process's primary thread starts in a suspended state and remains inactive until the ResumeThread function gets invoked.
+
+The lpCommandLine parameter of this API call sheds light on the child process that was initiated, namely, C:\Windows\System32\comp.exe.
+
+Further down we also notice process injection-related functions being utilized by discord.exe.
+
+API Monitor showing discord.exe with OpenProcess, VirtualAllocEx, WriteProcessMemory, and CreateRemoteThread calls.
+
+All the above are strong indicators of process injection.
+PowerShell Activity
+
+PowerShell transcripts meticulously log both the commands issued and their respective outputs during a PowerShell session. Occasionally, within a user's documents directory, we might stumble upon PowerShell transcript files. These files grant us a window into the recorded PowerShell activities on the system.
+
+The subsequent screenshot, showcases the PowerShell transcript files nestled within the user's documents directory on a mounted forensic image.
+
+FTK Imager showing PowerShell transcript with recorded activity details.
+
+Reviewing PowerShell-related activity in detail can be instrumental during investigations.
+
+Here are some recommended guidelines when handling PowerShell data.
+
+    Unusual Commands: Look for PowerShell commands that are not typical in your environment or are commonly associated with malicious activities. For example, commands to download files from the internet (Invoke-WebRequest or wget), commands that manipulate the registry, or those that involve creating scheduled tasks.
+    Script Execution: Check for the execution of PowerShell scripts, especially if they are not signed or come from untrusted sources. Scripts can be used to automate malicious actions.
+    Encoded Commands: Malicious actors often use encoded or obfuscated PowerShell commands to evade detection. Look for signs of encoded commands in transcripts.
+    Privilege Escalation: Commands that attempt to escalate privileges, change user permissions, or perform actions typically restricted to administrators can be suspicious.
+    File Operations: Check for PowerShell commands that involve creating, moving, or deleting files, especially in sensitive system locations.
+    Network Activity: Look for commands related to network activity, such as making HTTP requests or initiating network connections. These may be indicative of command and control (C2) communications.
+    Registry Manipulation: Check for commands that involve modifying the Windows Registry, as this can be a common tactic for malware persistence.
+    Use of Uncommon Modules: If a PowerShell script or command uses uncommon or non-standard modules, it could be a sign of suspicious activity.
+    User Account Activity: Look for changes to user accounts, including creation, modification, or deletion. Malicious actors may attempt to create or manipulate user accounts for persistence.
+    Scheduled Tasks: Investigate the creation or modification of scheduled tasks through PowerShell. This can be a common method for persistence.
+    Repeated or Unusual Patterns: Analyze the patterns of PowerShell commands. Repeated, identical commands or unusual sequences of commands may indicate automation or malicious behavior.
+    Execution of Unsigned Scripts: The execution of unsigned scripts can be a sign of suspicious activity, especially if script execution policies are set to restrict this.
+
+Practical Digital Forensics Scenario
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's RDP into the Target IP using the provided credentials. The vast majority of the actions/commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+
+You belong to the digital forensics team and are assigned to investigate an incident related to a Windows system using a memory dump, a full disk image, and rapid triage artifacts.
+
+    Memory dump's location: C:\Users\johndoe\Desktop\memdump\PhysicalMemory.raw
+    Rapid triage artifacts' locations:
+        C:\Users\johndoe\Desktop\kapefiles
+        C:\Users\johndoe\Desktop\files
+    Full disk image's location: C:\Users\johndoe\Desktop\fulldisk.raw.001
+    Parsed full disk image data location: C:\Users\johndoe\Desktop\MalwareAttack
+
+Notes:
+
+    When analyzing with Autopsy, we strongly suggest accessing the case from C:\Users\johndoe\Desktop\MalwareAttack.
+    During an investigation, it's imperative to examine artifacts or evidence on a specialized system tailored for forensic tasks. However, for the sake of expediency, the analysis is conducted within the impacted system itself.
+
+Memory Analysis with Volatility v3
+
+The affected system's memory dump resides in C:\Users\johndoe\Desktop\memdump\PhysicalMemory.raw.
+Identifying the Memory Dump's Profile
+
+Let's start by obtaining OS & kernel details of the Windows memory sample being analyzed, leveraging Volatility's windows.info plugin.
+When a process allocates a memory page with PAGE_EXECUTE_READWRITE permissions, it's essentially requesting the ability to both execute and write to that memory region. In layman's terms, the process is saying, "I want to be able to run code from here, but I also want the flexibility to change what that code is on the fly."
+
+Now, why does that raise eyebrows? Well, legitimate applications typically segregate the tasks of code execution and data writing. They'll have specific regions of memory for running code (executable) and separate regions where data is written or modified. This separation is a fundamental security principle, ensuring that data isn't inadvertently executed or that executable regions aren't tampered with unexpectedly.
+
+However, many types of malware, especially those that employ code injection techniques, require the ability to write their payload into memory and then execute it. By allocating memory with PAGE_EXECUTE_READWRITE permissions, they can write and subsequently execute malicious code within the same memory region, making their malicious activities more streamlined and efficient.
+
+In essence, while not every instance of PAGE_EXECUTE_READWRITE is malicious, its presence is a strong indicator of potential malfeasance, and it's something we, as vigilant security analysts, should scrutinize closely.
+Identifying Running Processes
+
+Let's now list the processes present in this particular Windows memory image through Volatility's windows.pslist plugin as follows.
+Identifying Process Command Lines
+
+Volatility's windows.cmdline plugin can provide us with a list of process command line arguments as follows.
+pid.3648.dmp can be found inside the c:\Users\johndoe\Desktop directory of this section's target for your convenience.
+
+To glean more details about the process with ID 3648, we can employ YARA. By leveraging a PowerShell loop, we can systematically scan the process dump using all available rules of the https://github.com/Neo23x0/signature-base/tree/master YARA rules repository, which can be found inside the C:\Users\johndoe\Desktop\yara-4.3.2-2150-win64\rules directory of this section's target.
+Practical Digital Forensics Scenario
+
+PS C:\Users\johndoe> $rules = Get-ChildItem C:\Users\johndoe\Desktop\yara-4.3.2-2150-win64\rules | Select-Object -Property Name
+PS C:\Users\johndoe> foreach ($rule in $rules) {C:\Users\johndoe\Desktop\yara-4.3.2-2150-win64\yara64.exe C:\Users\johndoe\Desktop\yara-4.3.2-2150-win64\rules\$($rule.Name) C:\Users\johndoe\Desktop\pid.3648.dmp}
+HKTL_CobaltStrike_Beacon_Strings C:\Users\johndoe\Desktop\pid.3648.dmp
+HKTL_CobaltStrike_Beacon_4_2_Decrypt C:\Users\johndoe\Desktop\pid.3648.dmp
+HKTL_Win_CobaltStrike C:\Users\johndoe\Desktop\pid.3648.dmp
+CobaltStrike_Sleep_Decoder_Indicator C:\Users\johndoe\Desktop\pid.3648.dmp
+WiltedTulip_ReflectiveLoader C:\Users\johndoe\Desktop\pid.3648.dmp
+---SNIP---
+
+We notice some hits related to the Cobalt Strike framework.
+Identifying Loaded DLLs
+
+Upon scrutinizing the command lines, we identified arguments pointing to payload.dll for process 3648, with the Start function serving as a clear sign of payload.dll's execution. To further our understanding of the associated DLLs, we can employ Volatility's windows.dlllist plugin as follows.
+We notice E:\payload.dll in Volatility's output. Based on its location, we surmise it could originate from an external USB or perhaps a mounted ISO file. We'll earmark this DLL for a more in-depth analysis later on.
+Identifying Handles
+
+Next, let's identify the files and registry entries accessed by the suspicious process using Volatility's windows.handles plugin.
+
+When a process needs to read from or write to a file, it doesn't directly interact with the file's data on the disk. Instead, the process requests the operating system to open the file, and in return, the OS provides a file handle. This handle is essentially a ticket that grants the process permission to perform operations on that file. Every subsequent operation the process performs on that file - be it reading, writing, or closing - is done through this handle.
+
+Open handles can be a goldmine for forensic analysts. By examining the list of open handles, we can determine which processes were accessing which files or registry keys at a particular point in time. This can provide insights into the behavior of potentially malicious software or the actions of a user.
+It's evident (based on \Device\HarddiskVolume3\Users\johndoe\Desktop) that the process has interactions with certain files located on the Desktop, which warrants a closer look shortly.
+Identifying Network Artifacts
+
+Moving away from processes, Volatility's windows.netstat plugin can traverse network tracking structures to help us analyze connection details within a memory image.
+The suspicious process (PID 3648) has been communicating with 44.214.212.249 over port 80.
+Disk Image/Rapid Triage Data Examination & Analysis
+Searching for Keywords with Autopsy
+
+Let's first open Autopsy and access the case from C:\Users\johndoe\Desktop\MalwareAttack.
+
+Now, to trace payload.dll on the disk, we'll navigate through Autopsy and initiate a search for the payload.dll keyword, prioritizing results by their creation time.
+
+Forensic software displaying search results for 'payload.dll' with file details and locations.
+
+Among the 29 findings, the Finance08062023.iso file in the Downloads directory should pique our interest (recall the DLL on the E drive?). We can extract this file for subsequent scrutiny, by right-clicking and selecting Extract File(s).
+
+Forensic software displaying context menu options for 'payload.dll' file.
+
+Given the file's presence in the Downloads folder and a corresponding Chrome cache file (f_000003) pointing to similar strings, it's plausible that the ISO file was fetched via a browser.
+
+Forensic software displaying metadata for file f_000003, including name, type, and timestamps.
+Identifying Web Download Information & Extracting Files with Autopsy
+
+To extract web download details, we'll harness the capabilities of ADS. Within Autopsy, we can access the Downloads directory to locate our file. Here, the .Zone.Identifier information, courtesy of the Alternate Data Stream (ADS) file attributes, is invaluable.
+
+File listing showing names, modified times, sizes, and locations for various files in a directory.
+
+This identifier reveals the file's internet origin, and we can pinpoint the HostUrl from which the malicious ISO was sourced.
+
+Text metadata showing ZoneTransfer details and host URL for Finance08062023.iso.
+
+Corroborating our findings, Autopsy's Web Downloads artifacts confirm that Finance08062023.iso was sourced from letsgohunt[.]site.
+
+Forensic software displaying web downloads with file names, URLs, and access dates.
+
+Upon mounting the extracted ISO file, we notice that it houses both a DLL and a shortcut file, which leverages rundll32.exe to activate payload.dll.
+
+File explorer showing 'documents' shortcut properties with target location in System32.
+Extracting Cobalt Strike Beacon Configuration
+
+Given our knowledge of the attacker's use of Cobalt Strike, we can attempt to extract the beacon configuration via the CobaltStrikeParser script, that can found inside the C:\Users\johndoe\Desktop\CobaltStrikeParser-master\CobaltStrikeParser-master directory of this section's target as follows.
+Identifying Persistence with Autoruns
+
+For persistence mechanisms, let's inspect the C:\Users\johndoe\Desktop\files\johndoe_autoruns.arn file using the Autoruns tool.
+
+Within the Logon section, we notice a LocalSystem entry with the following details:
+
+    Registry path: HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+    Image path: C:\ProgramData\svchost.exe
+    Timestamp: Thu Aug 10 11:25:51 2023	(this is a local timestamp, UTC: 09:25:51)
+
+Autoruns interface displaying startup entries with descriptions, publishers, and image paths.
+
+Additionally, an odd photo433.exe executable has been flagged.
+
+photo433.exe has been extracted during the Rapid Triage process and resides inside the C:\Users\johndoe\Desktop\kapefiles\auto\C%3A\Users\johndoe\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ directory of this section's target.
+
+Its SHA256 hash can be identified by either using PowerShell as follows or through Autopsy.
+Practical Digital Forensics Scenario
+
+PS C:\Users\johndoe> Get-FileHash -Algorithm SHA256 "C:\Users\johndoe\Desktop\kapefiles\auto\C%3A\Users\johndoe\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\photo443.exe"
+
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+SHA256          E986DAA66F2E8E4C47E8EAA874FCD4DCAB8045F1F727DAF7AC15843101385194       C:\Users\johndoe\Desktop\kape...
+
+File listing with names, modified times, sizes, and hash values for files in the Startup folder.
+
+Metadata for photo443.exe, including file path, type, size, timestamps, and hash values.
+
+For a comprehensive assessment let's submit this hash to VirusTotal
+
+VirusTotal analysis showing 51 out of 71 security vendors flagged the file as malicious, with threat labels like trojan and disabler.
+
+By navigating to the Scheduled Tasks tab of the Autoruns tool, we uncover another persistence mechanism.
+
+Autoruns interface displaying scheduled tasks with descriptions, publishers, and image paths.
+Analyzing MFT Data with Autopsy
+
+While using the Autoruns tool to search for persistence, we came across the image path C:\ProgramData\svchost.exe.
+
+Let's dive into C:\ProgramData using Autopsy to find this file.
+
+File listing with svchost.exe, showing modified, change, access, and created times.
+
+Can you spot any irregularities? Timestomping is a crafty technique where adversaries modify a file's timestamps to blend in with surrounding files, making detection challenging for forensic tools and investigators. By accessing the file's metadata (File Metadata tab), we can pinpoint the MFT (Master File Table) attributes, which will reveal the genuine modification date.
+
+Notably, there's a discrepancy when contrasting the $FILE_NAME MFT Modified value with the $STANDARD_INFORMATION File Modified value.
+
+The $STANDARD_INFORMATION File Modified timestamp is what a user typically encounters when viewing file properties. This could lead someone to believe that the file has been present for a while and might be unrelated to any recent activity. However, $FILE_NAME MFT Modified holds the authentic timestamp, revealing the file's actual history.
+
+Metadata for svchost.exe showing MFT entry, file modified, accessed, and created times.
+Analyzing SRUM Data with Autopsy
+
+Reflecting on our findings, we recall that the malicious executable had an open handle directed at the Desktop folder. Through Autopsy we notice a file named users.db. Given the circumstances, it's plausible that the attacker intended to siphon this data from the system.
+
+File directory tree displaying folders like Program Files, Users, and Desktop.
+
+File listing with names, modified times, access times, and sizes for files on the Desktop.
+
+To validate our hypothesis, let's sift through Data Artifacts and access the Run Programs section. Our primary focus for network metadata analysis rests on SRUDB.dat.
+
+Data artifacts list with items like Chromium Extensions, Installed Programs, and Run Programs.
+
+File listing with program names, usernames, and data usage details.
+
+430526981 bytes may have been exfiltrated.
+Analyzing Rapid Triage Data - Windows Event Logs (Chainsaw)
+
+In our pursuit of understanding the events that transpired, let's employ the Chainsaw utility (residing in C:\Users\johndoe\Desktop\chainsaw) to analyze the Windows Event Logs available at C:\Users\johndoe\Desktop\kapefiles\auto\C%3A\Windows\System32\winevt\Logs as follows. Our objective is to pinpoint key events that transpired during our incident timeline.
+
+By piecing together the evidence, we can construct a comprehensive narrative of the attack, from its inception to its culmination.
+The results will be available inside the C:\Users\johndoe\Desktop\chainsaw\output_csv directory of this section's target.
+
+Upon examining sigma.csv (choose Fixed width in Separator Options), we observe the following alerts, among others related to the incident.
+
+    Cobalt Strike Load by rundll32 Screenshot of a system log showing a CobaltStrike load by Rundll32 with suspicious parent process. Details include file version, hashes, integrity level, and user information. The process is identified as a Windows host process with a specific command line and parent process details.
+
+    Cobalt Strike Named Pipe System log showing CobaltStrike named pipe event with rundll32.exe. Includes image path, pipe name, process ID, user, and timestamp.
+
+    System log showing CobaltStrike named pipe event with potential defense evasion. Details include image path, pipe name, process ID, user, and timestamp.
+
+    System log showing CobaltStrike named pipe event with rundll32.exe. Includes image path, pipe name, process ID, user, and timestamp.
+
+    Cobalt Strike's named pipe functionality enables covert communication between adversaries and compromised systems, facilitating post-exploitation activities in a stealthy manner.
+
+    UAC (User Account Control) Bypass/Privilege Escalation by Abusing fodhelper.exe System log showing Godmode Sigma Rule with PowerShell Base64 encoded command. Includes command line, process ID, and timestamp.
+
+    System log showing UNC2452 process creation with rundll32.exe. Includes command line, file version, hashes, process ID, user, and timestamp.
+
+    https://pentestlab.blog/2017/06/07/uac-bypass-fodhelper/
+
+    LSASS Access System log showing Mimikatz detection with LSASS access. Includes source and target images, process IDs, user, and timestamp.
+
+    Windows PowerShell Execution System log showing Godmode Sigma Rule with PowerShell Base64 encoded command. Includes command line, process ID, and timestamp.
+
+Upon examining account_tampering.csv, we observe that a new user was created (Admin) and added to the Administrators group. Spreadsheet showing account tampering logs with timestamps, event types, user details, and security paths.
+
+We can also identify new user creation through Autopsy as follows. Interface showing categories like Keyword Hits, User Content Suspected, and OS Accounts.
+
+Table listing user accounts with details like login name, host, scope, realm name, and creation time.
+Analyzing Rapid Triage Data - Prefetch Files (PECmd)
+
+Let's now dive into the system's execution history by analyzing the prefetch files (available at C:\Users\johndoe\Desktop\kapefiles\auto\C%3A\Windows\Prefetch) with PECmd.exe.
+Spreadsheet listing prefetch files with columns for source filename, run count, last run, and previous run times.
+Analyzing Rapid Triage Data - USN Journal (usn.py)
+
+Within the USN journal (available at C:\Users\johndoe\Desktop\kapefiles\ntfs\%5C%5C.%5CC%3A\$Extend\$UsnJrnl%3A$J), we can identify all files that were either created or deleted during the incident.
+If we look carefully enough, we will notice that flag.txt was deleted.
+Analyzing Rapid Triage Data - MFT/pagefile.sys (MFTECmd/Autopsy)
+
+We can leverage MFT in an attempt to recover flag.txt. Unfortunately, the affected machine's MFT table is not available.
+
+For completeness' sake, let's work on another system's MFT table (available at C:\Users\johndoe\Desktop\files\mft_data) where flag.txt was also deleted.
+
+Our initial step involves running MFTEcmd to parse the $MFT file, followed by searching for flag.txt within the report.
+The output provides the location of flag.txt on the system (\Users\johndoe\Desktop\reports).
+
+Let's now access the MFT file (C:\Users\johndoe\Desktop\files\mft_data) using MFT Explorer (available at C:\Users\johndoe\Desktop\Get-ZimmermanTools\net6\MFTExplorer)
+
+On the Desktop, within the reports folder, we discover flag.txt marked with the Is deleted attribute.
+The output provides the location of flag.txt on the system (\Users\johndoe\Desktop\reports).
+
+Let's now access the MFT file (C:\Users\johndoe\Desktop\files\mft_data) using MFT Explorer (available at C:\Users\johndoe\Desktop\Get-ZimmermanTools\net6\MFTExplorer)
+
+On the Desktop, within the reports folder, we discover flag.txt marked with the Is deleted attribute.
+
+Screenshot of MFT Explorer showing file directory, file details, and hex data for selected files.
+
+When files are deleted from an NTFS file system volume, their MFT entries are marked as free and may be reused, but the data may remain on the disk until overwritten. That’s why recovery isn't always possible.
+
+In the case of the compromised system the file was overwritten (that's why we used the MFT table of another system for the recovery exercise), but portions of its content were preserved in pagefile.sys.
+
+pagefile.sys is a designated system file in Windows that supplements your computer's RAM. When RAM nears its capacity, the system offloads less critical data, like certain files and applications, to the pagefile.
+
+With knowledge of the file's partial content, we can scour the disk and retrieve our flag from pagefile.sys through Autopsy.
+
+File details for pagefile.sys showing keyword preview, location, modified, change, access, and created times, size, and flags.
+
+Text viewer showing highlighted string '2023_Hello_you_found_our_flag' with additional encoded text.
+Constructing an Execution Timeline
+
+Given that the incident occurred between 09:13 and 09:30, we can use Autopsy to map out the attacker's actions chronologically.
+
+Behind the scenes, Autopsy employs Plaso.
+
+Let's make the following selections:
+
+    Limit event types to:
+        Web Activity: All
+        Other: All
+    Set Display Times in: GMT / UTC
+        Start: Aug 10, 2023 9:13:00 AM
+        End: Aug 10, 2023 9:30:00 AM
+
+Desktop with timeline editor showing prefetch files and events, including CHROME.EXE and RUNDLL32.EXE, with filters and event details.
+
+This will allow us to generate a timeline detailing the actions undertaken by the malicious actor.
+
+Timeline view showing prefetch files and events for applications like CHROME.EXE and RUNDLL32.EXE, with event details and filters.
+
+List timeline view:
+
+Event log showing program runs and web downloads, including CHROME.EXE and Finance08062023.iso, with timestamps and descriptions.
+
+By applying specific filters, we can pinpoint the files accessed or established during this particular window.
+The Actual Attack Timeline
+
+Here are the real actions taken by the attacker (i.e. not identified through digital forensics). Based on what you've learned up to this point, attempt to recognize and pinpoint any of these actions that remain undetected in this section.
+
+
+
+Upon identifying signs of data exfiltration from an unusual process on a system, the SOC manager tasked you with conducting a forensic investigation through Velociraptor.
+
+Once you've established a connection to the target of this section via RDP, visit the URL https://127.0.0.1:8889/app/index.html#/search/all and log in using the credentials: admin/password. After logging in, click on the circular symbol adjacent to Client ID. Subsequently, select the displayed Client ID and click on Collected.
+
+Answer the questions below through Velociraptor collections that gather artifacts similar to the ones presented in this module.
+
+Note: You can initiate Velociraptor collections in the same manner as Velociraptor hunts.

@@ -1,0 +1,15 @@
+What AWS Step Functions state type enables executing several different execution paths simultaneously?|Parallel state - useful for activities that don't depend on each other and can execute in parallel to make workflows complete faster
+When do messages move to an SQS dead-letter queue?|When they meet the Maximum Receives parameter (number of times a message can be received) and have not been deleted
+What is the maximum message size for Amazon SQS?|256 KB
+How do you send messages larger than 256 KB using SQS?|Save the file in S3 and send a link to the file through SQS
+What is the maximum message size for Amazon SNS?|256 KB (same as SQS)
+What is the read capacity limit for a single Kinesis shard?|2 MB per second or 5 transactions per second
+Is there a limit on the number of consumers for a Kinesis stream?|No limit on consumers as long as they stay within the stream's capacity based on number of shards
+What AWS service is best for ingesting large amounts of data in real time and performing real-time analytics?|Amazon Kinesis Data Streams
+What is the minimum latency for Kinesis Data Firehose analytics?|At least 60 seconds (not suitable for real-time analytics)
+How are records distributed across Kinesis shards when using a partition key?|Records with the same partition key will not be distributed across multiple shards (they stay together)
+What is the fan-out pattern in microservices architecture?|Combining SNS (pub-sub) with SQS (queuing) to provide scalability, decoupling, and flexibility for message distribution to multiple services
+What type of SQS queue ensures messages are processed exactly once and in order?|SQS FIFO queue (First-In-First-Out)
+Does message visibility timeout in SQS provide exactly-once delivery guarantee?|No, visibility timeout prevents re-delivery during processing but doesn't guarantee exactly-once delivery like FIFO queues do
+Does SQS Long Polling address duplicate message processing?|No, Long Polling optimizes message retrieval but does not address duplicate processing
+What is the difference between standard SQS and FIFO SQS queues?|Standard queues provide at-least-once delivery with best-effort ordering; FIFO queues provide exactly-once processing and maintain strict message order

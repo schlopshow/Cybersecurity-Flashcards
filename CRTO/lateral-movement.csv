@@ -1,0 +1,20 @@
+What is Lateral Movement as a tactic? | An adversary tactic where the attacker attempts to gain access to other computers on the network, typically using legitimate remote management protocols with administrative credentials
+What are the two general steps to achieve lateral movement? | Uploading a payload to a target, and then executing it remotely
+What is Windows Remote Management (WinRM)? | Microsoft's implementation of the WS-Management protocol that allows remote management of computers via PowerShell
+What is a key advantage of using WinRM for lateral movement? | It executes a payload entirely within memory, without requiring it to be dropped to disk
+In what context do Beacons executed via WinRM run? | In the context of the current or impersonated user
+What makes WinRM unique among remote-exec methods? | It is the only remote-exec method that returns output, making it useful for remote enumeration
+What is the PsExec technique named after? | A tool from the Sysinternals Suite used by system administrators to execute processes on remote systems via the Service Control Manager
+How does PsExec achieve remote execution? | It uploads a special service binary payload to disk, creates a new service to run it, the binary spawns a temporary process, injects Beacon shellcode into it, then closes itself so the service can be deleted immediately
+What makes PsExec unique among built-in lateral movement techniques? | It is the only built-in technique that performs remote injection by default
+What is SCShell and how does it differ from PsExec? | A BOF project that implements a variation of PsExec where an existing service is temporarily modified to run a payload and then restored afterwards, instead of creating a new service
+What are LOLBAS? | Living Off The Land Binaries and Scripts — binaries, scripts, or libraries native to Windows or downloadable from Microsoft, signed with Microsoft's official code-signing certificate, and having functionality useful to a threat actor such as arbitrary code execution
+What is MavInject? | A signed Microsoft executable that provides App-V functionality for injecting libraries into other processes, located in the System32/SysWOW64 directories on default Windows installations
+Why are LOLBAS generally more applicable to adversary emulation rather than simulation? | Because mature organisations can block them outright using application control technologies like AppLocker and WDAC, or log their use via process creation events from Sysmon or other monitoring tools
+What is the key difference between Windows logon types relevant to lateral movement? | Whether or not the credentials of the authenticating user are stored in LSASS on the remote target (NTLM hash, Kerberos TGT, or plaintext password)
+Which logon type does NOT leave credentials in LSASS on the remote target? | Network logon type
+What logon type do both WinRM and PsExec use? | Network logon type
+Why can domain enumeration fail after moving laterally via WinRM or PsExec? | Because Network logon does not store credentials in LSASS on the remote target, so no TGT is available to obtain service tickets (e.g. for LDAP) to authenticate to domain resources
+What is the solution when a lateral movement session lacks credential material for further authentication? | Leverage a user impersonation technique such as make_token or pass-the-ticket (ptt) to populate the Beacon session with credentials
+What should an operator consider before performing domain enumeration from a newly compromised session? | Whether the enumeration needs to be done from that session at all, or if it could instead be done from a session that already has credential material
+How can the jump and remote-exec commands be extended in Cobalt Strike? | Via Aggressor Script to add custom techniques leveraging post-ex capabilities such as PowerShell scripts, .NET assemblies, BOFs, and reflective DLLs

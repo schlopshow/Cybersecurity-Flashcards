@@ -1,0 +1,26 @@
+What credentials are required for AWS API access?|Access key ID and secret access key (and session token if short-term session)
+Are usernames and passwords used for AWS API access?|No, usernames and passwords are for AWS Management Console only, not for APIs
+What is the scope of most AWS API services?|Regional scope - services run and replicate data across multiple availability zones within an AWS region
+What type of credentials does the AWS SDK rely on?|Access keys (not passwords); best practice is to use IAM credentials, not AWS account credentials
+What type of IAM entity can have long-term security credentials?|Only IAM users can have long-term security credentials (not IAM roles)
+What is the best practice for providing AWS access to users who already have an external directory?|Use IAM roles and identity federation to provide short-term, session-based access instead of creating IAM users
+How do you scope DynamoDB access to a specific table instead of all tables?|Write a custom IAM policy to scope access to a specific table (DynamoDBFullAccess grants access to all tables)
+Does DynamoDB have its own concept of users?|No, DynamoDB uses the AWS API and relies on IAM for access control
+What tools can you use to view or manage AWS resources?|AWS Console, AWS CLI, or AWS SDK (all powered by a common set of web services on the backend)
+Are most AWS services isolated by region?|Yes, most AWS services are isolated by AWS region
+What is the correct format for an AWS region string?|Region string ends in a number (e.g., us-east-1), not a letter like availability zones (us-east-1a)
+If an IAM policy grants ListBucket access to a bucket, does it also grant access to objects in the bucket?|No, IAM is granular; ListBucket access doesn't grant access to operations on objects within the bucket
+What does the Version attribute in an IAM policy represent?|A specific version of the IAM policy language (not an expiration date)
+Are IAM user credentials limited to a single AWS region?|No, IAM is a global service and user credentials are valid across different AWS regions
+What are AWS managed policies and how are they maintained?|Policies maintained automatically by AWS as services change (designated by orange cube icon in console)
+Do you need to manually update AWS managed policies?|No, AWS updates them automatically and changes are reflected in user permissions without intervention
+What does the DynamoDBReadOnlyAccess policy apply to?|The resource wildcard (*), meaning it applies to any and all DynamoDB tables in the account regardless of when created
+Does rotating an IAM access key affect the attached IAM policy?|No, IAM policies are related to the IAM user, not the access key
+Are IAM policies scoped to specific AWS regions?|No, IAM policies are global in scope; you don't need custom policies per region
+Can you add IAM users to IAM roles?|No, you can add IAM users to IAM groups, but roles must be assumed for short-term sessions
+What does an IAM trust policy define?|Defines the principals who can request role credentials from AWS STS (Security Token Service)
+What do IAM access policies define?|Define what API actions can be performed with the credentials from the role
+What is the best practice for providing AWS access to a new team member?|Define an IAM user and add them to an IAM group to inherit appropriate permissions (don't use root account credentials)
+Can IAM roles provide long-term credentials?|No, roles can only be assumed for short-term sessions; there are no long-term credentials directly associated with roles
+Is the AWS API backend operating system or programming language specific?|No, it's accessed through web service calls and is OS and language agnostic
+How do you reduce latency for users accessing data from a specific geographic location?|Physically locate application resources closer to users (e.g., in Australia for Australian users) to decrease travel distance and latency

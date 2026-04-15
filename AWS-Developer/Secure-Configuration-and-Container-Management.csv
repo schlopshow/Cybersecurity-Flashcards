@@ -1,0 +1,20 @@
+What are you responsible for when using AWS Fargate?|Defining task definitions and services that specify container images and resource requirements (not managing EC2 instances)
+What does the minimumHealthyPercent parameter specify in ECS?|The minimum percentage of tasks that must remain in Running state during deployment to maintain service availability
+How does ECS handle tasks when there are insufficient resources during a service update?|ECS continues to attempt to launch tasks until successful; increase cluster size to add resources or set minimum in-service percentage to 0% to allow termination before launch
+Who manages the underlying cluster instances when using Fargate?|AWS provisions and manages underlying cluster instances; you don't need to manage maintenance and patching
+What is the Amazon ECS agent responsible for?|All on-instance tasks including downloading container images and starting or stopping containers
+What is service-oriented architecture (SOA) in the context of containers?|Using containers to implement discrete application components separately from one another to ensure availability and durability of each component
+How many containers can a single ECS task definition describe?|Up to 10 containers; to launch more, create multiple task definitions grouped by similar purpose, lifecycle, or resource requirements
+What is the most secure way to store and access sensitive data in Amazon ECS?|Use AWS Secrets Manager to store secrets and inject them as environment variables at runtime (not in task definitions or container images)
+What ECS feature enables launching multiple copies of the same container on different ports?|Dynamic host port mapping with Application Load Balancer (not supported by Classic Load Balancer)
+What ECS task placement policy distributes tasks across multiple availability zones and cluster instances?|Spread policy (considers availability zones when placing tasks)
+What is the best approach for storing many related configuration parameters and sensitive values in ECS?|Use Parameter Store for hierarchical configuration parameters and Secrets Manager for sensitive values
+What network mode must Fargate use?|awsvpc network mode (provides each task with its own ENI and private IP address within VPC; bridge and host modes only available on EC2 clusters)
+What is the advantage of using Secrets Manager with RDS for credential rotation?|Automatic credential rotation without direct involvement from administrators; applications simply fetch current values
+What is responsible for assigning unique IP addresses to pods in EKS clusters?|Amazon VPC Container Network Interface (CNI) plug-in (assigns IPs from VPC address space to each pod)
+What EKS feature helps scale cluster capacity by adding new nodes via Auto Scaling?|Cluster Autoscaler (adds nodes when pods cannot be scheduled due to resource constraints)
+What does the Horizontal Pod Autoscaler do in EKS?|Scales the number of pods up and down based on metrics (does not add cluster resources or nodes)
+Can you migrate an EKS cluster from EC2 to Fargate?|Yes, it can be done incrementally to take advantage of Fargate's serverless container management
+What is the purpose of ECS services?|Designed to always maintain desired number of tasks and start new ones if tasks fail
+Does changing ECS cluster capacity affect service scaling configuration?|No, changing cluster capacity does not affect service scaling settings
+Should you hard-code secrets in container images even if encrypted?|No, never hard-code secrets in images due to risk of leaking to version control and requiring full rebuild for updates

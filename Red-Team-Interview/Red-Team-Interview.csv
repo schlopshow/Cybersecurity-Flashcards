@@ -1,0 +1,147 @@
+How do you typically gain initial access to a target network? | Through phishing, exploiting vulnerabilities, or leveraging misconfigurations
+What are common methods for gaining initial access to a target network? | Phishing attacks, exploiting software vulnerabilities, brute-force attacks on authentication mechanisms, and social engineering
+What is the difference between phishing and spear phishing? | Phishing is a generic deceptive email attack aimed at many targets; spear phishing is targeted at a specific individual or organization using personalized information
+How can an attacker exploit vulnerable services to gain initial access? | By targeting known vulnerabilities in networked software such as unpatched operating systems, outdated software, or misconfigured internet-facing services
+What is DHCP and what does it do? | Dynamic Host Configuration Protocol — automatically assigns IP addresses and other network configuration parameters to devices on a network
+What is DNS and what does it do? | Domain Name System — translates human-readable domain names into IP addresses that computers use to communicate
+What are the four layers of the TCP/IP model? | Application, Transport, Internet, and Network Interface
+How does a VPN enhance network security? | It encrypts network traffic between a user's device and a VPN server, providing confidentiality and integrity over insecure networks
+What is Active Directory? | A directory service developed by Microsoft for managing network resources including users, computers, and groups in a Windows domain environment
+How are users and resources organized in Active Directory? | In a hierarchical domain structure that can contain organizational units (OUs) for further organization and delegation of administrative tasks
+What is the difference between authentication and authorization in Active Directory? | Authentication verifies the identity of users/computers; authorization determines the permissions granted to authenticated users or groups
+What are common Active Directory attack techniques? | Pass-the-hash, golden ticket attacks, and Kerberoasting
+Why is Active Directory a prime target for attackers? | It centralizes authentication and authorization services, so controlling it means controlling the entire network
+What is the difference between C and C++? | C is a procedural programming language; C++ is an object-oriented language that also supports procedural programming
+What are pointers in C/C++? | Variables that store memory addresses, allowing direct manipulation of memory locations and efficient memory management
+How is memory allocation managed in C vs C++? | In C, via malloc/free functions; in C++, often through constructors and destructors of objects
+How can PowerShell be used in Red Team scenarios? | For reconnaissance, lateral movement, and payload execution through its powerful scripting capabilities
+What are cmdlets in PowerShell? | Lightweight commands used for performing specific actions such as retrieving system information, managing files, or interacting with services
+What are Windows Internals? | The inner workings of the Windows OS including its architecture, kernel components, system services, and data structures
+What is the difference between user mode and kernel mode in Windows? | User mode is a restricted environment where apps run with limited resource access; kernel mode is privileged and has full access to hardware and system resources
+What are common DNS server misconfigurations that attackers can exploit? | Misconfigured DNS servers can be used for DNS spoofing, cache poisoning, or amplification attacks
+What are the main types of DNS records? | A (IPv4), AAAA (IPv6), CNAME (canonical name alias), MX (mail exchange), and NS (name server delegation)
+What is the Windows API? | A set of functions and data structures provided by the Windows OS that allows developers to interact with the system and perform tasks like file I/O, memory management, and GUI programming
+What is the difference between the Win32 API and the .NET Framework? | Win32 API is a native C/C++ interface for Windows; .NET Framework is a managed higher-level interface using languages like C# and VB.NET
+What are macro-based attacks? | Attacks that use malicious macros embedded in Office documents to execute unauthorized commands or download malware
+How can organizations defend against macro-based attacks? | Disabling macros by default, implementing policies restricting macro execution, and using email filtering to block malicious attachments
+What distinguishes APT groups from other threat actors? | They are typically state-sponsored or highly organized, with advanced capabilities and specific long-term objectives
+What are some well-known APT groups? | APT28 (Fancy Bear), APT29 (Cozy Bear), APT32 (OceanLotus), and APT41 (Winnti Group)
+What motivates APT groups? | Geopolitical, economic, or military objectives such as stealing intellectual property, espionage, disrupting infrastructure, or advancing national interests
+What is EDR and how does it differ from traditional antivirus? | Endpoint Detection and Response provides real-time monitoring, behavior analysis, and response capabilities, whereas traditional antivirus relies on signature-based detection of known malware
+What techniques do adversaries use to bypass EDR and antivirus? | Code obfuscation, fileless malware, process injection, DLL hijacking, and polymorphic malware
+What are common indicators of compromise (IOCs) for EDR bypass attempts? | Anomalous process behavior, unusual network traffic, unauthorized file system modifications, and triggered EDR/AV alerts
+What are the main categories of malware? | Viruses, worms, trojans, ransomware, spyware, adware, and rootkits
+What are the stages of the malware development lifecycle? | Reconnaissance, weaponization, delivery, exploitation, installation, command and control (C&C), and actions on objectives
+What programming languages are commonly used for malware development? | C/C++, Python, PowerShell, and Assembly language
+Why is system and kernel programming knowledge important for Red Teams? | It allows development of rootkits, device drivers, and other low-level tools for exploitation and persistence
+What is privilege escalation? | The process of gaining higher access levels than originally granted by exploiting vulnerabilities or misconfigurations
+What are the two main types of privilege escalation? | Local privilege escalation (LPE) — on the local system; remote privilege escalation (RPE) — across networked systems
+What are common privilege escalation techniques on Windows? | Exploiting misconfigured service permissions, abusing weak account privileges, exploiting unpatched vulnerabilities, and bypassing UAC
+What is post-exploitation? | Activities after gaining unauthorized access including maintaining access, gathering intelligence, escalating privileges, and lateral movement
+What are common post-exploitation techniques? | Establishing persistent access via backdoors or rootkits, harvesting credentials, exfiltrating data, escalating privileges, and lateral movement
+What is lateral movement? | The traversal of networked systems by an attacker to extend reach and compromise additional resources
+What methods are used for lateral movement? | Stolen credentials, exploiting unpatched vulnerabilities, abusing trust relationships, and using tools like RDP or PowerShell for remote access
+What is persistence in cybersecurity? | The ability of an attacker to maintain unauthorized access to a system or network over an extended period even after initial compromise
+What are common persistence techniques? | Creating backdoors, modifying startup processes, installing rootkits or malware, abusing scheduled tasks, and leveraging registry keys or service accounts
+What are common techniques for cracking password hashes? | Brute-force attacks, dictionary attacks, and rainbow table attacks
+What is a hash function in cybersecurity? | A mathematical algorithm that converts input data into a fixed-size hash value used for data integrity verification, password hashing, and cryptographic operations
+What is password hashing? | Converting user passwords into irreversible hash values before storing them, preventing plaintext exposure in a breach
+What is a hash collision? | When two different inputs produce the same hash value, potentially undermining the integrity of hash functions
+What is a C&C server? | A centralized communication hub used by attackers to remotely control compromised systems, exfiltrate data, distribute malware, and coordinate attacks
+What protocols do malware use for C&C communication? | HTTP, HTTPS, IRC, DNS, peer-to-peer networks, and custom protocols, often with encryption and obfuscation
+What is a DLL and how does it differ from a static library? | A Dynamic Link Library is dynamically linked at runtime and shared among multiple processes; a static library is linked at compile time into the executable
+How do attackers exploit DLL vulnerabilities? | Through DLL hijacking (replacing legitimate DLLs), DLL injection (injecting malicious code into a process), and DLL side-loading
+What is LDAP? | Lightweight Directory Access Protocol — used to access and manage directory services like Active Directory for centralized authentication, authorization, and directory lookups
+How can attackers abuse LDAP? | By extracting sensitive information, performing user enumeration, conducting reconnaissance, and exploiting misconfigurations to gain unauthorized access
+What are common evasion techniques used by attackers? | Obfuscating malicious code, encrypting payloads, fragmenting network traffic, abusing legitimate protocols, and using polymorphic malware
+What is steganography and how does it differ from cryptography? | Steganography hides the existence of a message within ordinary files; cryptography encrypts the message content to make it unreadable
+How is steganography used in cyber attacks? | To conceal malware payloads, C2 instructions, or stolen data within normal-looking files or network traffic to evade security detection
+What is Kerberoasting? | A technique where attackers extract Kerberos service tickets from Active Directory and offline-crack them to recover plaintext service account passwords
+What are the main components of Kerberos? | The Key Distribution Center (KDC) consisting of the Authentication Service (AS) and Ticket Granting Service (TGS), plus clients, servers, and service accounts
+What is Mimikatz? | A post-exploitation tool used to extract plaintext passwords, hashes, Kerberos tickets, and other credentials from memory and registry hives on Windows systems
+What common techniques does Mimikatz use? | Dumping credentials from LSASS memory, performing pass-the-hash and pass-the-ticket attacks, and manipulating Kerberos tickets
+How can organizations defend against Mimikatz? | Least privilege principles, enabling Credential Guard, patching known vulnerabilities, monitoring for credential dumping activity, and using MFA
+How can RDP be exploited by attackers? | Through weak credentials, vulnerabilities in RDP implementations, or insecure configurations to gain unauthorized system access
+What are common RDP vulnerabilities and attack vectors? | Brute-force against weak credentials, known exploits (e.g., BlueKeep), man-in-the-middle attacks, and social engineering to steal credentials
+What are NTLM's main security weaknesses? | Susceptibility to relay attacks, brute-force attacks, and pass-the-hash attacks due to weak cryptographic algorithms and lack of mutual authentication
+What is NTLM? | NT LAN Manager — a proprietary Windows authentication protocol that uses challenge-response messages to authenticate users
+What is YARA? | A pattern-matching tool used for identifying and classifying malware and suspicious files based on predefined rules and signatures
+How does YARA work? | By scanning files, memory, or data streams for byte patterns that match user-defined rules; supports complex expressions, conditions, and variables
+What is the difference between the Windows API and a DLL? | The Windows API defines the interface for interacting with the OS; a DLL is a file containing executable code and resources that can be dynamically linked at runtime
+What are common examples of system DLLs? | kernel32.dll and user32.dll — provided by Microsoft as part of the Windows OS
+What is the difference between antivirus and EDR? | Antivirus uses signature-based detection of known malware; EDR continuously monitors endpoints with behavioral analysis and machine learning to detect advanced threats
+What are key EDR capabilities beyond antivirus? | Real-time threat detection, endpoint visibility, advanced analytics, automated response, SIEM integration, threat intelligence feeds, and forensic data collection
+What is NTDLL? | NT Layer DLL — a core system library providing low-level functions and native API interfaces for interacting with the Windows kernel and system services
+How does NTDLL differ from KERNEL32.dll? | NTDLL is lower-level with direct access to core OS functionality; KERNEL32.dll provides a higher-level subset primarily for compatibility and standard application use
+What is the Native API in Windows? | A set of low-level programming interfaces (syscalls) provided by the Windows NT kernel for directly accessing system resources at the fundamental level
+How does the Native API differ from the Win32 API? | The Native API is lower-level and directly tied to the NT kernel; the Win32 API is higher-level, designed for user-mode application development with GUI support
+When would a developer use the Native API instead of Win32? | When needing fine-grained control over system resources, implementing functionality unavailable via Win32, or writing kernel-mode drivers
+What is a Windows driver? | A software component enabling communication between hardware devices and the Windows OS, acting as an intermediary layer for controlling hardware resources
+What are the types of Windows drivers? | Kernel-mode drivers, user-mode drivers, Plug and Play (PnP) drivers, and WDM (Windows Driver Model) drivers
+Why are device drivers a significant attack surface? | They run in kernel mode with direct hardware access, making them prime targets for exploitation and privilege escalation if they contain vulnerabilities
+What is tunneling in networking? | Encapsulating data packets of one protocol within another to traverse networks that don't natively support the encapsulated protocol
+How can attackers use tunneling to evade security controls? | By encapsulating malicious traffic within legitimate protocols to bypass firewalls, IDS, and content filters
+What is the shadow file and why is it important? | A secure file storing sensitive information like password hashes, kept in a protected directory to prevent unauthorized access to credentials
+What does the shadow file store? | User account information, encrypted passwords or cryptographic hashes, and additional attributes like account expiration and password policies
+What is the SAM file in Windows? | Security Accounts Manager — a database storing user account information including usernames, password hashes, SIDs, and security settings for local authentication
+How is the SAM file used during authentication? | It verifies user credentials by retrieving the stored password hash and comparing it against the hash derived from the user-provided password
+What is the Local Security Authority (LSA)? | A Windows subsystem responsible for enforcing security policies, authenticating users, managing security tokens, and handling access control
+What are the key functions of the LSA? | User authentication, authorization, security policy enforcement, security token management, and facilitating secure communication
+What is LSASS? | Local Security Authority Subsystem Service — the critical Windows process that hosts the LSA, manages authentication, and protects sensitive security data like passwords
+What are common security risks associated with LSASS? | Credential theft, memory-based attacks, denial of service, and malware persistence through code injection
+What is WDIGEST? | A Windows authentication protocol for HTTP using a challenge-response mechanism; it has a vulnerability of exposing password hashes in memory
+What are the security concerns with WDIGEST? | It exposes password hashes in memory, enabling pass-the-hash attacks and credential theft
+What is CredSSP? | Credential Security Support Provider — a protocol enabling secure delegation of user credentials across multiple network hops, used in RDP and PowerShell remoting
+How does CredSSP facilitate secure authentication? | Through mutual authentication and an encrypted TLS/SSL session, supporting both password-based and certificate-based methods
+What is MSV in Windows? | Microsoft Security Support Provider — handles NTLM authentication by validating credentials against the SAM database
+What is LiveSSP? | Windows Live Authentication — a security provider used to authenticate users with Microsoft Account (Live ID) credentials for accessing Microsoft services
+What is TSpkg? | Terminal Services Security Package — enables Single Sign-On (SSO) for remote desktop sessions so users don't need to re-enter credentials across multiple sessions
+What is CredMan (Credential Manager)? | A Windows component that securely stores and manages user credentials (usernames/passwords) for applications and websites, enabling auto-login
+What security measures does CredMan use to protect credentials? | Encryption, access controls, optional master password, and Credential Guard on modern Windows versions
+What are EDR, NDR, and XDR? | Endpoint Detection and Response, Network Detection and Response, and Extended Detection and Response — layered security solutions for detecting and responding to threats
+What is NDR's role in network security? | Monitoring network traffic to detect suspicious activities, intrusions, and data exfiltration across the network infrastructure
+How does XDR extend EDR and NDR? | By integrating data from multiple security sources (endpoints, network, cloud, email) and correlating telemetry across the environment for holistic threat detection
+What is polymorphic malware? | Malware that changes its appearance (code structure or byte sequence) each time it infects a system to evade signature-based detection while maintaining its core function
+What techniques does polymorphic malware use to evade detection? | Code obfuscation, encryption, and metamorphism to generate unique variants that look different from previous ones
+What is the difference between polymorphic and metamorphic malware? | Polymorphic malware changes specific code elements while keeping core functionality; metamorphic malware completely rewrites its own code while preserving functionality
+What is Pass-the-Hash (PtH)? | A technique where attackers use captured password hashes instead of plaintext passwords to authenticate and gain access to other systems
+What is Pass-the-Ticket (PtT)? | A technique where attackers steal authentication tickets (like Kerberos tickets) from a compromised system and reuse them to authenticate to other services
+What are Golden Tickets? | Forged Kerberos tickets created by attackers with domain controller access, granting unrestricted long-term access to any network resource without re-authentication
+How do attackers create Golden Tickets? | By extracting the KRBTGT account's password hash from a compromised Active Directory environment and using it to forge valid Kerberos tickets
+What is a firewall? | A network security device or software that monitors and controls network traffic based on security rules, acting as a barrier between trusted and untrusted networks
+What are the main types of firewalls? | Packet Filtering, Stateful Inspection, Proxy, Next-Generation (NGFW), and Unified Threat Management (UTM) firewalls
+What is the difference between a hardware and software firewall? | A hardware firewall is a physical device protecting the network perimeter; a software firewall is installed on individual devices for local protection
+What is WinDBG? | A powerful Microsoft debugger for analyzing crash dumps, debugging kernel-mode and user-mode code, and performing live debugging on Windows systems
+What are common use cases for WinDBG? | Analyzing BSODs, debugging device drivers, investigating memory vulnerabilities, performance profiling, and malware reverse engineering
+What is a Portable Executable (PE) file? | The standard Windows file format for executables, DLLs, object code, and drivers — it contains code, resources, and metadata needed for execution
+What are the main components of a PE file structure? | DOS Header, PE Header, Optional Header, Section Headers, and Data Sections (code, data, resources, import/export tables)
+What is ICMP? | Internet Control Message Protocol — a network-layer protocol used for error reporting and network diagnostic information between devices
+What are common ICMP message types? | Echo Request/Reply (ping), Destination Unreachable, Time Exceeded, Redirect, Parameter Problem, Source Quench, and Timestamp Request/Reply
+How can ICMP be used for network reconnaissance? | Through ping sweeps to discover live hosts and traceroute to map network paths using TTL manipulation
+What are major Microsoft frameworks for Windows development? | .NET Framework, .NET Core, ASP.NET, Windows Presentation Foundation (WPF), Windows Communication Foundation (WCF), and Universal Windows Platform (UWP)
+What is the .NET CLR? | The Common Language Runtime — the virtual machine component of .NET that manages execution of managed code, providing memory management, garbage collection, security, and exception handling
+What is the difference between a Windows service and a process? | A process is an instance of a running program; a service is a special background process providing specific functionality without user intervention
+What is svchost.exe? | A generic host process for Windows services that hosts multiple services in separate instances for efficiency and system stability
+How can attackers abuse svchost.exe? | By injecting malicious code into legitimate instances or creating malicious services that mimic legitimate ones for persistence and privilege escalation
+What is CIM (Common Information Model)? | A standard for representing and managing system and application properties in a unified manner, serving as the foundation for WMI in Windows
+What is WinDBG used for in malware analysis? | Reverse engineering and understanding malicious software behavior by debugging and inspecting memory, code execution, and system interactions
+What is the Sysinternals Suite? | A collection of advanced Windows system utilities developed by Mark Russinovich for diagnosing, troubleshooting, and monitoring Windows systems
+What are commonly used Sysinternals tools? | Process Explorer, Process Monitor (Procmon), Autoruns, TCPView, PsTools, and Disk Usage (DU)
+What is Process Explorer used for? | A feature-rich task manager providing detailed information about processes, DLLs, handles, threads, and system resources — more powerful than standard Task Manager
+What is Autoruns used for? | Managing and controlling programs and services configured to run automatically at Windows startup, helping identify malicious or unwanted auto-start entries
+What are undocumented Windows functions? | API functions or system calls that exist in Windows but are not officially documented by Microsoft, providing access to low-level functionality used by researchers and malware authors
+Why are undocumented functions significant for security researchers? | They reveal hidden OS features, help uncover vulnerabilities, and provide insights into system behavior not exposed through documented APIs
+What is the difference between Process Explorer and Process Hacker? | Process Explorer (by Sysinternals) is simpler and user-friendly; Process Hacker is open-source with advanced features like kernel-mode process manipulation, network monitoring, and malware detection tools
+What is the Common Language Runtime (CLR)? | The virtual machine component of .NET responsible for executing managed code, providing JIT compilation, garbage collection, exception handling, security enforcement, and thread management
+What are the key components of the CLR? | JIT Compiler, Garbage Collector, Exception Handling, Security Enforcement, Thread Management, Type System, and Execution Engine
+What is JIT compilation in the CLR? | Just-In-Time compilation — translates Common Intermediate Language (CIL) code into native machine code at runtime as methods are called
+What is the Base Class Library (BCL) in .NET? | A collection of pre-built reusable classes and APIs for common programming tasks like file I/O, networking, database access, and UI development
+How does UWP differ from traditional Windows desktop applications? | UWP apps run on multiple device types from a single codebase, are sandboxed for security, leverage modern Windows features, and are distributed via the Microsoft Store
+What is DNS rebinding and how can Red Teams use it? | A technique that bypasses network defenses by manipulating DNS to make a browser connect to internal resources; Red Teams use it to demonstrate risks and gain access to internal systems
+What are some methods to detect and disrupt C&C communications? | Monitoring network traffic for anomalies, blacklisting malicious domains/IPs, deploying IDPS, and using threat intelligence feeds
+What are common techniques for lateral movement? | Using stolen credentials, exploiting unpatched systems, abusing trust relationships, and leveraging RDP or PowerShell for remote access
+What challenges exist in detecting persistence techniques? | Diverse attack methods, difficulty distinguishing legitimate from malicious changes, need for continuous monitoring, and attacker use of anti-forensic techniques
+What is code access security in .NET CLR? | A security mechanism that grants or restricts permissions to code based on its origin and identity, preventing unauthorized operations
+What are the WDM driver features? | Power management, Plug and Play support, and WMI integration — providing a standardized framework for drivers compatible across multiple Windows versions
+What are ICMP flood attacks and how are they mitigated? | Attacks that overwhelm devices with ping packets causing DoS; mitigated by rate-limiting ICMP traffic, filtering at network boundaries, and using IPS
+What security measures prevent SAM file unauthorized access? | Strict file system permissions, encryption or secure storage, strong password policies, and regular auditing of access to the SAM file

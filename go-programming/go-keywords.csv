@@ -1,0 +1,49 @@
+What does the `break` keyword do? | Terminates the innermost `for`, `switch`, or `select` statement and transfers execution to the statement immediately following it.
+
+What does the `case` keyword do? | Defines a branch in a `switch` or `select` statement that executes when its condition matches.
+
+What does the `chan` keyword do? | Declares a channel type used for communication between goroutines. Channels can send and receive values of a specific type.
+
+What does the `const` keyword do? | Declares constants whose values are determined at compile time and cannot be changed during program execution.
+
+What does the `continue` keyword do? | Skips the rest of the current iteration in a `for` loop and proceeds to the next iteration.
+
+What does the `default` keyword do? | Specifies the fallback case in a `switch` statement when no other case matches, or a non-blocking operation in a `select` statement.
+
+What does the `defer` keyword do? | Schedules a function call to execute after the surrounding function returns, useful for cleanup operations. Deferred calls execute in LIFO order.
+
+What does the `else` keyword do? | Specifies code to execute when the `if` condition is false.
+
+What does the `fallthrough` keyword do? | Forces execution to continue into the next case in a `switch` statement, regardless of whether it matches.
+
+What does the `for` keyword do? | The only looping construct in Go; can be used as a traditional for loop, while loop, or to iterate over ranges.
+
+What does the `func` keyword do? | Declares a function or method with a name, parameters, return type, and body.
+
+What does the `go` keyword do? | Starts a new goroutine (lightweight thread) that runs the specified function concurrently.
+
+What does the `goto` keyword do? | Jumps execution to a labeled statement within the same function (rarely used in modern Go code).
+
+What does the `if` keyword do? | Executes code conditionally based on whether a boolean expression is true.
+
+What does the `import` keyword do? | Includes packages in your program, making their exported identifiers available for use.
+
+What does the `interface` keyword do? | Declares an interface type that specifies a set of method signatures that a type must implement.
+
+What does the `map` keyword do? | Declares a map type, which is a built-in hash table/dictionary that stores key-value pairs.
+
+What does the `package` keyword do? | Declares the package name at the beginning of every Go source file. Every Go program is made of packages.
+
+What does the `range` keyword do? | Used in `for` loops to iterate over elements of slices, arrays, maps, strings, or channels.
+
+What does the `return` keyword do? | Exits the current function and optionally returns one or more values to the caller.
+
+What does the `select` keyword do? | Waits on multiple channel operations simultaneously, executing the first case that becomes ready (like `switch` but for channels).
+
+What does the `struct` keyword do? | Declares a composite data type that groups together variables (fields) under a single name.
+
+What does the `switch` keyword do? | Provides multi-way branching based on value comparison or type. More flexible than switch in many other languages.
+
+What does the `type` keyword do? | Declares a new named type or creates a type alias. Used to define structs, interfaces, and custom types.
+
+What does the `var` keyword do? | Declares variables with an explicit type. Variables can be initialized at declaration or take their zero value.

@@ -1,0 +1,45 @@
+What is Privilege Escalation (TA0004)? | A tactic where adversaries exploit a vulnerability or misconfiguration to gain additional privileges beyond their current access level
+Why is privilege escalation often a necessary step? | It is frequently a prerequisite to carrying out additional tactics such as credential access
+What are the three main account groups relevant to privilege escalation on Windows? | Users (low-privilege), Administrators (local admin group), and Service User Accounts (built into Windows)
+What permissions do members of the local Administrators group have? | Full Control permissions over most objects on the computer, such as directories, files, and services
+What are the three built-in Windows service user accounts? | LocalService, NetworkService, and LocalSystem
+What is the LocalService account? | A built-in account with minimum privileges on the local computer that authenticates on the network using anonymous credentials
+What is the NetworkService account? | A built-in account with minimum privileges on the local computer that authenticates on the network as the computer by presenting the computer's credentials
+What is the LocalSystem (SYSTEM) account? | A built-in account with Full Control over most system objects; in some cases it has privileges that Administrators do not, making it generally the highest level of access obtainable on Windows
+Why do service user accounts not appear in net user output? | They are not recognised by the security subsystem — their privileges come from User Rights Assignments rather than local group membership
+What are User Rights Assignments? | Security policy settings that allow fine-grained control over account privileges, split into Logon Rights and User Rights
+What are Logon Rights in User Rights Assignments? | Settings that control how and where an account is authorised to log into a computer (e.g. SeBatchLogonRight allows login via a batch-queue service like Task Scheduler)
+What are User Rights in User Rights Assignments? | Settings that control access to objects and can override explicit permissions (e.g. SeBackupPrivilege allows reading any file even without explicit read access)
+Why are services one of the largest attack surfaces for privilege escalation? | Because they frequently run as SYSTEM and can be misconfigured or vulnerable in a variety of ways
+What are the main service-based privilege escalation techniques? | DLL Search Order Hijacking, Path Interception (via PATH variable, search order, or unquoted path), Weak Service File Permissions, Weak Service Registry Permissions, and generic software vulnerabilities
+What automated tools can help find service-based privilege escalation vulnerabilities? | PowerSploit and SharpUp, though manual analysis is also valuable
+What tools can be used to reverse engineer native applications for vulnerability research? | Ghidra or IDA Free for native apps; dotPeek or dnSpy for .NET applications
+What is Path Interception? | A class of vulnerability where an adversary drops an executable into a location where it will be executed before the intended legitimate one
+What is Path Interception by PATH Environment Variable (T1574.007)? | When additional directories are added to the machine PATH variable that are writable by standard users and appear before core directories like System32, allowing a malicious binary to be found first
+Where does the PATH environment variable get its entries from? | Two locations: User entries from HKEY_CURRENT_USER\Environment (user-modifiable) and Machine entries from HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment (standard users cannot modify)
+Why is software installed in the system root (C drive) particularly risky for PATH hijacking? | Because directories created directly in the C drive root are writable by standard users by default
+What is Path Interception by Search Order Hijacking (T1574.008)? | When an attacker can place a malicious binary in a directory that precedes the legitimate one in the process creation search order, exploiting how Windows APIs resolve relative paths
+How does the CreateProcess API behave differently depending on its parameters? | If lpApplicationName is provided, it only searches the current working directory; if not provided and lpCommandLine is used, it follows the full search order including PATH
+Why can cmd.exe typically not be hijacked via the PATH variable when abusing services? | Because services start with their current working directory set to C:\Windows\System32, and CreateProcess with lpApplicationName searches only the current working directory first
+What is Path Interception by Unquoted Path (T1574.009)? | When a service binary path containing spaces is not enclosed in quotation marks, causing CreateProcess to interpret the path at each space boundary, potentially executing a malicious binary placed at one of those interpreted locations
+What is an example of how an unquoted path like C:\Program Files\Bad Application\Bad Program.exe gets interpreted? | Windows tries to execute C:\Program.exe, then C:\Program Files\Bad.exe, then C:\Program Files\Bad Application\Bad.exe, and so on until it finds a match
+What type of payload must be used when exploiting service-based path interception vulnerabilities? | Dedicated svc.exe payloads must be used when abusing services
+What may an adversary need to do to trigger a service-based privilege escalation after dropping a malicious binary? | Stop and restart the service; if they lack that permission, they must wait for a computer restart
+What is Weak Service File Permissions (T1574.010)? | When the binary a service runs has a weak ACE allowing standard users to modify or overwrite it, so an adversary replaces it with their own payload to be executed when the service starts
+What makes exploiting weak service file permissions destructive? | The original service binary is completely overwritten with the attacker's payload
+What is Weak Service Registry Permissions (T1574.011)? | When the registry key for a service under HKLM\SYSTEM\CurrentControlSet\Control\Services has a weak ACE, allowing an adversary to modify the service configuration (such as the binary path) to execute a malicious payload
+What information is stored in a service's registry key? | The service name, description, binary path, and start-up user
+What is DLL Search Order Hijacking (T1574.001)? | A technique where an adversary places a malicious DLL of the same name in a directory higher in the search hierarchy than the legitimate DLL, causing the elevated process to load the malicious one instead
+Why do programs typically reference DLLs by name rather than full path? | Because the full path cannot be reliably known ahead of time — for example, Windows may not be installed on the C drive and applications may be installed in custom locations
+What is the DLL search order? | The sequence Windows follows to find a DLL by name — typically starting with the application's directory, then the current working directory, then System32, followed by other system and PATH directories
+What software vulnerability types can lead to privilege escalation (T1068)? | Buffer overflows, format strings, directory traversal, SQL or command injection, and deserialisation of untrusted data
+How can deserialisation vulnerabilities be exploited for privilege escalation? | If elevated software deserialises data from an untrusted location that a standard user can write to, the adversary can write a malicious binary blob that executes code when deserialised
+What tool is commonly used to generate .NET deserialisation gadgets? | ysoserial.net
+What is Mandatory Integrity Control (MIC)? | A Windows mechanism that helps control access to securable objects using integrity levels — a security principal cannot modify an object with a higher integrity level than their own
+What are the four integrity levels in Windows MIC? | Low, Medium, High, and System
+What integrity level does an administrator user receive by default, even if in the local Administrators group? | Medium integrity level by default
+What is User Account Control (UAC)? | A defence-in-depth feature of Windows that acts as a gatekeeper to MIC, requiring an administrator to explicitly request an elevated (high-integrity) context and accept a consent or credentials prompt
+What is the purpose of UAC? | To prevent malware running under an administrative user context from silently reading or modifying the system
+What are Cobalt Strike's two built-in primitives for executing code in a high-integrity context? | Elevators (run arbitrary commands via runasadmin) and Exploits (spawn a new high-integrity Beacon session via elevate)
+What is the difference between an elevator and an exploit in Cobalt Strike's UAC bypass context? | An elevator runs any arbitrary command with arguments in a high-integrity context; an exploit spawns an entirely new high-integrity Beacon session
+What execution methods can UAC bypass implementations in Cobalt Strike use? | PowerShell, .NET, reflective DLL, and BOF

@@ -1,0 +1,21 @@
+What is Pivoting (T1090)? | A tactic used by adversaries to proxy traffic in or out of a network when it would normally be disallowed, using a Beacon as the pivot point
+What are the two types of pivoting covered in this section? | SOCKS Proxies and Reverse Port Forwards
+What does SOCKS stand for? | SOCKet Secure
+What is SOCKS? | A protocol that exchanges network packets between a client and server via a proxy server
+How does a SOCKS proxy work in a Cobalt Strike context at a high level? | The team server listens on a port, traffic from the adversary's tools is routed through that port, packaged as a task, fetched by Beacon over C2, then forwarded to the internal target host — with responses travelling back the same way
+How does Beacon's sleep time affect SOCKS tunnelling speed? | The lower the sleep time, the quicker traffic can be tunnelled through the C2 channel
+What are three advantages of tunnelling tools through a SOCKS proxy rather than running them directly on a compromised host? | Some tools are written in languages not available on Windows; it reduces detection surface by removing execution indicators on the host; and it allows GUI tools to be run directly on the attacker machine
+What detection indicators are avoided by tunnelling tools remotely via SOCKS instead of running them on the host? | Indicators created by BOF, .NET assembly, or reflective DLL execution that can be logged by security vendors — only network traffic remains
+What is Proxifier? | A Windows tool that forces TCP traffic through a proxy server
+When configuring a proxification rule in Proxifier, what should be specified to avoid routing all traffic through the proxy? | The IP range and/or domain names of the target internal hosts, so only traffic destined for the internal network goes through the proxy
+What are the most common ways to authenticate to domain resources through a SOCKS proxy? | Plaintext credentials or Kerberos tickets (NTLM is considered deprecated in modern tradecraft)
+Why does Kerberos authentication through a proxy require static host entries on the attacking machine? | Because Kerberos requires the use of hostnames rather than IP addresses
+Can RSAT tools be installed on a non-domain-joined machine? | Yes, the official Remote Server Administration Tools can be installed on any Windows machine regardless of domain join status
+How can RSAT PowerShell cmdlets be used with plaintext credentials through a proxy? | By creating a credential object with Get-Credential and passing it to the RSAT cmdlets using the -Credential parameter
+When using Kerberos tickets through a proxy, why must service tickets be requested manually? | Because Windows cannot automatically request them in this context — you cannot rely on Windows doing it automatically
+What ticket format does Impacket and other Linux tools require for Kerberos authentication? | ccache format (as opposed to the kirbi format used by Windows/Rubeus)
+What tool can convert Kerberos tickets between kirbi and ccache formats? | ticketConverter.py (from Impacket)
+What environment variable must be set for Linux tools like Impacket to use a Kerberos ticket? | KRB5CCNAME, set to the path of the ccache ticket file on disk
+What is proxychains? | A Linux tool that forces TCP traffic made by a given application to route through a configured proxy
+Does WSL inherit static host entries added in Windows? | Yes, WSL inherits static host entries from Windows, so they do not need to be added separately to /etc/hosts
+What nmap scan flags are recommended when scanning through proxychains? | Use -n (no DNS), -sT (TCP connect scan), and -Pn (skip host discovery), as ICMP and UDP do not work through a SOCKS proxy

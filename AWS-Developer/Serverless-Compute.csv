@@ -1,0 +1,20 @@
+How can you update Lambda functions without changing code references everywhere?|Use Lambda aliases - keep existing functions intact, create new versions, and reassign the PROD alias to the new version when ready
+What is the maximum amount of memory for a Lambda function?|10 GB
+What is the default timeout value for a Lambda function?|3 seconds (can be set from 1 second to 900 seconds/15 minutes)
+What is the maximum processing time for Lambda functions?|900 seconds (15 minutes)
+How can you increase Lambda CPU performance?|Increase RAM allocation - CPU cannot be increased directly but scales proportionally with memory
+What should you do if Lambda processes are timing out due to long execution times?|Check timeout configuration is adequate, increase RAM (which increases CPU), or break process into steps using Step Functions
+What programming language is NOT supported by Lambda?|Rust (as of the writing date)
+What is the default limit for concurrent Lambda executions?|1,000 concurrent executions (soft limit that can be raised through AWS Support)
+What is the difference between Lambda function policy and execution policy?|Function policy defines which AWS resources can invoke the function; execution policy (IAM role) defines which AWS resources the function can access
+How does Lambda handle failed executions for asynchronous invocations?|Lambda automatically retries failed executions and can forward unprocessed payloads to a Dead Letter Queue (SQS or SNS)
+What is the best way to manage multiple configuration values for Lambda?|Use Systems Manager Parameter Store with hierarchical values to fetch many configuration items at once
+Should you use environment variables for all Lambda configuration?|Environment variables are suitable for non-sensitive values, but centralize configuration administration in Parameter Store
+What is the most cost-efficient way to trigger Lambda for processing S3 uploads?|Configure S3 event notifications to trigger Lambda directly when objects are uploaded (more efficient than scheduled polling)
+How should you send daily status messages to multiple administrators?|Create an SNS topic, subscribe administrators, and use EventBridge with a daily cron schedule to send messages to the SNS topic
+Does SQS support subscriptions for broadcasting messages?|No, SQS queues do not support subscriptions (use SNS for pub-sub)
+Can Lambda send outgoing email on port 22?|No, port 22 is blocked on Lambda as an antispam measure (email uses port 25, and port 22 is for SSH)
+What happens when Lambda function has access issues with S3?|The function executes but cannot access S3 objects - this indicates an execution policy/IAM role issue, not a function policy issue
+Can you use Step Functions to orchestrate long-running Lambda processes?|Yes, breaking processes into steps with Step Functions avoids timeout errors and provides better insight into performance
+What are Dead Letter Queues (DLQ) used for in Lambda?|To alert you to processing issues and allow retry of failed executions (can be SQS queue or SNS topic)
+Will a DLQ retry solve Lambda timeout issues?|No, if processing time is too long, a retry won't fix it - you need to increase timeout, increase RAM/CPU, or break into smaller steps

@@ -1,0 +1,84 @@
+What is Active Directory (AD)?|A directory service for Windows enterprise environments released in 2000, based on x.500 and LDAP protocols, providing centralized management of organizational resources including authentication, accounting, and authorization
+What does compromising Active Directory mean for an organization?|Unrestricted access to all systems and data, violating confidentiality, integrity, and availability. It compromises all applications, systems, and data rather than just a single system
+What are the three main components of AD hierarchy?|Domain (group of objects sharing same AD database), Tree (one or more domains grouped), Forest (group of multiple trees, topmost level)
+What is a Domain Controller's role?|Provides authentication and authorization to services and users, has topmost priority and authority, administers the entire Active Directory
+What file is most critical in an AD environment and where is it stored?|NTDS.DIT file, stored in %SystemRoot%\NTDS folder on domain controllers, contains all directory information
+What can a regular AD user account with no privileges enumerate?|Domain computers, users, group information, default domain policy, functional levels, password policy, GPOs, Kerberos delegation, domain trusts, and ACLs
+What are the three authentication methods in Windows environments?|Username/password (stored as password hashes), Kerberos tickets (Microsoft's implementation), and authentication over LDAP (via username/password or certificates)
+What is the KDC and what are its components?|Key Distribution Center - a Kerberos service on DC that creates tickets. Components are Authentication Server (AS) and Ticket-Granting Server (TGS)
+What are the two types of Kerberos tickets?|TGT (proof client submitted valid user info to KDC) and TGS (created for each service the client wants to access)
+What is the KRBTGT account?|First account created in AD domain, disabled but vital for storing randomly generated keys as password hashes. Used to create KDC key proving TGT validity
+What groups have the most privileged access in AD?|Domain Admins and Administrators (access all domain-joined machines), Enterprise Admins (permissions over all domains in forest)
+Why is the Account Operators group dangerous?|Can reset user passwords without proper delegation, violating least privilege. Creates escalation path to Domain Admins through MSOL accounts
+What logon types leave credentials on accessed systems?|All logon types except Network logon (type 3) leave username and password traces on authenticated systems
+What is SYSVOL?|Network share on all Domain Controllers containing logon scripts, group policy data, and domain-wide data. All group policies stored in \\<DOMAIN>\SYSVOL\<DOMAIN>\Policies\
+What are the six important network ports in Windows environments?|53 (DNS), 88 (Kerberos), 135 (WMI/RPC), 137-139 & 445 (SMB), 389 & 636 (LDAP), 3389 (RDP), 5985 & 5986 (PowerShell Remoting/WinRM)
+What is an example of AD complexity issue?|Nested group membership - difficult to track who is member of which groups, sometimes resulting in every Domain User indirectly being Domain Admin
+What is an example of AD design limitation?|GPOs stored in SYSVOL accessed via SMB, which allows code execution. Valid credentials enable remote command execution on Domain Controllers over SMB
+What is an example of AD legacy issue?|NetBIOS and LLMNR protocols enabled by default, broadcasting user credentials (usernames, passwords, hashes) on the wire when DNS fails
+What is Kerberoasting?|Post-exploitation attack obtaining Kerberos TGS tickets encrypted with service account NTLM hash, performing offline password cracking to recover passwords
+What determines Kerberoasting success?|Service account password strength and encryption algorithm used (AES slower to crack than RC4 or DES)
+What flag indicates RC4 encryption in Event ID 4769?|Ticket Options field set for RC4 in the event log entry
+How to prevent Kerberoasting?|Use 100+ random character passwords (127 max), implement Group Managed Service Accounts (GMSA) with automatic 127-char passwords, remove unnecessary SPNs
+What is a honeypot user for Kerberoasting?|Relatively old user (2+ years) with strong password, unchanged for years, has privileges, has legitimate-looking SPN (IIS/SQL), no regular service tickets generated
+What is AS-REProasting?|Attack obtaining crackable hashes for user accounts with "Do not require Kerberos preauthentication" property enabled
+How to prevent AS-REProasting?|Only use "Do not require preauthentication" when needed, assign separate password policy requiring 20+ characters for affected users
+What Event ID indicates Kerberos authentication ticket generation?|Event ID 4768, generated for every Kerberos authentication but useful when correlating with known good logins or unusual VLANs
+What is GPP Passwords vulnerability?|Group Policy Preferences stored credentials in XML files in SYSVOL using published AES key, allowing anyone to decrypt them
+When was GPP Passwords patched and what does patch do?|KB2962486 in 2014, prevents caching new credentials but doesn't clear existing ones from pre-2014 environments
+What Event ID indicates file access for GPP detection?|Event ID 4663 when user reads XML file containing credentials
+What is a GPO?|Group Policy Object - virtual collection of policy settings with unique name, linked to OUs to apply settings to objects within
+What makes a GPO vulnerable?|Permissions allowing "Authenticated Users" or "Domain Users" to modify it, or misconfigured NTFS permissions on deployed files
+What Event ID indicates GPO modification?|Event ID 5136 when Directory Service Changes auditing enabled
+What are common locations for credentials in network shares?|Scripts and configuration files (batch, cmd, PowerShell, conf, ini, config) on shares accessible to many users
+What are four reasons shares become accessible to everyone?|Admin opens share to everyone, admin unaware folder is shared, temporary share forgotten, misconception about hidden shares (ending in $)
+What makes hidden shares (ending in $) insecure?|Explorer doesn't display them but other tools do. Not a security measure, just hidden from default view
+What Event IDs indicate failed authentication attempts?|Event IDs 4625 (failed logon), 4771 (Kerberos pre-auth failure), 4776 (credential validation failure)
+What properties commonly contain exposed passwords?|Description and Info properties of user objects, readable by all domain users despite admin assumptions
+How to prevent credentials in object properties?|Continuous assessment, employee education, automate user creation to reduce manual handling
+What is DCSync attack?|Impersonating Domain Controller to perform replication with targeted DC, extracting password hashes from Active Directory
+What permissions enable DCSync?|"Replicating Directory Changes" and "Replicating Directory Changes All" assigned to user or computer account
+How to prevent DCSync?|Use RPC Firewall to block/allow specific RPC calls, only allowing replications from Domain Controllers
+What Event ID detects DCSync?|Event ID 4662 generated for each DC replication. Alert when initiator is not a Domain Controller
+What properties in Event 4662 indicate DCSync?|Property 1131f6aa-9c07-11d1-f79f-00c04fc2dcd2 or 1131f6ad-9c07-11d1-f79f-00c04fc2dcd2 present in event
+What is Golden Ticket attack?|Creating forged Kerberos TGTs using KRBTGT password hash, acting as Domain Controller to create tickets for any user with any privileges
+What makes Golden Ticket powerful?|KRBTGT hash signs all Kerberos tickets, so forged tickets are trusted domain-wide. Allows escalation from child to parent domain
+How to prevent Golden Ticket?|Block privileged users from authenticating to any device, periodically reset KRBTGT password, enforce SIDHistory filtering between domains
+Why reset KRBTGT password twice?|Password history stores 2 most recent passwords. Resetting twice clears old passwords, preventing DC replication with old password
+What is recommended time between KRBTGT password resets?|At least 10 hours apart (maximum user ticket lifetime) to avoid breaking services
+What Event ID shows successful logon for Golden Ticket detection?|Event IDs 4624 and 4625 (successful/failed logon), correlate with user behavior, location, and Privileged Access Workstations
+What is Kerberos Delegation?|Allows application to access resources on different server on behalf of user without giving service account direct access
+What are three types of Kerberos Delegation?|Unconstrained Delegation (most permissive), Constrained Delegation (specific services), Resource-based Delegation (configured on target computer)
+What makes Constrained Delegation vulnerable?|Can request Kerberos ticket for any user and perform protocol transition to services not explicitly configured
+How to prevent Kerberos Delegation abuse?|Configure "Account is sensitive and cannot be delegated" for privileged users, add to Protected Users group, use strong passwords
+What is the PrinterBug?|RPC functions RpcRemoteFindFirstPrinterChangeNotification(Ex) can force remote machine to authenticate to any reachable machine with TGT
+What is Microsoft's stance on PrinterBug?|Will not fix as it is "by-design" behavior
+What are four ways to exploit PrinterBug?|Relay to another DC for DCSync, force connection to Unconstrained Delegation server, relay to ADCS for certificate, relay for Resource-Based Delegation
+How to prevent PrinterBug?|Disable Print Spooler on non-printing servers, set RegisterSpoolerRemoteRpcEndPoint registry key to 2 to block remote requests
+What registry key prevents PrinterBug while keeping service running?|RegisterSpoolerRemoteRpcEndPoint set to 2 (1 enables, 2 disables remote RPC endpoint)
+What are coercing attacks?|Attacks using various RPC functions to force remote machines to authenticate to attacker-controlled machine
+What tool exploits all known vulnerable RPC functions?|Coercer tool, developed to exploit multiple vulnerable RPC functions simultaneously
+How to prevent coercing attacks?|Implement RPC firewall to block dangerous RPC functions, or block outbound ports 139/445 from DCs except required machines
+What is Unconstrained Delegation?|Most permissive delegation allowing account to delegate to any service, caches TGTs in memory of trusted server
+How does coercing with Unconstrained Delegation work?|Force DC to connect to UD server, TGT cached in UD server memory, export with Rubeus/Mimikatz, use for authentication
+What are ACLs in Active Directory?|Access Control Lists - tables defining trustees with access to specific objects and their access type
+What is an ACE?|Access Control Entry - defines trustee and access type within an ACL. Multiple ACEs can exist per object
+What is a common ACL misconfiguration?|All Domain Users added as Administrators to servers, Everyone can modify all objects, all users access LAPS passwords
+What can full rights over user object enable?|Add SPN for Kerberoasting, reset password to inherit all user's rights and privileges
+What can full control over computer object enable?|Obtain LAPS password for local Administrator, abuse Resource-Based Kerberos Delegation to authenticate as anyone
+How to prevent ACL abuse?|Continuous assessment, educate privileged employees, automate access management, assign privileges only to admin accounts
+What Event ID indicates user account modification?|Event ID 4738 "A user account was changed" but doesn't show specific changed properties
+What Event ID indicates password reset?|Event ID 4724 generated when ACL abuse leads to password reset
+What Event ID indicates computer account modification?|Event ID 4742, indicates account used maliciously but limited information on what changed
+What is AD CS?|Active Directory Certificate Services - PKI infrastructure for issuing and managing certificates in Windows environments
+What are advantages of certificate-based authentication?|Valid 1+ years, password reset doesn't invalidate certificate, can forge certificates for any user, compromising CA enables golden certificates
+What is ESC1 vulnerability?|Domain escalation via no issuance requirements, enrollable client authentication OID templates, CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT flag
+What makes certificate template vulnerable to ESC1?|All domain users can enroll, CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT allows requester to specify SAN, no manager approval, usable for client authentication
+How to prevent ESC1?|Disable CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT flag, require CA manager approval before issuing certificates, regularly scan with Certify
+What Event IDs indicate certificate request and issuance?|Event ID 4886 (received request) and 4887 (issued certificate) logged on CA machine
+Where can you view issued certificates and SAN?|CA's list of issued certificates, need to open individual certificate to view Subject Alternative Name
+What is ESC8 vulnerability?|Relaying authentication to ADCS HTTP endpoint to obtain certificate, known as NTLM relay to certificate services
+How does ESC8 attack work?|Use PrinterBug/Coercer to force machine connection, relay to ADCS HTTP endpoint, obtain certificate for coerced machine
+How to prevent ESC8?|Prevent successful coercion, enforce HTTPS on ADCS web enrollment (prevents relay), regularly scan for PKI issues
+What indicates relayed certificate request in Event 4886?|Template name mentioned as part of request (not present when DC requests its own certificate)
+What must be done if AD forest is compromised?|Reset all user passwords, revoke all certificates, reset KRBTGT password twice in every domain (10+ hours apart)

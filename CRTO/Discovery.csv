@@ -1,0 +1,41 @@
+What is the Discovery tactic (TA0007)? | An adversary attempts to enumerate information about the environment they're operating in — including systems, resources, users, misconfigurations, and vulnerabilities — typically as a prerequisite to lateral movement
+What privilege level is required for basic Active Directory enumeration queries? | Standard domain user — queries for users, groups, OUs, GPOs, etc. can all be performed without elevated privileges
+What protocols are commonly used for Active Directory enumeration? | LDAP (port 389), LDAPS (port 636), and ADWS (Active Directory Web Services), which wraps LDAP queries in HTTP requests
+What is BloodHound? | A tool created by SpecterOps to help security professionals discover, understand, and visualise attack paths within identity providers such as on-prem Active Directory and Entra ID
+What are the two editions of BloodHound and their intended audiences? | Community Edition is designed for offensive security use; Enterprise Edition is designed for defence
+What tools are used to collect identity data for BloodHound? | SharpHound, AzureHound, and BloodHound.py
+Why is running default BloodHound collectors risky against a mature security team? | Security vendors have signatured the hardcoded queries, network traffic for session enumeration, and large/slow AD data retrievals — LDAP queries can also be logged both client-side and server-side
+What is the recommended alternative approach to running default BloodHound collectors? | Run custom data collection queries using a tool like ldapsearch, then use BOFHound to parse the output into BloodHound-compatible JSON files that can be imported into the UI
+What is LDAP and how does a client establish a session? | An industry standard protocol for accessing directory service information — clients establish a session with a domain controller on TCP port 389 (LDAP) or 636 (LDAPS), authenticated via domain context or explicit credentials
+What is an objectClass in Active Directory LDAP? | An attribute associated with every directory object that defines the types of attributes that object can have
+What are some common Active Directory objectClass values? | computer, domain, group, person, groupPolicyContainer, organizationalUnit, and trustedDomain
+Why can searching for all 'user' or 'person' objects return unexpected results? | Computer accounts have objectClass values of person, organizationalPerson, user, and computer — so querying for person or user will also return computer accounts
+Why should indexed fields be preferred in LDAP queries? | Searching by indexed fields is significantly faster than non-indexed fields, and choosing efficient queries is also relevant to OPSEC
+What is the sAMAccountType value used to filter for regular user accounts? | 805306368 (0x30000000 in hex), which corresponds to SAM_NORMAL_USER_ACCOUNT
+What does the adminCount attribute being set to 1 indicate on a user object? | The user account is or was a member of a privileged group that is protected by the AdminSDHolder mechanism
+How are AND conditions represented in LDAP filter syntax? | Using the & character at the beginning of the grouping — e.g. (&(condition1)(condition2))
+How are OR conditions represented in LDAP filter syntax? | Using the | character at the beginning of the grouping — e.g. (|(condition1)(condition2))
+How are NOT/exclusion conditions represented in LDAP filter syntax? | Using the ! character — e.g. (!(attribute=value))
+What is the LDAP_MATCHING_RULE_BIT_AND OID and what is it used for? | OID 1.2.840.113556.1.4.803 — used to perform a bitwise AND operation, particularly useful for querying flag-based attributes like userAccountControl
+What is the userAccountControl attribute? | A set of bitwise flags on user and computer objects that define various account properties and states, such as delegation configuration or whether the account is disabled
+What bitwise value is used to find computers configured for unconstrained delegation? | 524288, which corresponds to the TRUSTED_FOR_DELEGATION flag in userAccountControl
+What is the LDAP_MATCHING_RULE_IN_CHAIN OID and what is it used for? | OID 1.2.840.113556.1.4.1941 — used to query the full ancestry chain of an object, allowing recursive group membership resolution without manually querying each nested group
+What is the Expensive Search Results Threshold detection? | A server-side detection that triggers when a query returns more results than a configured threshold — caused by extremely broad queries like (objectClass=*)
+What is the Search Time Threshold detection? | A server-side detection that triggers when a query takes longer than a configured number of milliseconds — affected by result size and the number of attributes requested
+What attributes contribute most to slow LDAP query times? | Requesting all attributes with wildcards combined with ntsecuritydescriptor produces the slowest queries — limiting attributes to essentials like samaccounttype, distinguishedname, objectsid, and ntsecuritydescriptor reduces this
+What is the Inefficient Search Results Threshold detection? | A server-side detection that triggers when a query visits more than a configured number of objects but returns fewer than 10% of them — even targeted, narrow queries can trigger this if the domain is large
+What strategy helps avoid the Inefficient Search Results Threshold? | Enumerating all relevant attributes for all objects of a type in a single query — returning all visited objects makes the query efficient, and keeping the attribute list small keeps it fast
+What is BOFHound? | A Python script (not a BOF) that parses the raw output of ldapsearch and other tools into BloodHound-compatible JSON files that can be imported into the BloodHound UI
+What does an object in BloodHound represented only by a SID or 'no name or id' indicate? | No data has been collected on that object yet — a targeted LDAP query using its objectsid should be run to gather its attributes
+What is restricted group data in the context of BloodHound? | Local group memberships defined and applied via GPOs — this data cannot be collected via LDAP alone and must be read from policy files in SYSVOL, otherwise BloodHound will be missing important edges
+Where is restricted group membership data stored within a GPO? | In a file called GptTmpl.inf inside the Machine's SecEdit folder within the GPO's SYSVOL path
+What format does the GptTmpl.inf Group Membership section use to express membership? | It maps a domain group SID to a local group SID using the format: *<domain-group-SID>__Memberof = *<local-group-SID>
+What is the built-in Windows Administrators local group SID? | S-1-5-32-544
+How can manually discovered admin relationships be added to BloodHound? | By running a custom Cypher MERGE query to create an AdminTo edge between the relevant computer and group objects using their SIDs
+What are WMI filters in the context of GPOs? | Additional criteria applied to a GPO that use WMI queries to conditionally restrict which computers the GPO is applied to — for example, limiting application to computers running a specific Windows version
+What is the relationship between WMI filters and GPOs? | A one-to-many relationship — a GPO can only have one WMI filter applied at a time, but a single WMI filter can be applied to multiple GPOs
+How is a WMI filter linked to a GPO in Active Directory? | By setting the GPO's gPCWQLFilter attribute to reference the GUID of the WMI filter object
+Where are WMI filter objects stored in Active Directory? | In the CN=System,CN=WmiPolicy,CN=SOM container as objects of class msWMI-Som
+What attributes of an msWMI-Som object are important for understanding a WMI filter? | msWMI-Name contains the display name and msWMI-Parm2 contains the actual WMI query
+Why is BloodHound's handling of WMI filters a limitation? | At the time of writing, BloodHound does not collect, display, or evaluate WMI filters when building its graphs — meaning GPO-to-computer edges may appear to apply when they actually do not due to a filter
+What recommended query methodology minimises OPSEC risk during AD enumeration? | Performing small, efficient, targeted LDAP queries spread over several days or weeks rather than large bulk collections — building up a picture of the environment gradually

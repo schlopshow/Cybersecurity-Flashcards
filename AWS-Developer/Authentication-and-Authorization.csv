@@ -1,0 +1,23 @@
+How do you authenticate users external to your AWS account?|Use a third-party Identity Provider (IdP) to confirm identity, then assign policies based on that confirmation
+What is the primary function of an Identity Provider (IdP)?|Answers the question "Who are you?" and enables policy assignment based on identity confirmation
+What is the primary function of a Service Provider?|Controls access to applications and infrastructure based on policies assigned by the IdP
+What security practice minimizes the impact of lost or compromised credentials?|Using multifactor authentication (MFA)
+Why should you avoid embedding credentials in applications?|It creates a security risk and makes credential administration much more difficult
+What version of SAML should be used as an identity provider with AWS?|SAML 2.0
+What identity providers can be used with Amazon Cognito?|Google, Microsoft Active Directory, and your own identity store
+Can AWS act as an Identity Provider for non-AWS services?|Yes, AWS can act as an IdP for services outside of AWS
+What AWS service allows you to view API calls when using Cognito?|CloudTrail (shows API calls) and CloudWatch Logs (generated when Cognito controls access to AWS resources)
+Who assigns policies in the authentication/authorization process?|The service provider assigns policies, not the identity provider
+What is a key advantage of AD Connector?|Easy to set up and allows continued use of existing AD console for configuration changes
+Can AD Connector connect to multiple Active Directory domains?|No, AD Connector requires a one-to-one relationship with on-premises domains (only a single domain)
+What is a prerequisite for using AWS Identity Center?|Setting up AWS Organizations and enabling all features for centralized management across multiple AWS accounts
+What is Amazon Cognito identity pools used for?|Issuing IAM roles and temporary credentials to mobile or web users (both authenticated and guest users)
+Does AWS Identity Center support Simple AD?|No, Identity Center can integrate with AWS Managed Microsoft AD or AD Connector, but Simple AD is not supported
+What does GetFederationToken return?|Temporary security credentials (access key ID, secret access key, and security token) for a federated user using long-term IAM user credentials
+What is the difference between AssumeRole and GetFederationToken in terms of credential duration?|AssumeRole is shorter-lived (default 60 minutes, extendable to 720 minutes) but can be refreshed; GetFederationToken is more appropriate for long-term storage in server-based applications
+Can you directly access EC2 instances running AWS Managed Microsoft AD?|No, it is a managed service so direct EC2 instance access is not available
+What features does AWS Managed Microsoft AD provide?|Daily snapshots, monitoring, and the ability to sync with existing on-premises Active Directory
+What MFA infrastructure does AD Connector support?|Existing RADIUS-based multifactor authentication (MFA) infrastructure
+What is the difference between Cognito user pools and Cognito identity pools?|User pools manage user identities; identity pools issue temporary IAM credentials for AWS resource access (for both authenticated and guest users)
+What is AWS Identity Center primarily used for?|Managing federated access for AWS administrators, not for mobile app user authentication
+What does CloudWatch allow you to monitor with Cognito?|The creation and modification of identity pools (but not activity/usage)

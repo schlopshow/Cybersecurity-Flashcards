@@ -1,0 +1,48 @@
+What is Cobalt Strike? | A command and control framework that provides a post-exploitation agent to simulate stealthy, long-term embedded actors, with built-in capabilities for initial compromise, privilege escalation, lateral movement, reporting, and MITRE mapping
+What is Beacon? | Cobalt Strike's post-exploitation agent that runs on a compromised endpoint, communicates back to the team server, fetches and executes jobs, and returns results — implemented as a Windows DLL
+What is the Cobalt Strike Team Server? | A central control and logging system that stores information collected during an engagement and builds data models used for reports and Beacon workflows
+What is the Cobalt Strike Client? | The operator-facing interface used to connect to one or more team servers, manage engagements, and interact with Beacon payloads — it aggregates data from all connected team servers into a single view
+What is Cobalt Strike's design pattern for distributed operations? | Stand up dedicated team servers for each phase of an engagement (e.g. initial access, post-exploitation, persistence) so that if one is discovered and blocked, others maintain access
+What is a Cobalt Strike listener? | A configuration that defines the protocol and parameters by which a Beacon payload will communicate with the team server
+What protocols does Cobalt Strike support out-of-the-box for listeners? | DNS, HTTP, HTTPS, SMB, and TCP
+What is an Egress listener? | A listener type where Beacon communicates directly to the team server through the network boundary of the target environment (DNS and HTTP/S are egress listeners)
+What is a Peer-to-Peer (P2P) listener? | A listener type where Beacon does not communicate directly to the team server, but routes its traffic through another Beacon — SMB and TCP are P2P listeners
+Can P2P Beacons be chained together? | Yes, multiple P2P Beacons can be chained together, but they must ultimately link back to an egress Beacon for traffic to reach the team server
+What is the HTTP listener's communication method? | Beacon uses HTTP GET requests to fetch tasks from the team server and HTTP POST requests to send results back
+What is a redirector in the context of Cobalt Strike? | An intermediary host that sits between Beacon and the team server, proxying traffic between the two — examples include iptables, socat, Apache, and NGINX
+What is the Round Robin HTTP host rotation strategy? | Beacon loops through the list of HTTP hosts top-to-bottom, using each host for one request before moving to the next
+What is the Random HTTP host rotation strategy? | Beacon randomly selects a different host for each request
+What is the Failover HTTP host rotation strategy? | Beacon uses the same host until a failover condition is met — either a number of consecutive failures or continuous failures over a time period — then moves to the next host
+What is the Rotate HTTP host rotation strategy? | Each host is used for a fixed time period before moving to the next host in the list
+Why are multiple HTTP host rotation strategies useful? | They help resist frequency analysis techniques used to detect systematic C2 traffic and provide resilience if one or more hosts are blocked
+What does the Max Retry Strategy control in an HTTP listener? | Beacon's self-destruct behaviour when all HTTP hosts become unreachable — either doing nothing (None) or exiting after a configured number of failures (Exit)
+What is the HTTP host stager field used for? | It specifies the single host that stager payloads use to retrieve the full payload stage — stagers can only use one host regardless of how many HTTP hosts are configured
+What are Guardrails in a Cobalt Strike payload? | A feature that prevents stageless payloads from executing unless specific criteria are met, such as matching IP address, username, hostname, or domain — used to prevent payload execution outside the target environment
+What is the DNS listener's communication mechanism? | Beacon communicates via DNS A, AAAA, or TXT record lookups, with the team server running a built-in DNS server to respond
+Why do DNS Beacons initially appear as empty or ghost sessions? | Because the DNS Beacon does not transmit its full metadata on check-in due to limited DNS bandwidth — metadata is only sent when the Beacon is tasked with a job
+What is the DNS Resolver field in a DNS listener? | An optional field to override the system's default DNS resolver with a custom one for the Beacon to use
+What does an SMB Beacon do when executed? | It creates a named pipe on the host and waits for another Beacon to connect to that pipe and relay traffic between the SMB Beacon and the team server over port 445
+Why does the SMB listener not bind or listen on the team server? | Because it only serves as a template for payload generation — the SMB Beacon creates its own pipe on the target, not on the team server
+What does a TCP Beacon do when executed? | It binds and listens on a specified port and requires another Beacon to connect to it and relay traffic to the team server
+What is the difference between a TCP Beacon bound to 0.0.0.0 vs 127.0.0.1? | A 0.0.0.0 binding accepts connections from other hosts (useful for lateral movement), while 127.0.0.1 only accepts local connections (useful for privilege escalation)
+What is a Stomped loader? | The original Cobalt Strike loader style based on reflective DLL loading — the DLL re-loads its own image into memory, but requires a shellcode stub written over the PE's DOS header
+What is a Prepended loader? | A newer Cobalt Strike loader style where the loader is prepended to the front of a PE rather than being embedded in it — more stealthy and flexible than the stomped loader
+What are the advantages of a Prepended loader over a Stomped loader? | It does not overwrite DOS headers, can load any PE reflectively, does not require the PE to export reflective loading functions, and supports encoding/encryption/compression of the PE
+What is payload staging? | A technique where a small stager payload fetches the full payload stage from a remote host at execution time — useful when the delivery channel limits payload size
+What is the security difference between stageless and stager payloads? | Stageless payloads embed the team server's public key and encrypt all metadata, preventing hijacking; stagers have no such validation and are susceptible to being hijacked by a fake team server during the initial fetch
+What OPSEC advantage do stageless payloads have over stagers regarding memory? | Stageless payloads avoid RWX memory by allocating memory as RW first and flipping to RX before execution; stagers skip this to save bytes and often use RWX memory
+What is the approximate size difference between a Beacon stager and a full stageless Beacon? | A stager is approximately 890 bytes while a full stageless Beacon is approximately 307,200 bytes — about 345 times larger
+What is an HTML Application (HTA) payload? | A payload in .hta format combining HTML and VBScript, historically popular for phishing — always delivers an x86 Beacon payload
+What is an MS Office Macro payload? | A VBA macro that can be pasted into an Office document to deliver an x86 Beacon payload — a common phishing payload format
+What is the Exit Function setting in a stageless payload? | Controls which API is called when Beacon exits — Process calls ExitProcess (terminates the whole process) while Thread calls ExitThread (only terminates the Beacon thread)
+When should ExitThread vs ExitProcess be used for a Beacon payload? | ExitThread should be used when injecting into an existing process to avoid killing it; ExitProcess should be used when Beacon is running in a process you launched yourself
+What does the System Call setting do in a Beacon payload? | It tells Beacon to use system calls instead of regular Win32 APIs — Direct uses the Nt* function directly, while Indirect jumps to the appropriate instruction within the Nt* function
+What does a blue monitor icon next to a Beacon session indicate? | The Beacon is running at medium integrity (standard user privileges)
+What does a red monitor icon with an asterisk next to a username indicate for a Beacon? | The Beacon is running at high integrity (local administrator or SYSTEM privileges)
+How does Beacon identify itself to the team server? | By sending encrypted metadata within the C2 protocol — for HTTP/S this is in the GET/POST request (URL, header, or cookie), encrypted with the team server's public key
+Why can a Beacon only communicate with the team server it was generated from? | Because its metadata is encrypted with that specific team server's public key, preventing it from communicating with or being tasked by a different team server
+What is the Beacon session graph view used for? | To visually show the relationships and connections between Beacons, making it clear which P2P Beacons are linked to which egress Beacons
+What do the line colours in the Cobalt Strike session graph represent? | Dashed green for HTTP/S, solid yellow for SMB, dashed yellow for DNS, and solid green for TCP
+What does the firewall icon with a dashed line represent in the Cobalt Strike graph view? | An egress Beacon communicating directly out to the team server
+What does a solid line between two Beacons in the graph view represent? | A P2P connection between two Beacons
+What is the Beacon task queue? | A queue of commands waiting to be sent to Beacon — jobs are delivered to Beacon on its next check-in and processed in order, with results sent back to the operator

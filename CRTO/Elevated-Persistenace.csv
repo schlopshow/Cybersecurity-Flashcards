@@ -1,0 +1,22 @@
+Why is adding a second round of persistence useful after gaining elevated access? | The initial elevation method may become patched, mitigated, or is too noisy to repeat — a persistence mechanism ensures the same privilege level can be regained without re-exploiting
+What is the Windows Task Scheduler persistence technique? | Creating a scheduled task that re-executes a payload on a chosen trigger (such as system boot) under the SYSTEM context, maintaining elevated access after the initial privilege escalation method is no longer available
+What is WMI in the context of Windows? | Microsoft's implementation of the Web-Based Enterprise Management (WBEM) and Common Information Model (CIM) standards — it provides an industry-agnostic means of collecting information about managed components in an enterprise
+What are examples of managed components accessible through WMI? | Running processes, registry keys, installed services, and file information
+What query language is used to interact with WMI objects? | WMI Query Language (WQL), which is a SQL-like language
+What is a WMI Instance Query? | A query that returns a snapshot of information at the present time — used to retrieve current state data from a WMI class
+What is a WMI Event Query? | A query that registers to be alerted when a specific event occurs in the future rather than returning a current snapshot — it polls at a defined interval and triggers when the condition is met
+What does the WITHIN keyword represent in a WMI event query? | The polling interval in seconds — how frequently WMI checks whether the event condition has been met
+What is a WMI Local Event registration? | An event registration that is scoped to a single process context — it does not persist across reboots and is not useful for persistence, but is useful for testing event filters
+What are the three components required to create a persistent WMI event subscription? | An event filter (defines which event to watch for), an event consumer (defines the action to perform), and a filter-to-consumer binding (links the filter to the consumer)
+What makes WMI persistent events powerful compared to local events? | Persistent events are stored in the WMI repository rather than in a process — they run as SYSTEM and survive reboots
+What are the two most commonly abused WMI event consumer types by attackers? | ActiveScriptEventConsumer (executes an embedded VBScript or JScript payload) and CommandLineEventConsumer (executes a command-line program)
+What WMI namespace are persistent event subscriptions stored in? | root/subscription
+What is the ActiveScriptEventConsumer? | A WMI event consumer type that executes an embedded VBScript or JScript payload when the associated event filter triggers
+What is the CommandLineEventConsumer? | A WMI event consumer type that executes an arbitrary command-line program when the associated event filter triggers
+What WMI class can be used to trigger on Windows event log entries? | Win32_NTLogEvent — it allows filtering on any event in the Application, Security, or System logs using the EventCode attribute
+What Windows event ID is logged when a user locks their workstation, and how could it be abused? | Event ID 4800 — it could be used as a WMI event filter trigger to fire a payload when the user leaves their computer
+What is a remote WMI trigger and how does it work? | A persistence technique where a WMI event subscription is configured to fire when a specific network condition occurs — for example, when the Windows firewall drops a packet on a particular port, allowing the attacker to trigger the payload by sending a packet to that port from outside
+What Windows event ID is logged when the firewall drops a packet, and what policy must be enabled for it? | Event ID 5152 — requires 'Audit Filtering Platform Packet Drop' policy to be forcefully enabled on the target
+What is the WMI class used to set up event filters for persistent subscriptions? | __EventFilter, registered in the root/subscription namespace
+What is a filter-to-consumer binding in WMI? | A WMI object of class __FilterToConsumerBinding in root/subscription that links a specific event filter to a specific event consumer, completing the persistent subscription
+Who is credited with popularising WMI as a persistence technique in the red team community? | Matt Graeber, via his Black Hat presentation "Abusing Windows Management Instrumentation (WMI) to Build a Persistent, Asynchronous, and Fileless Backdoor"

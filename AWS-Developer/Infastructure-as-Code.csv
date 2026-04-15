@@ -1,0 +1,29 @@
+What is the only required section in a CloudFormation template?|Resources section (without it, CloudFormation has no resources to manage)
+What does the Ref intrinsic function return for an AWS Load Balancer resource?|The load balancer ARN (not the DNS name)
+How do you get the DNS name of a load balancer in CloudFormation?|Use the GetAtt function to fetch the DNSName attribute
+What can cause a CloudFormation creation policy to time out?|Issues preventing the instance from calling cfn-signal and sending a success/failure message to CloudFormation
+What can trigger CloudFormation custom resources?|Lambda functions and SNS topics
+Can Step Functions be called by CloudFormation custom resources?|No, though they orchestrate workflows with Lambda, they cannot be invoked by custom resources
+Can ECS tasks be invoked by CloudFormation custom resources?|No, even though they're suitable for one-time work invocations
+What happens if a custom resource function executes but doesn't provide a response to CloudFormation?|The resource times out with an error
+How are custom resource function permissions obtained?|Through a function execution role (not the service role invoking the stack update)
+What is the AWS::Serverless transform in CloudFormation?|A special transform that converts SAM (Serverless Application Model) syntax into native CloudFormation
+What do Ref, GetAtt, and DependsOn contribute to in CloudFormation?|They form the relationship and dependency graph that determines resource creation order
+What helper script defines packages, files, and configurations when an EC2 instance is first launched?|cfn-init helper script
+What helper script signals back to CloudFormation when a resource creation or update has completed?|cfn-signal helper script
+What helper script performs updates on an instance when its parent stack is updated?|cfn-hup helper script
+How many signals do wait conditions accept?|Only one signal (they will not track additional signals from the same resource)
+What CloudFormation feature allows you to specify a count and timeout for signals?|Creation policies
+What CloudFormation feature lets you preview infrastructure changes without executing them?|Change sets (create previews that can be reviewed before execution)
+How do you reference resources from nested stacks in CloudFormation?|Use intrinsic functions to access resource properties in the same manner as any other stack resource
+What permissions does CloudFormation use when operating on resources?|The same permissions as the user performing the stack operation (unless a service role is explicitly passed)
+How does CloudFormation recognize dependencies between resources?|Through intrinsic functions like Ref and GetAtt; arbitrary string references are not recognized
+What happens during a replacing update in CloudFormation?|The original resource is deleted and a new resource is created with a new physical ID (CloudFormation creates replacement first, verifies it, then deletes original)
+What is the difference between replacing updates and updates with some interruption?|Replacing updates delete and recreate the resource; updates with some interruption have downtime but don't replace the resource
+Can you delete a CloudFormation stack if other stacks import its exported values?|No, stacks importing the value must remove the import first before the stack can be deleted
+When are old resources that are no longer required removed in a CloudFormation update?|During the cleanup phase after the update completes successfully
+What template formats does CloudFormation support?|JSON and YAML only
+What are the benefits of CloudFormation over procedural scripting?|Reduced human error through template validation, repeatable and versionable infrastructure, reduced permissions scope when using service roles
+What services can act as recipients to custom resource requests?|SNS topics and Lambda functions
+How do you access data from a custom resource response in the rest of the template?|Use the Fn::GetAtt intrinsic function
+Can on-premises servers receive custom resource requests directly?|No, though they can be part of a custom resource's workflow, they don't receive requests directly

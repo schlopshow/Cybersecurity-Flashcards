@@ -1,0 +1,425 @@
+# Active Directory Penetration Testing Flashcards
+
+What is Active Directory (AD)?|A directory service for Windows enterprise environments that provides centralized management of an organization's resources, including users, computers, groups, network devices, file shares, group policies, and trusts
+
+What protocols is Active Directory based on?|X.500 and LDAP
+
+What three core functions does AD provide?|Authentication, accounting, and authorization
+
+What percentage of the enterprise Identity and Access Management market does Microsoft Active Directory hold?|Approximately 43%
+
+What makes Active Directory difficult to manage and harden?|Its many services and main purpose of making information easy to find and access expose enterprises to vulnerabilities from simple misconfigurations of services and permissions
+
+What is the general goal of gaining a foothold in a client's AD environment?|To escalate privileges by moving laterally or vertically throughout the network until the intent of the assessment is accomplished
+
+What does "living off the land" mean in AD penetration testing?|Using only built-in Windows tools and native functionality rather than custom or third-party offensive tools, which blends in with normal administrative activity and reduces detection risk
+
+What is a Service Principal Name (SPN)?|An identifier associated with a service account in AD that enables Kerberos authentication for that service
+
+What is Kerberoasting?|An attack that targets service accounts with SPNs by requesting their TGS tickets and attempting to crack them offline to recover plaintext passwords
+
+What is an SCF file attack?|Dropping specially crafted Shell Command Files on accessible file shares to capture NetNTLMv2 hashes when users browse the share
+
+What is NetNTLMv2?|A challenge-response authentication hash captured during NTLM authentication that can be cracked offline or used in relay attacks
+
+What is Password Spraying?|Attempting one or a few common passwords against a large number of user accounts to avoid account lockout while gaining valid credentials
+
+What is the key risk of password spraying and how is it mitigated?|Account lockout, mitigated by knowing the domain password policy and staying within the allowed failed attempt threshold
+
+What is BloodHound used for?|Visually mapping AD relationships and planning attack paths using graph analysis with a Neo4j database to identify routes to Domain Admin
+
+What is the difference between SharpHound and BloodHound.py?|SharpHound is a C# ingestor that runs on Windows domain-joined hosts; BloodHound.py is a Python-based ingestor that can run from a non-domain-joined Linux attack host
+
+What is Responder used for in AD attacks?|Poisoning LLMNR, NBT-NS, and MDNS requests to capture NetNTLMv2 hashes from hosts that try to authenticate to it
+
+What is LLMNR/NBT-NS Poisoning?|A Man-in-the-Middle attack where an attacker responds to broadcast name queries, tricking hosts into authenticating to the attacker's machine and revealing their NTLMv1 or NTLMv2 hash
+
+What is pass-the-hash?|An attack where a captured NTLM hash is used directly to authenticate as a user without knowing the plaintext password
+
+What is pass-the-ticket?|An attack where a captured Kerberos TGT or TGS ticket is used to authenticate as the ticket's owner without knowing their password
+
+What is a DCSync attack?|An attack that impersonates a Domain Controller's replication process to request and dump NTLM password hashes for all users in the domain; requires DS-Replication-Get-Changes-All rights
+
+What is the Shadow Credentials attack?|An attack that abuses Key Trust to set an alternative credential on an AD object, allowing authentication and retrieval of the object's NT hash
+
+What is ASREPRoasting?|An attack targeting user accounts that have Kerberos pre-authentication disabled; AS-REP hashes are requested and cracked offline. Does not require an SPN on the target account
+
+What is the NT AUTHORITY\SYSTEM account?|A built-in Windows account with the highest level of OS access, commonly used by Windows services, that can enumerate AD by impersonating the computer account
+
+What AD actions are possible from a SYSTEM-level account on a domain-joined host?|Domain enumeration, Kerberoasting, ASREPRoasting, capturing NetNTLMv2 hashes, token impersonation, and ACL attacks
+
+What is Kerbrute used for and why is it considered stealthier than other enumeration methods?|Enumerating valid AD usernames and performing password spraying using Kerberos pre-authentication; failed attempts often do not trigger standard logs or alerts
+
+What is PowerView used for?|Gaining situational awareness in AD by replacing many Windows net* commands and identifying Kerberoastable users, ACL misconfigurations, and other attack paths
+
+What is CrackMapExec (CME)?|An enumeration, attack, and post-exploitation toolkit that abuses built-in AD features and protocols like SMB, WMI, WinRM, and MSSQL
+
+What is Mimikatz primarily used for in AD attacks?|Extracting plaintext passwords and NTLM hashes from memory, performing pass-the-hash attacks, and extracting Kerberos tickets
+
+What is enum4linux used for?|Enumerating information from Windows and Samba systems, including user lists, password policies, shares, and group memberships
+
+What is an SMB NULL session?|An unauthenticated connection to SMB that can allow enumeration of domain users, groups, shares, and password policy without credentials
+
+What is ldapsearch used for?|Querying LDAP directly to enumerate AD objects such as users, groups, computers, and attributes
+
+What is windapsearch used for?|Automating custom LDAP queries to enumerate AD users, groups, and computers; the -PU flag finds privileged users via recursive nested group membership lookups
+
+What is Inveigh used for?|Performing network spoofing and poisoning attacks (LLMNR, DNS, mDNS, NBNS, DHCPv6, HTTP, HTTPS, SMB, LDAP, WebDAV) from Windows hosts, implemented in PowerShell or C#
+
+What is adidnsdump used for?|Enumerating and dumping DNS records from an AD domain, similar to performing a DNS zone transfer
+
+What is gpp-decrypt used for?|Extracting usernames and passwords stored in Group Policy Preferences (GPP) files, which historically stored credentials in a reversibly encrypted format
+
+What is LAPSToolkit used for?|Auditing and attacking AD environments with LAPS deployed; finds users/groups that can read LAPS passwords and machines without LAPS installed
+
+What is Snaffler used for?|Finding sensitive information such as credentials in files on accessible shares across an AD environment; must be run from a domain-joined host or domain user context
+
+What is PingCastle used for?|Auditing the security level of an AD environment, producing a detailed risk report scored based on the Capability Maturity Model Integration (CMMI) framework
+
+What is Group3r used for?|Auditing and finding security misconfigurations in AD Group Policy Objects (GPOs); must be run from a domain-joined host as a domain user
+
+What is the purpose of external reconnaissance before an AD penetration test?|Validating scoping information, identifying information leaks and breach data, understanding the organization's schema and defenses, and finding credentials or usernames usable during the test
+
+What key data points are sought during external reconnaissance?|IP space and ASN, domain information, email/username schema format, publicly accessible documents, and breach data
+
+What is an ASN and why is it relevant to recon?|An Autonomous System Number identifies a block of IP addresses belonging to an organization; large companies often have their own ASN, revealing their IP ranges
+
+What is HaveIBeenPwned used for in recon?|Determining if corporate email accounts appear in public breach data
+
+What is Dehashed used for in recon?|Searching for corporate emails with cleartext passwords or hashes from breach data to attempt against exposed login portals
+
+How can job postings be useful in AD recon?|They reveal software versions, technologies in use, infrastructure details, and security implementations that help identify potential attack vectors
+
+What is linkedin2username used for?|Scraping a company's LinkedIn page to generate various username format mashups for use in password spraying attacks
+
+What is Trufflehog used for during recon?|Finding sensitive data such as credentials accidentally left in code repositories or cloud storage by developers
+
+What DNS record types are valuable during external recon?|A records (IP addresses), MX records (mail servers), NS records (nameservers), and AAAA records (IPv6 addresses)
+
+What is fping used for in AD enumeration?|Sending ICMP requests to multiple hosts simultaneously to quickly identify which hosts are alive in a network range
+
+What ports are indicative of a Domain Controller during Nmap scanning?|53 (DNS), 88 (Kerberos), 135 (RPC), 139/445 (SMB), 389/636 (LDAP/LDAPS), 3268/3269 (Global Catalog), 464 (kpasswd)
+
+What is the significance of finding legacy operating systems during enumeration?|They may be vulnerable to unpatched exploits like EternalBlue or MS08-067 that can provide SYSTEM-level access
+
+What should be done before exploiting a legacy or potentially unstable system?|Alert the client and obtain written approval, as exploitation could cause system instability or bring down critical services
+
+What is pivoting in the context of lateral movement?|Using a compromised host as a proxy to route traffic and reach internal network segments not directly accessible from the attack host
+
+What is token impersonation?|Hijacking an authentication token from a privileged user process running on a compromised host to act as that user without knowing their credentials
+
+What is a Kerberos TGT?|A Ticket Granting Ticket issued by the Domain Controller's KDC that proves a user's identity and is used to request service tickets (TGS) for accessing resources
+
+What is the difference between a TGT and a TGS in Kerberos?|A TGT proves identity to the KDC and is used to request service tickets; a TGS is a service-specific ticket used to authenticate to a particular service
+
+What is nested group membership and why is it significant for attackers?|When a group is a member of another group, it inherits its permissions; this can allow an attacker who compromises one account to inherit unexpected privileges across domains
+
+What is a forest trust in AD?|A trust relationship between two separate AD forests that allows users in one forest to access resources in the other, depending on the trust direction and type
+
+What is the significance of GenericAll rights in AD?|GenericAll grants full control over an AD object, allowing an attacker to modify it, including adding themselves to groups or resetting passwords
+
+What is the importance of knowing the domain password policy before password spraying?|It prevents accidental account lockouts by ensuring spray attempts stay within the allowed failed login threshold
+
+What is the key difference between black box, grey box, and white box testing setups for internal AD assessments?|Black box: no information provided; Grey box: only IP ranges or limited scope info; White box: full information including credentials and network maps
+
+What is the purpose of using Wireshark or tcpdump at the start of an internal engagement?|Passively identifying hosts, protocols, and network traffic patterns without sending any packets
+
+What is the SeImpersonate privilege and why is it significant?|A Windows privilege that allows a service account to impersonate other users; it can be abused (e.g., via JuicyPotato, PrintSpoofer, RoguePotato) to escalate to SYSTEM on older Windows versions
+
+What is rpcclient used for in AD enumeration?|Performing AD enumeration tasks via the remote RPC service on Linux, including querying users, groups, and domain information
+
+What is smbmap used for?|Enumerating SMB shares across a domain to identify accessible shares and their permission levels, recursively listing directories and searching for files of interest
+
+What is secretsdump used for in AD attacks?|Remotely dumping the SAM database and LSA secrets (including cached credentials and NTLM hashes) from a target host
+
+What is evil-winrm used for?|Providing an interactive shell on a Windows host over the WinRM protocol, useful for post-exploitation when WinRM is enabled
+
+What is ntlmrelayx used for?|Performing SMB relay attacks, where captured NTLM authentication attempts are relayed to other hosts to gain access without cracking the hash
+
+What is PetitPotam and what vulnerability does it exploit?|A tool exploiting CVE-2021-36942 to coerce Windows hosts into authenticating to an attacker-controlled machine via MS-EFSRPC functions
+
+What is the noPac exploit?|An exploit combining CVE-2021-42278 and CVE-2021-42287 that allows a standard domain user to impersonate a Domain Admin, achieving SYSTEM-level access on a Domain Controller
+
+What is the SYSVOL share and why is it useful to attackers?|A domain controller share readable by all authenticated users that contains scripts (batch, VBScript, PowerShell) which sometimes contain hardcoded credentials, and stores Group Policy files
+
+What is the NETLOGON share used for and why is it relevant to enumeration?|It stores logon scripts for domain users; accessible to all domain users by default, it may contain scripts with hardcoded credentials or other sensitive information
+
+What is LLMNR?|Link-Local Multicast Name Resolution; a Microsoft Windows component that allows hosts on the same local link to perform name resolution for other hosts when DNS fails, operating on port 5355 over UDP
+
+What is NBT-NS?|NetBIOS Name Service; a Microsoft Windows component that identifies systems on a local network by their NetBIOS name when both DNS and LLMNR fail, operating on port 137 over UDP
+
+What is the fallback name resolution order in Windows?|DNS is tried first, then LLMNR, then NBT-NS
+
+What is the fundamental security flaw in LLMNR and NBT-NS?|When either protocol is used for name resolution, ANY host on the network can reply to the broadcast request, making it trivially easy to spoof responses
+
+What is captured during a successful LLMNR/NBT-NS poisoning attack?|A NetNTLM (NTLMv1 or NTLMv2) password hash from the victim host's authentication attempt
+
+What can be done with a captured NetNTLMv2 hash?|It can be cracked offline to recover the plaintext password, or used in an SMB Relay attack to authenticate to other hosts without cracking it
+
+Why can NetNTLMv2 hashes NOT be used for pass-the-hash attacks?|Pass-the-hash requires an NTLM hash (NT hash), not a NetNTLMv2 challenge-response hash; the two formats are fundamentally different
+
+What is the step-by-step flow of an LLMNR/NBT-NS poisoning attack?|1) A host tries to connect to a resource but makes a typo. 2) DNS fails to resolve it. 3) The host broadcasts a name resolution request to the entire local network. 4) The attacker responds claiming to be the requested host. 5) The victim sends an authentication request with their NTLMv2 hash to the attacker
+
+What Hashcat mode is used to crack NTLMv2 hashes captured by Responder?|Hash mode 5600
+
+What MITRE ATT&CK ID covers LLMNR/NBT-NS Poisoning and SMB Relay?|T1557.001
+
+How can LLMNR be disabled via Group Policy?|Navigate to Computer Configuration > Administrative Templates > Network > DNS Client and enable "Turn OFF Multicast Name Resolution"
+
+Why can NBT-NS not be disabled via Group Policy directly?|Group Policy does not have a direct setting to disable NBT-NS; it must be disabled locally through the network adapter's WINS settings or via a startup PowerShell script deployed through GPO
+
+How can NBT-NS be disabled domain-wide without a direct GPO setting?|Create a PowerShell startup script via GPO that sets the NetbiosOptions registry value to 2 for all network interfaces, hosted on the SYSVOL share
+
+What registry value indicates that LLMNR is disabled?|The EnableMulticast DWORD value set to 0 under HKLM\Software\Policies\Microsoft\Windows NT\DNSClient
+
+What Windows Event IDs are relevant for detecting LLMNR/NBT-NS poisoning activity?|Event IDs 4697 and 7045
+
+What is an SMB Relay attack and when is it applicable?|Instead of cracking a captured NTLM hash, the hash is relayed in real time to authenticate to another host; requires SMB signing to be disabled on the target host
+
+What is DomainPasswordSpray and what makes it useful?|A PowerShell tool that, when run on a domain-joined host, automatically generates a user list from AD, queries the domain password policy, and excludes accounts within one attempt of lockout
+
+What are common external targets for password spraying attacks?|Microsoft O365, Outlook Web Exchange, Exchange Web Access, Skype for Business, RDS portals, Citrix portals, VDI implementations, VPN portals, and custom web applications using AD authentication
+
+What is the primary mitigation against password spraying?|Multi-factor authentication (MFA) on all external portals, combined with strong password hygiene policies, password filters, and least privilege access
+
+What Windows Event IDs indicate potential password spraying activity?|Event ID 4625 (account failed to log on) and Event ID 4771 (Kerberos pre-authentication failed)
+
+What is AppLocker and what does it control?|Microsoft's application whitelisting solution that gives administrators granular control over which executables, scripts, Windows installer files, DLLs, and packaged apps users can run
+
+What is a common AppLocker bypass opportunity?|Organizations often block the standard PowerShell executable but forget about alternate PowerShell locations such as the SysWOW64 path or PowerShell_ISE.exe
+
+What is PowerShell Constrained Language Mode?|A PowerShell restriction that locks down many advanced features needed for offensive tooling, including blocking COM objects, limiting approved .NET types, and restricting XAML-based workflows
+
+What is LAPS (Local Administrator Password Solution)?|A Microsoft solution that randomizes and rotates local administrator passwords on Windows hosts to prevent lateral movement by ensuring local admin credentials are unique per machine
+
+What is the minimum access level required to perform credentialed AD enumeration?|A standard low-privilege domain user account with valid credentials (cleartext password or NTLM hash), or SYSTEM access on a domain-joined host
+
+What does the (Pwn3d!) indicator in CrackMapExec output mean?|The account used for authentication has local administrator privileges on the target host
+
+What is the badPwdCount attribute in AD and why is it important during password spraying?|It tracks how many failed login attempts a user has had; filtering out users with a high badPwdCount before spraying helps avoid locking accounts
+
+What is a Relative Identifier (RID) in Active Directory?|A unique identifier (in hexadecimal) appended to a domain SID to form a full SID for an AD object; the built-in domain Administrator account always has RID 0x1f4 (decimal 500)
+
+What is the Impacket toolkit?|A collection of Python tools for interacting with Windows network protocols, including scripts for enumeration, authentication, exploitation, and post-exploitation in AD environments
+
+What is psexec.py and how does it work?|An Impacket tool that uploads a randomly-named executable to the ADMIN$ share, registers it as a service via RPC/SCM, and provides an interactive shell running as SYSTEM on the target
+
+What is wmiexec.py and how does it differ from psexec.py?|An Impacket tool that executes commands through WMI without dropping files on disk; runs under the context of the authenticated user (not SYSTEM), generates fewer logs, and is considered stealthier
+
+What does BloodHound collect from AD?|Users, groups, computers, group memberships, GPOs, ACLs, domain trusts, local admin access, user sessions, computer and user properties, RDP access, and WinRM access
+
+What query language is used for custom BloodHound queries?|Cypher, a graph query language used by the Neo4j database that BloodHound runs on
+
+What is the ActiveDirectory PowerShell module?|A group of 147 PowerShell cmdlets for administering and enumerating an Active Directory environment from the command line
+
+What AD user attribute indicates an account may be vulnerable to Kerberoasting?|The ServicePrincipalName (SPN) attribute; any account with a non-null SPN can have a TGS ticket requested and cracked offline
+
+What is the difference between an IntraForest trust and a ForestTransitive trust?|An IntraForest trust connects domains within the same AD forest (parent-child or tree-root); a ForestTransitive trust connects two separate AD forests
+
+Why is enumerating the Backup Operators group particularly interesting?|Members can back up and restore files regardless of permissions, log on locally to Domain Controllers, and shut them down; this can be abused to dump the NTDS.dit database
+
+What does the -Recurse switch do when enumerating group membership with PowerView?|It recursively resolves nested group memberships, listing all users who are members of a target group through one or more layers of group nesting
+
+What is Find-InterestingDomainAcl used for in PowerView?|Finding AD object Access Control Lists (ACLs) that have modification rights granted to non-built-in objects, useful for identifying ACL-based attack paths
+
+What does SharpHound collect when run with the -c All collection method?|Groups, local admin rights, GPO-applied local groups, user sessions, logged-on users, domain trusts, ACLs, container objects, RDP access, object properties, DCOM access, SPN targets, and PSRemote access
+
+What is the admincount attribute on an AD user object and why is it significant?|A value of 1 indicates the account is or was a member of a protected privileged group; these accounts are protected by the AdminSDHolder mechanism and are high-value targets
+
+What is the useraccountcontrol attribute in AD?|A bitmask attribute that controls various account settings; notable flags include DONT_EXPIRE_PASSWORD, DONT_REQ_PREAUTH (ASREPRoastable), and PASSWD_NOTREQD (no password required)
+
+What is the significance of the pwdlastset attribute on an AD user object?|It reveals when a user last changed their password; accounts with very old password last set dates may use weak or guessable passwords, making them good targets
+
+What is the difference between lastlogontimestamp and lastlogon attributes?|lastlogontimestamp is replicated across domain controllers and updated periodically, useful for identifying stale accounts; lastlogon is local to each DC and not replicated
+
+What is the stealth collection mode in SharpHound used for?|Preferring DCOnly collection methods wherever possible, querying only the Domain Controller directly rather than connecting to individual computers, generating significantly less network noise
+
+What is PowerShell Script Block Logging and when was it introduced?|A PowerShell feature that logs all commands typed in a terminal session to the PowerShell Operational event log; introduced in PowerShell 3.0
+
+What is the PowerShell downgrade attack and why is it useful for evading detection?|Launching PowerShell version 2.0, which predates Script Block Logging; actions taken in the downgraded shell will not be logged in Event Viewer
+
+What is the qwinsta command used for?|Displaying all currently active sessions on a host, showing which users are logged in
+
+What does the ARP table reveal during network enumeration?|All IP and MAC address mappings the host has recently communicated with, revealing other active hosts on the network segment without sending any new network traffic
+
+What does the routing table reveal that the ARP table does not?|Known network routes and subnets that are reachable from the host, revealing additional network segments that could be pivoted into for lateral movement
+
+What can the wmic ntdomain command reveal during AD enumeration?|Information about the domain and its domain controllers, including child domains and any external forest trusts
+
+What is the net1 trick and why is it useful?|Using net1 instead of net executes the same network enumeration functions but may avoid detection rules that specifically look for the string "net" in command execution
+
+What is dsquery and what makes it available on most Windows hosts?|A command-line tool for finding Active Directory objects using LDAP-style queries; the dsquery DLL exists on all modern Windows systems by default at C:\Windows\System32\dsquery.dll
+
+Where is the PowerShell history file stored?|In the user's AppData directory at: $env:APPDATA\Microsoft\Windows\Powershell\PSReadline\ConsoleHost_history.txt
+
+What does the logon server environment variable (%logonserver%) reveal?|The name of the Domain Controller that the current host checks in with for authentication
+
+What is the minimum access required to perform a Kerberoasting attack?|A cleartext domain user password, an NTLM hash, a shell in the context of a domain user, or SYSTEM-level access on a domain-joined host
+
+Why are service accounts particularly high-value Kerberoasting targets?|They are often granted local administrator privileges on multiple servers, added to privileged groups, and frequently configured with weak or reused passwords to simplify administration
+
+What Hashcat mode is used to crack RC4 (type 23) encrypted TGS tickets from Kerberoasting?|Hashcat mode 13100
+
+What Hashcat mode is used to crack AES-256 (type 18) encrypted TGS tickets?|Hashcat mode 19700
+
+How should Kerberoasting findings be reported when tickets are cracked for privileged accounts versus when no tickets crack?|Cracked tickets for privileged accounts are high-risk findings; if no tickets crack, downgrade to medium-risk while still noting the risk of SPNs with potentially weak passwords that could change in the future
+
+What is Rubeus and what project is it from?|A C# toolset from the GhostPack project for interacting with Kerberos, providing Kerberoasting options including stats gathering, targeted attacks, encryption type filtering, and delay/jitter
+
+What does the Rubeus /tgtdeleg flag do?|Forces a request for an RC4 (type 23) encrypted ticket even for accounts that have AES encryption configured, by exploiting a backward-compatibility mechanism in AD; does not work against Windows Server 2019 DCs
+
+What does an msDS-SupportedEncryptionTypes value of 0 mean for a Kerberoasting target?|No specific encryption type is defined, so the account defaults to RC4_HMAC_MD5, making it the easiest type of TGS ticket to crack
+
+What are Managed Service Accounts (MSA) and Group Managed Service Accounts (gMSA)?|AD account types that use automatically generated, very complex passwords that rotate on a set interval; because passwords are never manually set and are extremely complex, TGS tickets for these accounts are computationally infeasible to crack
+
+What Group Policy setting enables logging of Kerberoasting activity on Domain Controllers?|Enabling "Audit Kerberos Service Ticket Operations" in Group Policy, generating Event ID 4769 (ticket requested) and Event ID 4770 (ticket renewed)
+
+What encryption type value in Event ID 4769 specifically indicates a Kerberoasting attack in progress?|A ticket encryption type of 0x17 (hex for 23), corresponding to RC4 encryption
+
+What is the MITRE ATT&CK tag for Kerberoasting?|T1558.003
+
+What is an Access Control List (ACL) in Active Directory?|A list that defines who has access to which AD asset or resource and what level of access they are provisioned; every AD object has an ACL
+
+What are the two types of ACLs in Active Directory?|Discretionary Access Control Lists (DACLs) which define which security principals are granted or denied access, and System Access Control Lists (SACLs) which log access attempts
+
+What happens if an object has no DACL in Active Directory?|All users who attempt to access the object are granted full rights
+
+What happens if an object has a DACL with no ACE entries?|The system denies access to all users, groups, or processes attempting to access the object
+
+What are the three main types of ACEs in AD?|Access denied ACE (explicitly denies access via DACL), access allowed ACE (explicitly grants access via DACL), and system audit ACE (records access attempts in the SACL)
+
+What is the ForceChangePassword ACE right?|The right to reset another user's password without knowing their current password
+
+What is the GenericWrite ACE right and its main abuse scenarios?|The right to write to any non-protected attribute on an object; over a user it allows assigning an SPN for Kerberoasting; over a group it allows adding users; over a computer it enables resource-based constrained delegation attacks
+
+What is the GenericAll ACE right?|Full control over a target object; over a user allows forcing a password change or Kerberoasting; over a computer with LAPS enabled allows reading the LAPS password to gain local admin access
+
+What is the WriteOwner ACE right?|The ability to change the owner of an AD object; abused using Set-DomainObjectOwner to take ownership and then modify its permissions
+
+What is the WriteDACL ACE right?|The ability to modify the DACL of an AD object; abused using Add-DomainObjectACL to grant additional rights such as GenericAll to an attacker-controlled account
+
+What are the DS-Replication-Get-Changes and DS-Replication-Get-Changes-In-Filtered-Set rights?|Extended rights on the domain object that, when held together, allow a user to perform a DCSync attack, replicating all password hashes from the domain controller without being a Domain Admin
+
+What is Transitive Object Control in BloodHound?|The total number of objects that an attacker could gain control over by chaining together multiple ACL abuse steps from their starting node
+
+Why does software installation such as Microsoft Exchange create ACL abuse risk in AD?|Exchange makes extensive ACL changes during installation, often granting the Exchange Windows Permissions group excessive rights such as WriteDACL over the domain object
+
+What three files are created when running secretsdump with the just-dc flag?|One containing NTLM hashes, one containing Kerberos keys, and one containing cleartext passwords for accounts with reversible encryption enabled
+
+What does the reversible encryption password storage setting mean in AD?|Passwords are stored using RC4 encryption instead of one-way hashing, and the decryption key is stored in the registry (Syskey), accessible by a Domain Admin
+
+What group must a user belong to in order to RDP into a host?|The Remote Desktop Users group on the target host
+
+What group was created to enable WinRM access without granting local admin rights?|The Remote Management Users group, introduced with Windows 8 and Windows Server 2012
+
+What privilege does SQL Server sysadmin access typically provide on the underlying OS?|The ability to run OS commands in the context of the SQL Server service account, almost always including the dangerous SeImpersonatePrivilege
+
+What is the Kerberos Double Hop problem?|When authenticating across two or more hops using Kerberos, the user's TGT is not forwarded to the second hop, preventing authentication to further resources
+
+How does RDP avoid the Double Hop problem?|When using RDP, the user's password is stored in memory and can be sent along with every subsequent request, allowing full Kerberos ticket caching
+
+What are the two workarounds for the Double Hop problem?|1) Creating a PSCredential object and passing it explicitly with each command using -Credential; 2) Registering a new PSSession configuration using Register-PSSessionConfiguration with a RunAs credential
+
+What is the NoPac vulnerability also known as?|Sam_The_Admin or SamAccountName Spoofing, combining CVE-2021-42278 (SAM bypass) and CVE-2021-42287 (Kerberos PAC vulnerability)
+
+What is the core mechanism of the NoPac attack?|It takes advantage of the ability to change the SamAccountName of a computer account to match a Domain Controller, causing Kerberos to issue tickets under the DC's name
+
+What is PrintNightmare?|A nickname for two vulnerabilities (CVE-2021-34527 and CVE-2021-1675) in the Windows Print Spooler service, allowing privilege escalation and remote code execution
+
+What is PetitPotam?|CVE-2021-36942, an LSA spoofing vulnerability that allows an unauthenticated attacker to coerce a Domain Controller to authenticate against another host using NTLM via MS-EFSRPC
+
+How does PetitPotam achieve domain compromise?|The DC's authentication request is relayed to the CA's Web Enrollment page to obtain a certificate, which is then used to request a TGT for the DC, enabling a DCSync attack
+
+What is the Exchange Windows Permissions group and why is it dangerous?|A group whose members are granted the ability to write a DACL to the domain object, which can be leveraged to give a user DCSync privileges
+
+What is PrivExchange?|An attack exploiting a flaw in Exchange Server's PushSubscription feature, allowing any domain user with a mailbox to force the Exchange server to authenticate to an attacker-controlled host, ultimately leading to Domain Admin
+
+What is the Printer Bug?|A flaw in the MS-RPRN protocol that allows any domain user to force a server to authenticate to any host over SMB, which can be relayed to LDAP to grant DCSync privileges
+
+What is MS14-068?|A flaw in the Kerberos protocol allowing a standard domain user to forge a PAC and present themselves as a member of Domain Admins; the only defense is patching
+
+What is the Privilege Attribute Certificate (PAC)?|A component of a Kerberos ticket that contains information about a user including their account name, ID, and group membership, signed by the KDC to prevent tampering
+
+What are Group Policy Preferences (GPP) passwords?|Credentials stored in XML files on the SYSVOL share when GPPs are created; the cpassword attribute is AES-256 encrypted but Microsoft published the decryption key, making them trivially recoverable
+
+Was the GPP password vulnerability ever patched?|Yes, patched in 2014 with MS14-025, but the patch only prevents new GPP passwords from being set; it does not remove existing Groups.xml files from SYSVOL
+
+What is a domain trust?|A link between the authentication systems of two domains that allows users to access resources or perform administrative tasks in another domain outside of where their account resides
+
+What is a transitive trust?|A trust that extends beyond two domains; if Domain A trusts Domain B and Domain B transitively trusts Domain C, then Domain A automatically trusts Domain C
+
+What is a non-transitive trust?|A trust where only the directly specified child domain is trusted and the trust is not extended to any further domains
+
+Which trust types are transitive by nature?|Forest, tree-root, parent-child, and cross-link trusts
+
+Which trust types are typically non-transitive?|External or custom trust setups
+
+What is the difference between a one-way and a bidirectional trust?|In a one-way trust, users in the trusted domain can access resources in the trusting domain but not vice versa; in a bidirectional trust, users from both domains can access resources in the other
+
+What is the sidHistory attribute used for, and how can it be abused?|Used in migration scenarios to add a user's original SID to their new account; abused by injecting a privileged SID (such as Domain Admin) into an attacker-controlled account's sidHistory
+
+What is SID Filtering?|A protection that filters out authentication requests containing SIDs from outside the trusted domain, primarily used across forest trusts to prevent sidHistory abuse
+
+What is the ExtraSids attack?|An attack that, after compromising a child domain, forges a Golden Ticket with the Enterprise Admins SID in the sidHistory field, granting full administrative access to the parent domain
+
+What five pieces of data are needed to perform the ExtraSids attack?|The KRBTGT NT hash for the child domain, the SID of the child domain, a target username (does not need to exist), the FQDN of the child domain, and the SID of the Enterprise Admins group in the root domain
+
+What is a Golden Ticket?|A forged Kerberos TGT created using the KRBTGT account's hash that allows an attacker to authenticate as any user in the domain for an extended period
+
+What is the KRBTGT account and why is its hash so valuable?|KRBTGT is the Key Distribution Center service account used to encrypt and sign all Kerberos tickets in a domain; its hash allows an attacker to forge valid Kerberos TGTs
+
+What is the Enterprise Admins group?|A highly privileged group that only exists in the root/parent domain of a forest and has administrative rights across the entire forest; its SID always ends in -519
+
+Can Kerberoasting be performed across a domain or forest trust?|Yes; if positioned in a domain with an inbound or bidirectional trust, you can Kerberoast accounts in the target domain that have SPNs
+
+What is Admin Password Re-Use in the context of cross-forest trust abuse?|If cleartext passwords or NT hashes are obtained for a privileged account in Domain A, and Domain B has a similarly named account using the same password, ownership of Domain A can instantly give full admin rights to Domain B
+
+What type of group is the only kind that allows security principals from outside its forest?|Only Domain Local Groups allow security principals from outside the forest
+
+What does the Protected Users group protect against?|It prevents credential caching in memory, blocks NTLM authentication, disallows DES and RC4 Kerberos keys, prevents delegation, and limits TGT lifetime to 4 hours
+
+What is the recommended approach to service accounts to mitigate Kerberoasting?|Use Group Managed Service Accounts (gMSA) or Managed Service Accounts (MSA), which use automatically rotated complex passwords that make Kerberoasting infeasible
+
+What setting can prevent noPac and RBCD attacks at the domain level?|Setting the ms-DS-MachineAccountQuota attribute to 0 prevents standard users from adding machine accounts
+
+What Windows Event IDs should be monitored to detect password spraying?|Event IDs 4624 and 4648 for strings of failed and successful login attempts from a single source
+
+What is the MITRE ATT&CK tag for Password Spraying?|T1110/003
+
+What is the MITRE ATT&CK tag for Internal Reconnaissance?|T1595
+
+What is the MITRE ATT&CK tag for Poisoning/MITM attacks?|T1557
+
+What is the best defense against NTLM relay/poisoning attacks?|Enable SMB message signing and encrypt traffic with a strong encryption mechanism, which breaks relay attacks since the attacker cannot forge valid signed traffic
+
+What is AD Explorer used for?|Part of the Sysinternals Suite; an advanced AD viewer and editor that can browse AD objects/attributes and create offline snapshots of the AD database for later review and comparison
+
+What is ADRecon and what does it produce?|A PowerShell tool that collects a comprehensive set of AD data at once and produces an HTML report and CSV files covering users, groups, GPOs, computers, trusts, DNS, LAPS, BitLocker, and more
+
+What regular audit activities should organizations perform for AD hardening?|Annually or quarterly: document and audit OUs, DNS/DHCP/network configs, GPOs, FSMO roles, application inventory, enterprise hosts, trust relationships, and users with elevated permissions
+
+What are the three categories that AD hardening measures fall into?|People, Processes, and Technology
+
+What does enabling the RestrictNullSessAccess registry key to 1 accomplish?|It restricts null session access to unauthenticated users, preventing anonymous enumeration of AD resources
+
+What three LDAP OID matching rules are used in AD?|1.2.840.113556.1.4.803 (exact bit match), 1.2.840.113556.1.4.804 (any bit match), and 1.2.840.113556.1.4.1941 (distinguished name/membership match)
+
+What are the three logical operators used when building LDAP search filters?|The & (AND) operator requires all conditions to match; the | (OR) operator requires any condition to match; the ! (NOT) operator excludes objects matching the condition
+
+What is Resource-Based Constrained Delegation (RBCD)?|A delegation type that allows a specified account to impersonate any user to a target service; the Printer Bug can relay LDAP authentication to grant RBCD privileges on a victim computer to an attacker-controlled account
+
+What is GPO abuse in Active Directory?|Exploiting misconfigured rights over Group Policy Objects to perform lateral movement, privilege escalation, domain compromise, or establish persistence; any changes push down to every computer in the OU the GPO applies to
+
+What is the PASSWD_NOTREQD flag on a user account?|A userAccountControl attribute that means the account is not subject to the domain's password length policy, potentially allowing a blank or very short password
+
+What is a credential cache (ccache) file?|A file used to hold Kerberos credentials on Linux systems; setting the KRB5CCNAME environment variable points the system to use it for Kerberos authentication
+
+Why should all tool output and scan results be saved to files throughout an AD assessment?|To maintain a comprehensive record for reporting, enable later analysis with other tools, and avoid losing critical data discovered during the engagement
+
+Why should SharpHound be compiled from source when used in client environments?|To verify the code is clean and has not been tampered with; introducing pre-compiled binaries from unknown sources risks bringing malicious code into a client's environment
+
+What does the PASSWD_NOTREQD (UAC value 32) flag indicate on an AD user account?|The account is not required to have a password set; these accounts can potentially be accessed without credentials and represent a security misconfiguration
+
+What is the significance of the logon server environment variable (%logonserver%)?|It reveals the name of the Domain Controller that the current host checks in with for authentication, directly identifying a high-value target without any active scanning
+
+What information should be regularly reviewed in SYSVOL as part of AD hardening?|SYSVOL should be reviewed for scripts containing passwords and other sensitive data that could be leveraged by attackers with standard domain user access

@@ -1,0 +1,30 @@
+What is Active Directory Certificate Services (ADCS)? | A Windows role for issuing and managing PKI certificates used in secure communication and authentication, integrated with Active Directory Domain Services
+What are the three security properties ADCS provides? | Confidentiality through encryption, integrity through digital signatures, and authentication by associating certificate keys with computer and user accounts
+What is an X.509 certificate? | A certificate issued by a Certificate Authority (CA) to represent a domain principal (user or computer), containing identity and cryptographic information
+What is the Subject Alternative Name (SAN) field in a certificate? | A collection of alternate names for the certificate subject, which can be abused to impersonate other users if the requestor can supply it arbitrarily
+What is an Extended Key Usage (EKU)? | A collection of key purpose values that define how a certificate's public key can be used (e.g. client authentication, email, EFS)
+What are Object Identifiers (OIDs)? | Under-the-hood references for EKUs; for example Client Authentication is 1.3.6.1.5.5.7.3.2 and Any Purpose is 2.5.29.37.0
+What is a Certificate Template? | A preconfigured set of rules and policies applied to incoming certificate requests, predefining fields like EKUs based on the certificate's intended purpose
+Why is the validity period of a certificate significant from a security perspective? | The longer a certificate is valid, the longer it can be abused by an attacker if obtained maliciously
+What does the ENROLLEE_SUPPLIES_SUBJECT flag on a certificate template mean? | The certificate's subject information is provided by the requestor rather than being populated from Active Directory, allowing arbitrary subject data
+Why is Manager Approval Required being set to False significant? | It means certificates can be obtained without any manual review or intervention, making templates easier to abuse
+What is the ESC1 vulnerability? | A misconfigured certificate template where the EKU enables client authentication AND the enrollee can supply subject information (ENROLLEE_SUPPLIES_SUBJECT), allowing impersonation of any user
+What four conditions must be present for ESC1 to be exploitable? | ENROLLEE_SUPPLIES_SUBJECT flag set, Manager Approval disabled, Authorized Signatures set to 0, and a client authentication EKU enabled
+What EKUs besides Client Authentication can be abused in ESC1-style attacks? | PKINIT Client Authentication, Smart Card Logon, Any Purpose, Subordinate CA, and a blank/empty EKU field
+What is the ESC2 vulnerability? | A misconfigured template with either the Any Purpose EKU or blank/empty EKUs, allowing the certificate to be used in place of any EKU without restriction
+How can ESC2 be chained for further exploitation? | If ENROLLEE_SUPPLIES_SUBJECT is also enabled, ESC2 can mimic ESC1; otherwise it can mimic ESC3 since it can be used for any purpose
+What is the ESC3 vulnerability? | A misconfigured template with the Certificate Request Agent EKU enabled, allowing the certificate holder to sign requests on behalf of other users
+What is the two-step exploitation process for ESC3? | First, request a Certificate Request Agent certificate using your own context; second, use that certificate to request another certificate on behalf of a target user (e.g. using a User template with Client Authentication)
+What is the ESC4 vulnerability? | An overly permissive ACE on a certificate template that allows a low-privilege principal to modify the template and make it vulnerable to escalation
+What are the five dangerous permissions in ESC4? | Owner (implicit full control), FullControl (explicit full control), WriteOwner (change owner), WriteProperty (edit any property), WriteDacl (modify access controls)
+How is ESC4 typically exploited? | By using the write permissions to add the ENROLLEE_SUPPLIES_SUBJECT flag to a template that already has Client Authentication, then following the ESC1 exploitation path
+What is the ESC8 vulnerability? | Certificate Authorities configured with HTTP web enrollment services that are not protected by HTTPS with Channel Binding, making them vulnerable to NTLM relay attacks
+What is the attack flow for ESC8? | Coerce NTLM authentication from a target (e.g. domain controller), relay it to the ADCS HTTP endpoint to enrol for a certificate as that target, then use the certificate for further access
+Why is port 445 significant in an ESC8 NTLM relay attack from a C2? | Port 445 must be unbound on a compromised machine so it can be re-used to receive relayed NTLM authentication, requiring stopping the lanmanserver, srv2, and srvnet services in order
+What is a golden certificate (DPERSIST1)? | A persistence technique where the CA server's public and private signing keys are extracted and used offline to forge certificates for any user in the domain
+Why is a golden certificate compared to a Kerberos golden ticket? | Both are forged using the master secret of the authentication system (CA private key vs krbtgt hash), granting unrestricted privileged access
+What makes a CA server a Tier 0 asset? | Compromise of a CA allows an attacker to forge certificates for any domain principal, giving them the same level of access as a domain controller compromise
+How long does a forged golden certificate remain valid? | Until the certificate's specified End Date, or until it is manually revoked; longer CA validity periods mean longer potential abuse windows
+What is PKINIT and how is it used in ADCS attacks? | PKINIT is a Kerberos pre-authentication mechanism using certificates; it allows a certificate to be used to request a TGT (Kerberos ticket-granting ticket) for a user
+What is the role of the CRL Distribution Points field in a certificate? | It contains URLs where the Certificate Revocation List is published, allowing systems to check if a certificate has been revoked
+What is the significance of Authorized Signatures Required being set to 0 on a template? | No cryptographic proof from an authorised party is needed to obtain a certificate from that template, removing an additional validation layer

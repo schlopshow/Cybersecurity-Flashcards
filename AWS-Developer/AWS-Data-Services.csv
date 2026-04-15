@@ -1,0 +1,20 @@
+What tasks does Amazon RDS automate?|Provisioning infrastructure, installing database software, performing backups, and patching software
+What database management tasks are you still responsible for with RDS?|Managing database settings specific to your application, building the relational schema, and performance tuning for your application's workflow
+How does RDS handle minor version upgrades?|RDS can automatically apply minor upgrades at scheduled maintenance windows with no user intervention
+How does RDS handle major version upgrades?|Major upgrades require manual intervention as they can impact existing schema or code
+What type of database excels at scaling to hundreds of thousands of requests with key-value access patterns?|NoSQL databases like DynamoDB (particularly for user profiles and session state)
+Why is DynamoDB better than MySQL on EC2 for session state?|DynamoDB scales more effectively with small amounts of data, is much faster, and doesn't become bottlenecked like MySQL on EC2
+What is Amazon Redshift designed for?|A data warehouse service for analytical queries on petabyte-scale datasets (not suitable for session state)
+What is 1 RCU (Read Capacity Unit) in DynamoDB?|One strongly consistent read per second of 4 KB
+How many eventually consistent reads does 1 RCU provide?|Two eventually consistent reads per second of 4 KB
+What is 1 WCU (Write Capacity Unit) in DynamoDB?|One write per second of 1 KB (1024 bytes)
+What is Amazon DynamoDB Accelerator (DAX)?|A write-through caching service that quickly integrates with DynamoDB and seamlessly intercepts API calls
+What ElastiCache engine supports high-availability configuration?|Only Redis supports high-availability configuration in ElastiCache
+Does ElastiCache for Memcached support high-availability?|No, Memcached does not support high-availability configuration
+What is DAX used for?|A caching mechanism specifically for DynamoDB (not for RDS)
+What are the key advantages of Amazon Aurora?|Automatically scales storage, supports up to 15 read replicas with sub-second replication lag, and has fault-tolerant architecture with faster failover times
+What database engines are compatible with Aurora?|MySQL and PostgreSQL
+What is the most efficient way to retrieve data from DynamoDB?|Use queries instead of scans (scans are less efficient)
+What is the cost difference between strongly consistent reads and eventually consistent reads in DynamoDB?|Strongly consistent reads cost twice as much as eventually consistent reads
+What do WCUs measure in DynamoDB?|Write Capacity Units measure write throughput (not read operations)
+Will adding more RCUs solve the inefficiency of using scans in DynamoDB?|No, adding RCUs increases concurrent read capacity but doesn't address the inefficiency of scans versus queries

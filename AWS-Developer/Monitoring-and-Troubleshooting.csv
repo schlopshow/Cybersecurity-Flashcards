@@ -1,0 +1,21 @@
+When should Auto Scaling scale out and scale in?|Scale out when more resources are consumed than normal; scale in when fewer resources are consumed (not during high load or slow response times)
+How long are CloudWatch data points with a 300-second period stored?|63 days
+What is the most cost-effective way to store CloudWatch logs long-term?|Archive logs from CloudWatch to Amazon S3 (S3 storage is cheaper than CloudWatch storage)
+What methods can send data to CloudWatch?|CloudWatch SDK, AWS CLI, or CloudWatch agent (CloudWatch cannot pull data from servers without these)
+What is required to send operating system and application logs to CloudWatch?|The CloudWatch agent must be installed
+What AWS X-Ray color indicates 4XX client-side errors?|Orange (successful 2XX are green, application faults are red, throttling/5XX are purple)
+What CloudWatch feature creates a single interface to monitor all resources?|CloudWatch dashboards
+How long does CloudTrail store event history by default?|90 days (create a CloudTrail trail to store permanently in S3)
+What is the difference between CloudTrail management events and data events?|Management events are operations on resources (e.g., changing bucket policy); data events are operations on data stored in resources (e.g., modifying S3 object)
+What networking configuration is required when installing CloudWatch Logs agent?|None, as long as the instance can reach the CloudWatch API endpoint
+Must you install Systems Manager agent alongside CloudWatch Logs agent?|No, you can use Systems Manager to install CloudWatch agent, but it's not required to install both
+Why is memory not a default CloudWatch metric for EC2 instances?|Memory is allocated to the instance and managed by guest OS, so the underlying host doesn't have visibility; must be delivered as a custom metric using the agent
+What is the correct namespace format for Amazon EC2 in CloudWatch?|AWS/EC2 (uses AWS prefix, not Amazon prefix, and is service-specific not resource-specific)
+How should you route different event types to Lambda using EventBridge?|Create multiple EventBridge rules with custom event patterns for flexible routing based on specific event details
+What does the limit command do in CloudWatch Log Insights?|Restricts the number of log events returned (e.g., to top 100)
+What is Ultrawarm in OpenSearch?|Uses S3 buckets to provide lower-cost storage for less frequently accessed data
+What are CloudWatch alarms used for?|To notify you when something isn't operating based on your specifications (not for creating dashboards)
+What are CloudWatch Logs used for?|Sending and storing server logs to CloudWatch service (can create metrics from logs for dashboards)
+What are CloudTrail logs used for?|Listing security-related events (not providing dashboards)
+What must be configured when installing CloudWatch agent?|The specific logs to send must be configured, and the agent must be started before log data is sent
+What default EC2 metrics are visible to the underlying host?|CPU, network, and disk activity (memory is NOT visible to host)

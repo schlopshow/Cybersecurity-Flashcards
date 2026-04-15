@@ -1,0 +1,36 @@
+What is AppLocker? | A Windows application control technology designed to prevent users from running applications, scripts, or packages not approved by policy
+What are the two components that make up an AppLocker rule? | A permission (the action and who it applies to) and a condition (the rule itself that defines what is being controlled)
+What are the three condition types available for AppLocker rules? | Publisher (based on the signer of an application), Path (based on a file or folder path), and File Hash (based on the hash of a file)
+How are AppLocker policies typically deployed in an enterprise? | Via Group Policy Object (GPO) or Intune
+What file types do AppLocker Executable Rules apply to? | .exe and .com files
+What file types do AppLocker Windows Installer Rules apply to? | .msi, .msp, and .mst files
+What file types do AppLocker Script Rules apply to? | .ps1, .bat, .cmd, .vbs, and .js files
+What file types do AppLocker Packaged App Rules apply to? | .appx packaged applications
+What are the two locations where AppLocker policies can be enumerated from? | Directly from the GPO, or from the local registry of a machine to which the policy is applied
+Where in the registry are AppLocker policies stored? | HKLM\Software\Policies\Microsoft\Windows\SrpV2, with each policy type in its own subkey
+When is enumerating AppLocker policy from the registry most useful? | When you already have console access to a protected machine
+When is enumerating AppLocker policy from a GPO most useful? | When you have access on an unprotected machine but are trying to move laterally to a protected one
+Where in SYSVOL can AppLocker policy files be found? | In Registry.pol files within the Machine directory of the relevant policy folder under the SYSVOL Policies path
+What is a path wildcard bypass in AppLocker? | When a custom rule uses an overly permissive wildcard that isn't anchored to a specific trusted directory, allowing execution from any folder with a matching name
+What is a writeable directory bypass in AppLocker? | Placing executables, scripts, or installers into directories within %WINDIR%\* that standard users have write access to, which fall within a default allow rule
+What are some example writeable directories that exist within AppLocker's default allowed paths? | C:\Windows\Tasks, C:\Windows\Temp, C:\Windows\Tracing, C:\Windows\System32\spool\PRINTERS, C:\Windows\System32\spool\SERVERS, C:\Windows\System32\spool\drivers\color
+What is a LOLBAS bypass in AppLocker? | Using a Living Off the Land Binary or Script that already exists in a whitelisted path and is capable of executing arbitrary code, bypassing AppLocker controls
+What effect does AppLocker have on PowerShell? | It changes PowerShell's language mode from FullLanguage to ConstrainedLanguage, restricting access to language features that can invoke arbitrary Windows APIs including many .NET APIs
+What is PowerShell Constrained Language Mode? | A language mode that restricts access to Windows and .NET APIs, preventing the invocation of arbitrary methods — a protection applied by AppLocker
+Why are AppLocker's PowerShell CLM restrictions not fully water-tight? | Certain cmdlets like New-Object can still load COM objects, which can be abused to load arbitrary DLLs into the PowerShell process
+How can a custom COM object be abused to bypass AppLocker CLM? | By registering a custom COM object in HKCU pointing to an arbitrary DLL, then loading it via New-Object in PowerShell, causing the DLL to execute within the PowerShell process
+Why are AppLocker DLL rules rarely enforced? | Due to performance concerns caused by the overhead of inspecting every DLL load
+What does the absence of AppLocker DLL rules enable? | Loading arbitrary DLLs using tools like rundll32, as long as the DLL exports at least one callable function
+What are the six report types Cobalt Strike can generate? | Activity report (timeline), Hosts report (per-host data), IOC report (C2 traffic/domains/hashes), Sessions report (activity by session), Social engineering report (phishing results), and TTP report (MITRE ATT&CK mapping)
+What is the purpose of a red team Activity Report? | To provide an overall timeline of post-exploitation activity during the engagement
+What is the purpose of a red team IOC Report? | To provide technical threat-intelligence-style information including C2 traffic profiles, domains used, and file hashes
+What is the purpose of a red team TTP Report? | To map activity recorded during the engagement to MITRE's ATT&CK Matrix
+What are the five main sections of a red team report? | Executive Summary, Goals & Scenario, Attack Narrative, Observations & Recommendations, and Conclusion
+What is the purpose of the Executive Summary in a red team report? | To provide a concise, non-technical overview of key findings, outcomes, and business risks aimed at business executives
+What is the purpose of the Goals & Scenario section in a red team report? | To summarise the testing methodology, goals, scope, and testing model used during the assessment
+What is the purpose of the Attack Narrative section in a red team report? | To outline the technical sequence of events that allowed the red team to reach their objective, including commands, output, and screenshots
+What is an observation in the Observations & Recommendations section? | A description of a deficiency in the organisation's ability to prevent, detect, or respond to a particular activity identified during the engagement
+What is the purpose of the Conclusion section in a red team report? | To summarise key findings, reiterate their significance, and provide a statement of overall business risk
+What is an executive out-brief? | A post-engagement meeting tailored toward management to run through findings and ensure they understand the business impact so they can support organisational changes
+What is a technical out-brief? | A post-engagement meeting between the red team and technical teams (such as the blue team) to review activity and outcomes in detail, providing a learning opportunity for both sides
+Why is management buy-in important after a red team engagement? | Because recommendations may require organisational changes to staffing and funding, and management must understand the business impact to approve and implement improvements

@@ -1,0 +1,726 @@
+Suricata Fundamentals
+
+Regarded as a potent instrument for Network Intrusion Detection Systems (IDS), Intrusion Prevention Systems (IPS), and Network Security Monitoring (NSM), Suricata represents a cornerstone of network security. This open-source powerhouse, managed and developed by the Open Information Security Foundation (OISF), is a testament to the strength of a community-led, non-profit initiative.
+
+The objective of Suricata is to dissect every iota of network traffic, seeking potential signs of malicious activities. Its strength lies in the ability to not only conduct a sweeping evaluation of our network's condition but also delve into the details of individual application-layer transactions. The key to Suricata's successful operation lies in an intricately designed set of rules. These guidelines direct Suricata's analysis process, identifying potential threats and areas of interest. Equipped to perform at high velocities on both off-the-shelf and specifically designed hardware, Suricata's efficiency is second to none.
+Suricata Operation Modes
+
+Suricata operates in four (4) distinct modes:
+
+    The Intrusion Detection System (IDS) mode positions Suricata as a silent observer. In this capacity, Suricata meticulously examines traffic, flagging potential attacks but refraining from any form of intervention. By providing an in-depth view of network activities and accelerating response times, this mode augments network visibility, albeit without offering direct protection.
+
+    In the Intrusion Prevention System (IPS) mode, Suricata adopts a proactive stance. All network traffic must pass through Suricata's stringent checks and is only granted access to the internal network upon Suricata's approval. This mode bolsters security by proactively thwarting attacks before they penetrate our internal network. Deploying Suricata in IPS mode demands an intimate understanding of the network landscape to prevent the inadvertent blocking of legitimate traffic. Furthermore, each rule activation necessitates rigorous testing and validation. While this mode enhances security, the inspection process may introduce latency.
+
+    The Intrusion Detection Prevention System (IDPS) mode brings together the best of both IDS and IPS. While Suricata continues to passively monitor traffic, it possesses the ability to actively transmit RST packets in response to abnormal activities. This mode strikes a balance between active protection and maintaining low latency, crucial for seamless network operations.
+
+    In its Network Security Monitoring (NSM) mode, Suricata transitions into a dedicated logging mechanism, eschewing active or passive traffic analysis or prevention capabilities. It meticulously logs every piece of network information it encounters, providing a valuable wealth of data for retrospective security incident investigations, despite the high volume of data generated.
+
+Suricata Inputs
+
+Regarding Suricata inputs, there are two main categories:
+
+    Offline Input: This involves reading PCAP files for processing previously captured packets in the LibPCAP file format. It is not only advantageous for conducting post-mortem data examination but also instrumental when experimenting with various rule sets and configurations.
+
+    Live Input: Live input can be facilitated via LibPCAP, where packets are read directly from network interfaces. However, LibPCAP is somewhat hamstrung by its performance limitations and lack of load-balancing capabilities. For inline operations, NFQ and AF_PACKET options are available. NFQ, a Linux-specific inline IPS mode, collaborates with IPTables to divert packets from the kernel space into Suricata for detailed scrutiny. Commonly used inline, NFQ necessitates drop rules for Suricata to effectively obstruct packets. Conversely, AF_PACKET provides a performance improvement over LibPCAP and supports multi-threading. Nevertheless, it's not compatible with older Linux distributions and can't be employed inline if the machine is also tasked with routing packets.
+
+Please note that there are other, less commonly used or more advanced inputs available.
+Suricata Outputs
+
+Suricata creates multiple outputs, including logs, alerts, and additional network-related data such as DNS requests and network flows. One of the most critical outputs is EVE, a JSON formatted log that records a wide range of event types including alerts, HTTP, DNS, TLS metadata, drop, SMTP metadata, flow, netflow, and more. Tools such as Logstash can easily consume this output, facilitating data analysis.
+
+We might encounter Unified2 Suricata output, which is essentially a Snort binary alert format, enabling integration with other software that leverages Unified2. Any Unified2 output can be read using Snort’s u2spewfoo tool, which is a straightforward and effective method to gain insight into the alert data.
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's SSH into the Target IP using the provided credentials. The vast majority of the commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+Configuring Suricata & Custom Rules
+
+Once we've accessed the deployed Suricata instance over SSH, we can get an overview of all the rule files with a simple execution command.
+Rules might be commented out, meaning they aren't loaded and don't affect the system. This usually happens when a new version of the rule comes into play or if the threat associated with the rule becomes outdated or irrelevant.
+
+Each rule usually involves specific variables, such as $HOME_NET and $EXTERNAL_NET. The rule examines traffic from the IP addresses specified in the $HOME_NET variable heading towards the IP addresses in the $EXTERNAL_NET variable.
+
+These variables can be defined in the suricata.yaml configuration file.
+This allows us to customize these variables according to our specific network environment and even define our own variables.
+
+Finally, to configure Suricata to load signatures from a custom rules file, such as local.rules in the /home/htb-student directory, we would execute the below.
+Suricata Fundamentals
+
+Schlop@htb[/htb]$ sudo vim /etc/suricata/suricata.yaml
+
+    Add /home/htb-student/local.rules to rule-files:
+    Press the Esc key
+    Enter :wq and then, press the Enter key
+
+The local.rules file that resides in the /home/htb-student directory of this section's target already contains a Suricata rule. This rule is adequate for this section's learning objectives. We will elaborate more on Suricata rule development in the next section.
+Hands-on With Suricata Inputs
+
+With Suricata inputs, we can experiment with both offline and live input:
+
+    For offline input (reading PCAP files - suspicious.pcap in this case), the following command needs to be executed, and Suricata will create various logs (mainly eve.json, fast.log, and stats.log).
+    Then, feel free to terminate both tcpreplay and Suricata. The logs from the observed (replayed) traffic will be available at /var/log/suricata
+
+The -i option helps Suricata choose the best input option. In the case of Linux, the best input option is AF_PACKET. If pcap mode is needed, the --pcap option is recommended. Configuration of (Live) LibPCAP can be achieved via the suricata.yaml file, including settings for buffer size, BPF or tcpdump filters, checksum validation, threads, promiscuous mode, snap length, etc.
+Hands-on With Suricata Outputs
+
+Suricata records a variety of data into logs that reside in the /var/log/suricata directory by default. For us to access and manipulate these logs, we require root-level access. Among these logs, we find the eve.json, fast.log, and stats.log files, which provide invaluable insight into the network activity. Let's delve into each:
+
+    eve.json: This file is Suricata's recommended output and contains JSON objects, each carrying diverse information such as timestamps, flow_id, event_type, and more. Try inspecting the content of old_eve.json residing at /var/log/suricata as follows.
+
+    We can also use similar commands to filter for other event types like TLS and SSH.
+
+flow_id: This is a unique identifier assigned by Suricata to each network flow. A flow, in Suricata terms, is defined as a set of IP packets passing through a network interface in a specific direction and between a given pair of source and destination endpoints. Each of these flows gets a unique flow_id. This identifier helps us track and correlate various events related to the same network flow in the EVE JSON log. Using flow_id, we can associate different pieces of information related to the same flow, such as alerts, network transactions, and packets, providing a cohesive view of what is happening on a specific communication channel.
+
+pcap_cnt: This is a counter that Suricata increments for each packet it processes from the network traffic or from a PCAP file (in offline mode). pcap_cnt allows us to trace a packet back to its original order in the PCAP file or network stream. This is beneficial in understanding the sequence of network events as they occurred. It can help to precisely pinpoint when an alert was triggered in relation to other packets, which can provide valuable context in an investigation.
+
+fast.log: This is a text-based log format that records alerts only and is enabled by default. Try inspecting the content of old_fast.log
+For those of us who want a more focused output strategy, there's an option to deactivate the comprehensive EVE output and activate particular outputs instead. Take http-log, for instance. By activating this, every time Suricata is run and encounters HTTP events, a fresh http.log file will be generated.
+Hands-on With Suricata Outputs - File Extraction
+
+Suricata, has an underused yet highly potent feature - file extraction. This feature allows us to capture and store files transferred over a number of different protocols, providing invaluable data for threat hunting, forensics, or simply data analysis.
+
+Here's how we go about enabling file extraction in Suricata.
+
+We start by making changes to the Suricata configuration file (suricata.yaml). In this file, we'll find a section named file-store. This is where we tell Suricata how to handle the files it extracts. Specifically, we need to set version to 2, enabled to yes, and the force-filestore option also to yes. The resulting section should look something like this.
+In the same file-store section, we define where Suricata stores the extracted files. We set the dir option to the directory of our choice.
+
+As a quick exercise, let's enable file extraction and run Suricata on the /home/htb-student/pcaps/vm-2.pcap file from www.netresec.com.
+
+In accordance with the guidelines put forth in Suricata's documentation, file extraction isn't an automatic process that occurs without our explicit instructions. It's fundamentally crucial for us to craft a specific rule that instructs Suricata when and what kind of files it should extract.
+
+The simplest rule we can add to our local.rules file to experiment with file extraction is the following.
+Suricata Fundamentals
+
+alert http any any -> any any (msg:"FILE store all"; filestore; sid:2; rev:1;)
+
+If we configured Suricata correctly, multiple files will be stored inside the filestore directory.
+
+Let's run Suricata on the /home/htb-student/pcaps/vm-2.pcap file.
+Live Rule Reloading Feature & Updating Suricata Rulesets
+
+Live rule reloading is a crucial feature in Suricata that allows us to update our ruleset without interrupting ongoing traffic inspection. This feature provides continuous monitoring and minimizes the chances of missing any malicious activity.
+
+To enable live rule reloading in Suricata, we need to configure our Suricata configuration file (suricata.yaml). In the suricata.yaml file, we should locate the detect-engine section and set the value of the reload parameter to true. It looks something like this:
+Suricata Fundamentals
+
+detect-engine:
+  - reload: true
+
+Proceed to execute the following kill command, which will signal the Suricata process (determined by $(pidof suricata)) to refresh its rule set without necessitating a complete restart.
+Suricata Fundamentals
+
+Schlop@htb[/htb]$ sudo kill -usr2 $(pidof suricata)
+
+This modification tells Suricata to check for changes in the ruleset periodically and apply them without needing to restart the service.
+Validating Suricata's Configuration
+
+Validation of Suricata's configuration is also an essential part of maintaining the robustness of our IDS/IPS setup. To validate the configuration, we can use the -T option provided by the Suricata command. This command runs a test to check if the configuration file is valid and all files referenced in the configuration are accessible.
+
+Here is how we can do this.
+Suricata Fundamentals
+
+Schlop@htb[/htb]$ sudo suricata -T -c /etc/suricata/suricata.yaml
+6/7/2023 -- 07:13:29 - <Info> - Running suricata under test mode
+6/7/2023 -- 07:13:29 - <Notice> - This is Suricata version 6.0.13 RELEASE running in SYSTEM mode
+6/7/2023 -- 07:13:29 - <Notice> - Configuration provided was successfully loaded. Exiting.
+
+Suricata Documentation
+
+Suricata is an incredibly versatile tool with extensive functionality. We highly recommend exploring Suricata's documentation to gain a deeper understanding of its capabilities.
+Suricata Key Features
+
+Key features that bolster Suricata's effectiveness include:
+
+    Deep packet inspection and packet capture logging
+    Anomaly detection and Network Security Monitoring
+    Intrusion Detection and Prevention, with a hybrid mode available
+    Lua scripting
+    Geographic IP identification (GeoIP)
+    Full IPv4 and IPv6 support
+    IP reputation
+    File extraction
+    Advanced protocol inspection
+    Multitenancy
+
+Note: Suricata can also be used to detect "non-standard/anomalous" traffic. We can leverage strategies outlined in Suricata's Protocol Anomalies Detection page. This approach enhances our visibility into unusual or non-compliant behavior within our network, thus augmenting our security posture.
+Suricata Rule Development Part 1
+
+At its core, a rule in Suricata serves as a directive, instructing the engine to actively watch for certain markers in the network traffic. When such specific markers appear, we will receive a notification.
+
+Suricata rules are not exclusively focused on the detection of nefarious activities or potentially harmful traffic. In many instances, rules can be designed to furnish network defenders or blue team members with critical insights or contextual data regarding ongoing network activity.
+
+The specificity or generality of the rules is in our hands. Striking a balance is paramount to, say, identify variations of a certain malware strain while evading false positives.
+
+The development of these rules often leverages crucial information provided by the infosec communities and threat intelligence. However, it's worth noting that each rule we deploy consumes a portion of the host's CPU and memory resources. Hence, Suricata provides specific guidelines for writing effective rules.
+Suricata Rule Anatomy
+
+A sample Suricata rule can be found below. Let's break it down.
+Suricata Rule Development Part 1
+
+action protocol from_ip port -> to_ip port (msg:"Known malicious behavior, possible X malware infection"; content:"some thing"; content:"some other thing"; sid:10000001; rev:1;)
+
+    Header (action protocol from_ip port -> to_ip port part): The header section of a rule encapsulates the intended action of the rule, along with the protocol where the rule is expected to be applied. Additionally, it includes IP addresses, port information, and an arrow indicating traffic directionality.
+        action instructs Suricata on what steps to take if the contents match. This could range from generating an alert (alert), logging the traffic without an alert (log), ignoring the packet (pass), dropping the packet in IPS mode (drop), or sending TCP RST packets (reject).
+        protocol can vary, including tcp, udp, icmp, ip, http, tls, smb, or dns.
+        Traffic directionality is declared using rule host variables (such as $HOME_NET, $EXTERNAL_NET, etc. that we saw inside suricata.yaml) and rule direction. The direction arrow between the two IP-Port pairs informs Suricata about the traffic flow.
+            Examples:
+                Outbound: $HOME_NET any -> $EXTERNAL_NET 9090
+                Inbound: $EXTERNAL_NET any -> $HOME_NET 8443
+                Bidirectional: $EXTERNAL_NET any <> $HOME_NET any
+        Rule ports define the ports at which the traffic for this rule will be evaluated.
+            Examples:
+                alert tcp $HOME_NET any -> $EXTERNAL_NET 9443
+                alert tcp $HOME_NET any -> $EXTERNAL_NET $UNCOMMON_PORTS
+                    $UNCOMMON_PORTS can be defined inside suricata.yaml
+                alert tcp $HOME_NET any -> $EXTERNAL_NET [8443,8080,7001:7002,!8443]
+
+    Rule message & content ((msg:"Known malicious behavior, possible X malware infection"; content:"some thing"; content:"some other thing"; part): The rule message & content section contains the message we wish to be displayed to the analysts or ourselves when an activity we want to be notified about is detected. content are the segments of the traffic that we deem essential for such detections.
+        Rule message (msg) is an arbitrary text displayed when the rule is triggered. Ideally, the rule messages we create should contain details about malware architecture, family, and action.
+            flow identifies the originator and responder. Always remember, when crafting rules, to have the engine monitor "established" tcp sessions.
+                Examples:
+                    alert tcp any any -> 192.168.1.0/24 22 (msg:"SSH connection attempt"; flow:to_server; sid:1001;)
+                    alert udp 10.0.0.0/24 any -> any 53 (msg:"DNS query"; flow:from_client; sid:1002;)
+                    alert tcp $EXTERNAL_NET any -> $HOME_NET 80 (msg:"Potential HTTP-based attack"; flow:established,to_server; sid:1003;)
+            dsize matches using the payload size of the packet. It relies on TCP segment length, not the total packet length.
+                Example: alert http any any -> any any (msg:"Large HTTP response"; dsize:>10000; content:"HTTP/1.1 200 OK"; sid:2003;)
+        Rule content comprises unique values that help identify specific network traffic or activities. Suricata matches these unique content values in packets for detection.
+            Example: content:"User-Agent|3a 20|Go-http-client/1.1|0d 0a|Accept-Encoding|3a 20|gzip";
+                |3a 20|: This represents the hexadecimal representation of the characters ":", followed by a space character. It is used to match the exact byte sequence in the packet payload.
+                |0d 0a|: This represents the hexadecimal representation of the characters "\r\n", which signifies the end of a line in HTTP headers.
+            By using Rule Buffers, we don't have to search the entire packet for every content match. This saves time and resources. More details can be found here: https://suricata.readthedocs.io/en/latest/rules/http-keywords.html
+                Example: alert http any any -> any any (http.accept; content:"image/gif"; sid:1;)
+                    http.accept: Sticky buffer to match on the HTTP Accept header. Only contains the header value. The \r\n after the header are not part of the buffer.
+            Rule options act as additional modifiers to aid detection, helping Suricata locate the exact location of contents.
+                nocase ensures rules are not bypassed through case changes.
+                    Example: alert tcp any any -> any any (msg:"Detect HTTP traffic with user agent Mozilla"; content:"User-Agent: Mozilla"; nocase; sid:8001;)
+                offset informs Suricata about the start position inside the packet for matching.
+                    Example: alert tcp any any -> any any (msg:"Detect specific protocol command"; content:"|01 02 03|"; offset:0; depth:5; sid:3003;)
+                        This rule triggers an alert when Suricata detects a specific protocol command represented by the byte sequence |01 02 03| in the TCP payload. The offset:0 keyword sets the content match to start from the beginning of the payload, and depth:5 specifies a length of five bytes to be considered for matching.
+                distance tells Suricata to look for the specified content n bytes relative to the previous match.
+                    Example: alert tcp any any -> any any (msg:"Detect suspicious URL path"; content:"/admin"; offset:4; depth:10; distance:20; within:50; sid:3001;)
+                        This rule triggers an alert when Suricata detects the string /admin in the TCP payload, starting from the fifth byte (offset:4) and considering a length of ten bytes (depth:10). The distance:20 keyword specifies that subsequent matches of /admin should not occur within the next 20 bytes after a previous match. The within:50 keyword ensures that the content match occurs within the next 50 bytes after a previous match.
+
+    Rule metadata (sid:10000001; rev:1; part):
+        reference provides us with a lead, a trail that takes us back to the original source of information that inspired the creation of the rule.
+        sid (signature ID). The unique quality of this numeric identifier makes it essential for the rule writer to manage and distinguish between rules.
+        revision offers insights into the rule's version. It serves as an indicator of the evolution of the rule over time, highlighting modifications and enhancements made.
+
+Having discussed the crux of Suricata rules, it's now time to shed light on a powerful tool in rule development: PCRE or Perl Compatible Regular Expression. Utilizing PCRE can be a game-changer when crafting rules. To employ PCRE, we use the pcre statement, which is then followed by a regular expression. Keep in mind that the PCRE should be encased in leading and trailing forward slashes, with any flags positioned after the last slash.
+
+Also, note that anchors are positioned after and before the encasing slashes, and certain characters demand escaping with a backslash. A piece of advice from the trenches - steer clear from authoring a rule that relies solely on PCRE.
+
+    Example: alert http any any -> $HOME_NET any (msg: "ATTACK [PTsecurity] Apache Continuum <= v1.4.2 CMD Injection"; content: "POST"; http_method; content: "/continuum/saveInstallation.action"; offset: 0; depth: 34; http_uri; content: "installation.varValue="; nocase; http_client_body; pcre: !"/^\$?[\sa-z\\_0-9.-]*(\&|$)/iRP"; flow: to_server, established;sid: 10000048; rev: 1;)
+        Firstly, the rule triggers on HTTP traffic (alert http) from any source and destination to any port on the home network (any any -> $HOME_NET any).
+        The msg field gives a human-readable description of what the alert is for, namely ATTACK [PTsecurity] Apache Continuum <= v1.4.2 CMD Injection.
+        Next, the rule checks for the POST string in the HTTP method using the content and http_method keywords. The rule will match if the HTTP method used is a POST request.
+        The content keyword is then used with http_uri to match the URI /continuum/saveInstallation.action, starting at offset 0 and going to a depth of 34 bytes. This specifies the targeted endpoint, which in this case is the saveInstallation action of the Apache Continuum application.
+        Following this, another content keyword searches for installation.varValue= in the HTTP client body, case insensitively (nocase). This string may be part of the command injection payload that the attacker is trying to deliver.
+        Next, we see a pcre keyword, which is used to implement Perl Compatible Regular Expressions.
+            ! at the beginning signifies that the rule will trigger when the match does not occur.
+            ^ marks the start of the line.
+            \$? checks for an optional dollar sign at the start.
+            [\sa-z\\_0-9.-]* matches zero or more (*) of the characters in the set. The set includes:
+                \s a space
+                a-z any lowercase letter
+                \\ a backslash
+                _ an underscore
+                0-9 any digit
+                . a period
+                - a hyphen
+                (\&|$) checks for either an ampersand or the end of the line.
+                /iRP at the end indicates this is an inverted match, case insensitive (i), and relative to the buffer position (RP).
+        Finally, the flow keyword is used to specify that the rule triggers on established, inbound traffic towards the server.
+
+For those who seek to broaden their understanding of Suricata rules and delve deeper into rule development, the following resource serves as a comprehensive guide: https://docs.suricata.io/en/latest/rules/index.html.
+IDS/IPS Rule Development Approaches
+
+When it comes to creating rules for Intrusion Detection Systems (IDS) and Intrusion Prevention Systems (IPS), there's an art and a science behind it. It requires a comprehensive understanding of network protocols, malware behaviors, system vulnerabilities, and the threat landscape in general.
+
+A key strategy that we employ while crafting these rules involves the detection of specific elements within network traffic that are unique to malware. This is often referred to as signature-based detection, and it's the classic approach that most IDS/IPS rely on. Signatures can range from simple patterns in packet payloads, such as the detection of a specific command or a distinctive string associated with a particular malware, to complex patterns that match a series of packets or packet characteristics. Signature-based detection is highly effective when dealing with known threats as it can identify these threats with high precision, however, it struggles to detect novel threats for which no signature exists yet.
+
+Another approach focuses on identifying specific behaviors that are characteristic to malware. This is typically referred to as anomaly-based or behavior-based detection. For instance, a certain HTTP response size constantly appearing within a threshold, or a specific beaconing interval might be indicative of a malware communication pattern. Other behaviors can include unusually high volumes of data transfers and uncommon ports being used. The advantage of this approach is its ability to potentially identify zero-day attacks or novel threats that would not be detected by signature-based systems. However, it also tends to have higher false-positive rates due to the dynamic nature of network behaviors.
+
+A third approach that we utilize in crafting IDS/IPS rules is stateful protocol analysis. This technique involves understanding and tracking the state of network protocols and comparing observed behaviors to the expected state transitions of these protocols. By keeping track of the state of each connection, we can identify deviations from expected behavior which might suggest a malicious activity.
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's RDP into the Target IP using the provided credentials. The vast majority of the commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+
+Please wait for approximately 5-6 minutes before initiating a connection using Remote Desktop Protocol (RDP). You may have to try 2-3 times before a successful RDP connection is established!
+Suricata Rule Development Part 1
+
+Schlop@htb[/htb]$ xfreerdp /u:htb-student /p:'HTB_@cademy_stdnt!' /v:[Target IP] /dynamic-resolution /relax-order-checks +glyph-cache
+
+Now, we will explore several examples of Suricata rule development to gain a solid understanding of the different approaches we can take and the structure of a rule.
+Suricata Rule Development Example 1: Detecting PowerShell Empire
+Suricata Rule Development Part 1
+
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"ET MALWARE Possible PowerShell Empire Activity Outbound"; flow:established,to_server; content:"GET"; http_method; content:"/"; http_uri; depth:1; pcre:"/^(?:login\/process|admin\/get|news)\.php$/RU"; content:"session="; http_cookie; pcre:"/^(?:[A-Z0-9+/]{4})*(?:[A-Z0-9+/]{2}==|[A-Z0-9+/]{3}=|[A-Z0-9+/]{4})$/CRi"; content:"Mozilla|2f|5.0|20 28|Windows|20|NT|20|6.1"; http_user_agent; http_start; content:".php|20|HTTP|2f|1.1|0d 0a|Cookie|3a 20|session="; fast_pattern; http_header_names; content:!"Referer"; content:!"Cache"; content:!"Accept"; sid:2027512; rev:1;)
+
+The Suricata rule above is designed to detect possible outbound activity from PowerShell Empire, a common post-exploitation framework used by attackers. Let's break down the important parts of this rule to understand its workings.
+
+    alert: This is the rule action, indicating that Suricata should generate an alert whenever the conditions specified in the rule options are met.
+    http: This is the rule protocol. It specifies that the rule applies to HTTP traffic.
+    $HOME_NET any -> $EXTERNAL_NET any: These are the source and destination IP address specifications. The rule will be triggered when HTTP traffic originates from any port (any) on a host within the $HOME_NET (internal network) and is destined to any port (any) on a host in the $EXTERNAL_NET (external network).
+    msg:"ET MALWARE Possible PowerShell Empire Activity Outbound": This is the message that will be included in the alert to describe what the rule is looking for.
+    flow:established,to_server: This specifies the direction of the traffic. The rule is looking for established connections where data is flowing to the server.
+    content:"GET"; http_method;: This matches the HTTP GET method in the HTTP request.
+    content:"/"; http_uri; depth:1;: This matches the root directory ("/") in the URI.
+    pcre:"/^(?:login\/process|admin\/get|news)\.php$/RU";: This Perl Compatible Regular Expression (PCRE) is looking for URIs that end with login/process.php, admin/get.php, or news.php.
+        PowerShell Empire is an open-source Command and Control (C2) framework. Its agent can be explored via the following repository.https://github.com/EmpireProject/Empire/blob/master/data/agent/agent.ps1#L78
+        Examine the psempire.pcap file which is located in the /home/htb-student/pcaps directory of this section's target using Wireshark to pinpoint the related requests.
+    content:"session="; http_cookie;: This is looking for the string "session=" in the HTTP cookie.
+    pcre:"/^(?:[A-Z0-9+/]{4})*(?:[A-Z0-9+/]{2}==|[A-Z0-9+/]{3}=|[A-Z0-9+/]{4})$/CRi";: This PCRE is checking for base64-encoded data in the Cookie.
+        A plethora of articles examining PowerShell Empire exist, here is one noting that the cookies utilized by PowerShell Empire adhere to the Base64 encoding standard. https://www.keysight.com/blogs/tech/nwvs/2021/06/16/empire-c2-networking-into-the-dark-side
+    content:"Mozilla|2f|5.0|20 28|Windows|20|NT|20|6.1"; http_user_agent; http_start;: This matches a specific User-Agent string that includes "Mozilla/5.0 (Windows NT 6.1".
+        https://github.com/EmpireProject/Empire/blob/master/data/agent/agent.ps1#L78
+    content:".php|20|HTTP|2f|1.1|0d 0a|Cookie|3a 20|session="; fast_pattern; http_header_names;: This matches a pattern in the HTTP headers that starts with ".php HTTP/1.1\r\nCookie: session=".
+    content:!"Referer"; content:!"Cache"; content:!"Accept";: These are negative content matches. The rule will only trigger if the HTTP headers do not contain "Referer", "Cache", and "Accept".
+
+This Suricata rule triggers an alert when it detects an established HTTP GET request from our network to an external network, with a specific pattern in the URI, cookie, and user-agent fields, and excluding certain headers.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Suricata on the psempire.pcap file, which is located in the /home/htb-student/pcaps directory.
+The local.rules file contains another rule for detecting PowerShell Empire, located directly below the rule we just examined. Invest some time in scrutinizing both the psempire.pcap file using Wireshark and this newly found rule to comprehend how it works.
+Suricata Rule Development Example 2: Detecting Covenant
+Rule source: Signature-based IDS for Encrypted C2 Traffic Detection - Eduardo Macedo
+
+The (inefficient) Suricata rule above is designed to detect certain variations of Covenant, another common post-exploitation framework used by attackers. Let's break down the important parts of this rule to understand its workings.
+
+    alert: This is the rule action. When the conditions in the rule options are met, Suricata will generate an alert.
+    tcp: This is the rule protocol. The rule applies to TCP traffic.
+    any any -> $HOME_NET any: These are the source and destination IP address and port specifications. The rule is watching for TCP traffic that originates from any IP and any port (any any) and is destined for any port (any) on a host in the $HOME_NET (internal network).
+    content:"<title>Hello World!</title>";: This instructs Suricata to look for the string <title>Hello World!</title> in the TCP payload.
+        Covenant is an open-source Command and Control (C2) framework. Its underpinnings can be explored via the following repository.https://github.com/cobbr/Covenant/blob/master/Covenant/Data/Profiles/DefaultHttpProfile.yaml#L35
+        Examine the covenant.pcap file which is located in the /home/htb-student/pcaps directory of this section's target using Wireshark to pinpoint the related requests.
+    detection_filter: track by_src, count 4, seconds 10;: This is a post-detection filter. It specifies that the rule should track the source IP address (by_src) and will only trigger an alert if this same detection happens at least 4 times (count 4) within a 10-second window (seconds 10).
+        Examine the covenant.pcap file which is located in the /home/htb-student/pcaps directory of this section's target using Wireshark to pinpoint the related requests.
+
+This Suricata rule is designed to generate a high-priority alert if it detects at least four instances of TCP traffic within ten seconds that contain the string <title>Hello World!</title> in the payload, originating from the same source IP and headed towards any host on our internal network.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Suricata on the covenant.pcap file, which is located in the /home/htb-student/pcaps directory.
+The local.rules file contains three (3) other rules for detecting Covenant, located directly below the rule we just examined. Invest some time in scrutinizing https://github.com/cobbr/Covenant/blob/master/Covenant/Data/Profiles/DefaultHttpProfile.yaml, the covenant.pcap file using Wireshark, and these newly found rule to comprehend how they work. These rules may yield false-positive results, and hence for optimal performance, it's advisable to integrate them with other detection rules.
+The local.rules file also contains the above rule for detecting Covenant. Let's break down the important parts of this rule to understand its workings.
+
+    dsize:312;: This instructs Suricata to look for TCP traffic with a data payload size of exactly 312 bytes.
+    detection_filter: track by_src, count 3 , seconds 10;: This is a post-detection filter. It says that the rule should keep track of the source IP address (by_src), and it will only trigger an alert if it detects the same rule hit at least 3 times (count 3) within a 10-second window (seconds 10).
+
+This Suricata rule is designed to generate a high-priority alert if it detects at least three instances of TCP traffic within ten seconds that each contain a data payload of exactly 312 bytes, all originating from the same source IP within our network and headed anywhere.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Suricata on the covenant.pcap file, which is located in the /home/htb-student/pcaps directory.
+Rule source: https://www.bilibili.com/read/cv19510951/
+
+The Suricata rule above is designed to detect certain variations of Sliver, yet another common post-exploitation framework used by attackers. Let's break down the important parts of this rule to understand its workings.
+
+    content:"POST";: This option instructs Suricata to look for TCP traffic containing the string "POST".
+    pcre:"/\/(php|api|upload|actions|rest|v1|oauth2callback|authenticate|oauth2|oauth|auth|database|db|namespaces)(.*?)((login|signin|api|samples|rpc|index|admin|register|sign-up)\.php)\?[a-z_]{1,2}=[a-z0-9]{1,10}/i";: This regular expression is utilized to identify specific URI patterns in the traffic. It will match URIs that contain particular directory names followed by file names ending with a PHP extension.
+        Sliver is an open-source Command and Control (C2) framework. Its underpinnings can be explored via the following repository.https://github.com/BishopFox/sliver/blob/master/server/configs/http-c2.go#L294
+        Examine the sliver.pcap file which is located in the /home/htb-student/pcaps directory of this section's target using Wireshark to pinpoint the related requests.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Suricata on the sliver.pcap file, which is located in the /home/htb-student/pcaps directory.
+Let's break down the important parts of this rule to understand its workings.
+
+    content:"Set-Cookie";: This option instructs Suricata to look for TCP traffic containing the string Set-Cookie.
+    pcre:"/(PHPSESSID|SID|SSID|APISID|csrf-state|AWSALBCORS)\=[a-z0-9]{32}\;/";: This is a regular expression used to identify specific cookie-setting patterns in the traffic. It matches the Set-Cookie header when it's setting specific cookie names (PHPSESSID, SID, SSID, APISID, csrf-state, AWSALBCORS) with a value that's a 32-character alphanumeric string.
+
+Invest some time in scrutinizing the sliver.pcap file using Wireshark to identify the related requests.
+
+Suricata Rule Development Part 2 (Encrypted Traffic)
+
+In the ever-evolving landscape of network security, we're often faced with a significant challenge: encrypted traffic. Encrypted traffic can pose significant obstacles when it comes to effectively analyzing traffic and developing reliable Intrusion Detection System (IDS) and Intrusion Prevention System (IPS) rules.
+
+There are still several aspects we can leverage to detect potential security threats. Specifically, we can turn our attention to the elements within SSL/TLS certificates and the JA3 fingerprint.
+
+SSL/TLS certificates, exchanged during the initial handshake of an SSL/TLS connection, contain a plethora of details that remain unencrypted. These details can include the issuer, the issue date, the expiry date, and the subject (containing information about who the certificate is for and the domain name). Suspicious or malicious domains might utilize SSL/TLS certificates with anomalous or unique characteristics. Recognizing these anomalies in SSL/TLS certificates can be a stepping stone to crafting effective Suricata rules.
+
+Further, we can also utilize the JA3 hash — a fingerprinting method that provides a unique representation for each SSL/TLS client. The JA3 hash combines details from the client hello packet during the SSL/TLS handshake, creating a digest that could be unique for specific malware families or suspicious software. Again, these hashes can be a powerful tool in formulating detection rules for encrypted traffic.
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's SSH into the Target IP using the provided credentials. The vast majority of the commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+Suricata Rule Development Example 5: Detecting Dridex (TLS Encrypted)
+The rule above triggers an alert upon detecting a TLS session from the external network to the home network, where the payload of the session contains specific byte patterns and meets several conditions. These patterns and conditions correspond to SSL certificates that have been linked to certain variations of the Dridex trojan, as referenced by the SSL blacklist on abuse.ch.
+
+No need to understand the rule in its entirety, but let's break down the important parts of it.
+
+    content:"|16|"; content:"|0b|"; within:8;: The rule looks for the hex values 16 and 0b within the first 8 bytes of the payload. These represent the handshake message (0x16) and the certificate type (0x0b) in the TLS record.
+    content:"|03 02 01 02 02 09 00|"; fast_pattern;: The rule looks for this specific pattern of bytes in the packet, which may be characteristic of the certificates used by Dridex.
+    content:"|30 09 06 03 55 04 06 13 02|"; distance:0; pcre:"/^[A-Z]{2}/R";: This checks for the 'countryName' field in the certificate's subject. The content match here corresponds to an ASN.1 sequence specifying an attribute type and value for 'countryName' (OID 2.5.4.6). The following PCRE checks that the value for 'countryName' begins with two uppercase letters, which is a standard format for country codes.
+    content:"|55 04 07|"; distance:0;: This checks for the 'localityName' field in the certificate's subject (OID 2.5.4.7).
+    content:"|55 04 0a|"; distance:0;: This checks for the organizationName field in the certificate's subject (OID 2.5.4.10).
+    content:"|55 04 03|"; distance:0; byte_test:1,>,13,1,relative;: This checks for the commonName field in the certificate's subject (OID 2.5.4.3). The following byte_test checks that the length of the commonName field is more than 13.
+    Please also give this very interesting resource on Dridex SSL certificates a look.
+
+The mentioned OIDs (Object Identifiers) are part of the X.509 standard for PKI and are used to uniquely identify the types of fields contained within certificates.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Suricata on the dridex.pcap file, which is located in the /home/htb-student/pcaps directory.
+The Suricata rule above is designed to detect certain variations of Sliver whenever it identifies a TLS connection with a specific JA3 hash.
+
+A PCAP file named sliverenc.pcap containing encrypted Sliver traffic is located in the /home/htb-student/pcaps directory of this section's target.
+
+The JA3 hash can be calculated as follows.
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Suricata on the sliverenc.pcap file, which is located in the /home/htb-student/pcaps directory.
+Snort Fundamentals
+
+Snort is an open-source tool, which serves as both an Intrusion Detection System (IDS) and Intrusion Prevention System (IPS), but can also function as a packet logger or sniffer, akin to Suricata. By thoroughly inspecting all network traffic, Snort has the capability to identify and log all activity within that traffic, providing a comprehensive view of the situation and detailed logs of all application layer transactions. We require specific rule sets to instruct Snort on how to perform its inspection and what exactly it needs to identify. Snort was created to operate efficiently on both general-purpose and custom hardware.
+Snort Operation Modes
+
+Snort typically operates in the following modes:
+
+    Inline IDS/IPS
+    Passive IDS
+    Network-based IDS
+    Host-based IDS (however, Snort is not ideally a host-based IDS. We would recommend opting for more specialized tools for this.)
+
+According to Snort's documentation:
+
+"With certain DAQ modules, Snort is able to utilize two different modes of operation: passive and inline. Passive mode gives Snort the ability to observe and detect traffic on a network interface, but it prevents outright blocking of traffic. Inline mode on the other hand, does give Snort the ability to block traffic if a particular packet warrants such an event.
+
+Snort will infer the particular mode of operation based on the options used at the command line. For example, reading from a pcap file with the -r option or listening on an interface with -i will cause Snort to run in passive mode by default. If the DAQ supports inline, however, then users can specify the -Q flag to run Snort inline.
+
+One DAQ module that supports inline mode is afpacket, which is a module that gives Snort access to packets received on Linux network devices."
+Snort Architecture
+
+In order for Snort to transition from a simple packet sniffer to a robust IDS, several key components were added: Preprocessor, Detection Engine, Logging and Alerting System, and various Output modules.
+
+    The packet sniffer (which includes the Packet Decoder) extracts network traffic, recognizing the structure of each packet. The raw packets that are collected are subsequently forwarded to the Preprocessors.
+    Preprocessors within Snort identify the type or behaviour of the forwarded packets. Snort has an array of Preprocessor plugins, like the HTTP plugin that distinguishes HTTP-related packets or the port_scan Preprocessor which identifies potential port scanning attempts based on predefined protocols, types of scans, and thresholds. After the Preprocessors have completed their task, information is passed to the Detection Engine. The configuration of these Preprocessors can be found within the Snort configuration file, snort.lua.
+    The Detection Engine compares each packet with a predefined set of Snort rules. If a match is found, information is forwarded to the Logging and Alerting System.
+    The Logging and Alerting System and Output modules are in charge of recording or triggering alerts as determined by each rule action. Logs are generally stored in syslog or unified2 formats or directly in a database. The Output modules are configured within the Snort configuration file, snort.lua.
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's SSH into the Target IP using the provided credentials. The vast majority of the commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+Snort Configuration & Validating Snort's Configuration
+
+Snort offers a wide range of configuration options, and fortunately, the open-source Snort 3 provides users with pre-configured files to facilitate a quick start. These default configuration files, namely snort.lua and snort_defaults.lua, serve as the foundation for setting up Snort and getting it operational in no time. They provide a standard configuration framework for Snort users.
+
+The snort.lua file serves as the principal configuration file for Snort. This file contains the following sections:
+
+    Network variables
+    Decoder configuration
+    Base detection engine configuration
+    Dynamic library configuration
+    Preprocessor configuration
+    Output plugin configuration
+    Rule set customization
+    Preprocessor and decoder rule set customization
+    Shared object rule set customization
+
+Let's browse the snort.lua file residing in this section's target as follows.
+
+Enabling and fine-tuning Snort modules is a significant aspect of the configuration process. To explore the complete list and get a brief description of all Snort 3 modules, you can use the following command.
+Note: --daq-dir /usr/local/lib/daq is not required to pass and validate a configuration file. It is added so that we can replicate the command in this section's target.
+
+Since we mentioned DAQ, Snort 3 should know where to find the appropriate LibDAQ. LibDAQ is the "Data Acquisition Library", and at a high-level, it's an abstraction layer used by modules to communicate with both hardware and software network data sources.
+
+We highly recommend taking the time to read the comments inside the snort.lua file as they provide valuable insights.
+Snort Inputs
+
+To observe Snort in action, the easiest method is to execute it against a packet capture file. By providing the name of the pcap file as an argument to the -r option in the command line, Snort will process the file accordingly.
+Snort Rules
+
+Snort rules, which resemble Suricata rules, are composed of a rule header and rule options. Even though Snort rules share similarities with Suricata rules, we strongly suggest studying Snort rule writing from the following resources: https://docs.snort.org/, https://docs.suricata.io/en/latest/rules/differences-from-snort.html. The most recent Snort rules can be obtained from the Snort website or the Emerging Threats website.
+
+In Snort deployments, we have flexibility in managing rules. It's possible to place rules (for example, local.rules residing at /home/htb-student) directly within the snort.lua configuration file using the ips module as follows.
+Then, the "included" rules will be automatically loaded.
+
+In our Snort deployment, we have an alternative approach to incorporate rules directly from the command line. We can pass either a single rules file or a path to a directory containing rules files directly to Snort. This can be achieved using two options:
+
+    For a single rules file, we can use the -R option followed by the path to the rules file. This allows us to specify a specific rules file to be utilized by Snort.
+    To include an entire directory of rules files, we can use the --rule-path option followed by the path to the rules directory. This enables us to provide Snort with a directory containing multiple rules files.
+
+Snort Outputs
+
+In our Snort deployment, we may encounter a significant amount of data. To provide a summary of the core output types, let's explore the key aspects:
+
+    Basic Statistics: Upon shutdown, Snort generates various counts based on the configuration and processed traffic. This includes:
+        Packet Statistics: It includes information from the DAQ and decoders, such as the number of received packets and UDP packets.
+        Module Statistics: Each module keeps track of activity through peg counts, indicating the frequency of observed or performed actions. Examples include the count of processed HTTP GET requests and trimmed TCP reset packets.
+        File Statistics: This section provides a breakdown of file types, bytes, and signatures.
+        Summary Statistics: It encompasses the total runtime for packet processing, packets per second, and, if configured, profiling data.
+
+    Alerts: When rules are configured, it is necessary to enable alerting (using the -A option) to view the details of detection events. There are multiple types of alert outputs available, including:
+        -A cmg: This option combines -A fast -d -e and displays alert information along with packet headers and payload.
+        -A u2: This option is equivalent to -A unified2 and logs events and triggering packets in a binary file, which can be used for post-processing with other tools.
+        -A csv: This option outputs fields in comma-separated value format, providing customization options and facilitating pcap analysis.
+
+    To discover the available alert types, we can execute the following command.
+
+
+
+    Performance Statistics: Beyond the aforementioned outputs, additional data can be obtained. By configuring the perf_monitor module, we can capture a customizable set of peg counts during runtime. This data can be fed into an external program to monitor Snort's activity without interrupting its operation. The profiler module allows tracking of time and space usage by modules and rules. This information is valuable for optimizing system performance. The profiler output appears under Summary Statistics during shutdown.
+
+Let's see an example of the cmg output
+Snort Key Features
+
+Key features that bolster Snort's effectiveness include:
+
+    Deep packet inspection, packet capture, and logging
+    Intrusion detection
+    Network Security Monitoring
+    Anomaly detection
+    Support for multiple tenants
+    Both IPv6 and IPv4 are supported
+    Snort Rule Development
+
+A Snort rule, at its core, is a powerful tool that we use to identify and flag potential malicious activity in network traffic.
+
+As already discussed, Snort rules resemble Suricata rules. They are composed of a rule header and rule options. Even though Snort rules share similarities with Suricata rules, we strongly suggest studying Snort rule writing from the following resources: https://docs.snort.org/, https://docs.suricata.io/en/latest/rules/differences-from-snort.html.
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's SSH into the Target IP using the provided credentials. The vast majority of the commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+
+Let's move forward and explore some examples of crafting Snort rules to counter real-world malware threats.
+Snort Rule Development Example 1: Detecting Ursnif (Inefficiently)
+Snort Rule Development
+
+alert tcp any any -> any any (msg:"Possible Ursnif C2 Activity"; flow:established,to_server; content:"/images/", depth 12; content:"_2F"; content:"_2B"; content:"User-Agent|3a 20|Mozilla/4.0 (compatible|3b| MSIE 8.0|3b| Windows NT"; content:!"Accept"; content:!"Cookie|3a|"; content:!"Referer|3a|"; sid:1000002; rev:1;)
+
+The Snort rule above is designed to detect certain variations of Ursnif malware. The rule is inefficient since it misses HTTP sticky buffers. Let's break down the important parts of this rule to understand its workings.
+
+    flow:established,to_server; ensures that this rule only matches established TCP connections where data is flowing from the client to the server.
+    content:"/images/", depth 12; instructs Snort to look for the string /images/ within the first 12 bytes of the packet payload.
+    content:"_2F"; and content:"_2B"; direct Snort to search for the strings _2F and _2B anywhere in the payload.
+    content:"User-Agent|3a 20|Mozilla/4.0 (compatible|3b| MSIE 8.0|3b| Windows NT"; is looking for a specific User-Agent. The |3a 20| and |3b| in the rule are hexadecimal representations of the : and ; characters respectively.
+    content:!"Accept"; content:!"Cookie|3a|"; content:!"Referer|3a|"; look for the absence of certain standard HTTP headers, such as Accept, Cookie: and Referer:. The ! indicates negation.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Snort on the ursnif.pcap file, which is located in the /home/htb-student/pcaps directory.
+The Snort rule above is designed to detect certain variations of Cerber malware. Let's break down the important parts of this rule to understand its workings.
+
+    $HOME_NET any -> $EXTERNAL_NET any signifies the rule applies to any UDP traffic going from any port in the home network to any port on external networks.
+    dsize:9;: This is a condition that restricts the rule to UDP datagrams that have a payload data size of exactly 9 bytes.
+    content:"hi", depth 2, fast_pattern;: This checks the payload's first 2 bytes for the string hi. The fast_pattern modifier makes the pattern matcher search for this pattern before any others in the rule, optimizing the rule's performance.
+    pcre:"/^[af0-9]{7}$/R";: This stands for Perl Compatible Regular Expressions. The rule is looking for seven hexadecimal characters (from the set a-f and 0-9) starting at the beginning of the payload (after the hi), and this should be the complete payload (signified by the $ end anchor).
+    detection_filter:track by_src, count 1, seconds 60;: The detection_filter keyword in Snort rule language is used to suppress alerts unless a certain threshold of matched events occurs within a specified time frame. In this rule, the filter is set to track by source IP (by_src), with a count of 1 and within a time frame of 60 seconds. This means that the rule will trigger an alert only if it matches more than one event (specifically, more than count events which is 1 here) from the same source IP address within 60 seconds.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Snort on the cerber.pcap file, which is located in the /home/htb-student/pcaps directory.
+
+
+The Snort rule above is designed to detect certain variations of malware used by the Patchwork APT. Please notice the use of HTTP sticky buffers in this rule. Let's break down the important parts of this rule to understand its workings.
+
+    flow:established,to_server;: This keyword is used to specify the direction of the traffic we are interested in. In this case, we're looking at established connections where the traffic is going from the client to the server.
+    http_method; content:"POST";: We are looking for HTTP traffic where the method used is POST.
+    http_uri; content:".php?profile=";: This specifies that we're looking for HTTP URIs that contain the string .php?profile=.
+    http_client_body; content:"ddager=", depth 7;: We're examining the body of the HTTP request. Specifically, we're looking for the string ddager= within the first 7 bytes of the body.
+    http_client_body; content:"&r1=", distance 0;: We're still examining the body of the HTTP request, but now we're looking for the string &r1= immediately following the previous content match.
+    http_header; content:!"Accept"; http_header; content:!"Referer|3a|";: These conditions are looking for the absence of the Accept and Referer HTTP headers. The ! before the content means not, so we're looking for situations where these headers are not present.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Snort on the patchwork.pcap file, which is located in the /home/htb-student/pcaps directory.
+Invest some time in scrutinizing both the patchwork.pcap file using Wireshark and this rule to comprehend how it works.
+
+We can download the PCAP file into the current directory of either Pwnbox or our own VM as follows.
+Snort Rule Development
+
+Schlop@htb[/htb]$ scp htb-student@[TARGET IP]:/home/htb-student/pcaps/patchwork.pcap .
+
+Snort Rule Development Example 4: Detecting Patchwork (SSL)
+Snort Rule Development
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"Patchwork SSL Cert Detected"; flow:established,from_server; content:"|55 04 03|"; content:"|08|toigetgf", distance 1, within 9; classtype:trojan-activity; sid:10000008; rev:1;)
+
+The Snort rule above is designed to detect certain variations of malware used by the Patchwork APT. Let's break down the important parts of this rule to understand its workings.
+
+    flow:established,from_server;: This keyword pair signifies that we're interested in observing established flows of traffic originating from the server.
+    content:"|55 04 03|";: This rule is looking for the specific hex values 55 04 03 within the payload of the packet. These hex values represent the ASN.1 (Abstract Syntax Notation One) tag for the "common name" field in an X.509 certificate, which is often used in SSL/TLS certificates to denote the domain name that the certificate applies to.
+    content:"|08|toigetgf", distance 1, within 9;: Following the common name field, this rule looks for the string toigetgf. The distance 1 means that Snort should start looking for the string toigetgf 1 byte after the end of the previous content match. The within 9 sets an upper limit on how far into the packet's payload Snort should search, starting from the beginning of this content field.
+
+The above rule is already incorporated in the local.rules file found in the /home/htb-student directory of this section's target. To test it, first, you need to uncomment the rule. Then, execute Snort on the patchwork.pcap file, which is located in the /home/htb-student/pcaps directory.
+Invest some time in scrutinizing both the patchwork.pcap file using Wireshark and this rule to comprehend how it works.
+
+We can download the PCAP file into the current directory of either Pwnbox or our own VM as follows.
+Snort Rule Development
+
+Schlop@htb[/htb]$ scp htb-student@[TARGET IP]:/home/htb-student/pcaps/patchwork.pcap .
+
+
+Zeek Fundamentals
+
+Zeek, as defined by its developers, is an open-source network traffic analyzer. It is typically employed to scrutinize every bit of traffic on a network, digging deep for any signs of suspicious or malicious activity. But, Zeek isn't limited to just that. It can also be a handy tool for troubleshooting network issues and conducting a variety of measurements within a network. Once we deploy Zeek, our defensive cybersecurity teams (or blue teams) can immediately tap into a wealth of log files, which offer an elevated view of all types of network activity. Specifically, these logs contain detailed records of every connection made over the network, along with transcripts of application-layer activities such as DNS queries and responses, HTTP sessions, and more. But Zeek's capabilities extend beyond mere logging. It comes bundled with a suite of functions for analyzing and detecting network activities.
+
+What sets Zeek apart is its highly capable scripting language, which allows users to craft Zeek scripts that are functionally similar to Suricata rules. This powerful feature enables Zeek to be fully customizable and extendable, letting blue team members develop their own logic and strategies for network analysis and intrusion detection.
+
+Considering Zeek's functionality, combined with its ability to run on standard hardware and the powerful scripting language, it becomes clear that we're not looking at another signature-based IDS. Instead, Zeek is a platform that can facilitate semantic misuse detection, anomaly detection, and behavioral analysis..
+Zeek's Operation Modes
+
+Zeek operates in the following modes:
+
+    Fully passive traffic analysis
+    libpcap interface for packet capture
+    Real-time and offline (e.g., PCAP-based) analysis
+    Cluster support for large-scale deployments
+
+Zeek's Architecture
+
+Zeek's architecture comprises two primary components: the event engine (or core) and the script interpreter.
+
+The event engine takes an incoming packet stream and transforms it into a series of high-level events. In Zeek's context, these events describe network activity in policy-neutral terms, meaning they inform us of what's happening, but they don't offer an interpretation or evaluation of it. For instance, an HTTP request will be transformed into an http_request event. While this event provides all the details of the request, it doesn't offer any judgement or analysis, such as whether a port corresponds to a port known to be used by malware.
+
+Such interpretation or analysis is provided by Zeek's script interpreter, which executes a set of event handlers written in Zeek's scripting language (Zeek scripts). These scripts express the site's security policy, defining actions to be taken upon the detection of certain events.
+
+Events generated by Zeek's core are queued in an orderly manner, awaiting their turn to be processed on a first-come, first-served basis. Most of Zeek's events are defined in .bif files located in the /scripts/base/bif/plugins/ directory. For a more comprehensive list of events, refer to the following resource: https://docs.zeek.org/en/stable/scripts/base/bif/
+Zeek Logs
+
+As for Zeek's logging, when we use Zeek for offline analysis of a PCAP file, the logs will be stored in the current directory.
+
+Among the diverse array of logs Zeek produces, some familiar ones include:
+
+    conn.log: This log provides details about IP, TCP, UDP, and ICMP connections.
+    dns.log: Here, you'll find the details of DNS queries and responses.
+    http.log: This log captures the details of HTTP requests and responses.
+    ftp.log: Details of FTP requests and responses are logged here.
+    smtp.log: This log covers SMTP transactions, such as sender and recipient details.
+
+Let's consider the http.log as an example. It is chock-full of valuable data like:
+
+    host: The HTTP domain/IP.
+    uri: The HTTP URI.
+    referrer: The referrer of the HTTP request.
+    user_agent: The client's user agent.
+    status_code: The HTTP status code.
+
+For a more exhaustive list of common Zeek logs and their respective fields, refer to the following resource: https://docs.zeek.org/en/master/logs/index.html
+
+It's noteworthy to mention that Zeek, in its standard configuration, applies gzip compression to log files every hour. The older logs are then transferred into a directory named in the YYYY-MM-DD format. When dealing with these compressed logs, alternative tools like gzcat for printing logs or zgrep for searching within logs can come in handy.
+
+You can find examples on how to work with gzip-compressed Zeek logs at this link: https://blog.rapid7.com/2016/06/02/working-with-bro-logs-queries-by-example/
+
+As stated earlier, when interacting with Zeek log files, we can utilize native Unix commands such as cat or grep. However, Zeek also provides a specialized tool known as zeek-cut for handling log files. This utility accepts Zeek log files via standard input using pipelines or stream redirections and then delivers the specified columns to the standard output.
+
+If you're interested in exploring Zeek examples, use cases, and learning the basics of writing Zeek scripts, take a look at the following link: https://docs.zeek.org/en/stable/examples/index.html
+
+For a quick start guide to Zeek, refer to the following link: https://docs.zeek.org/en/stable/quickstart/index.html
+Zeek Key Features
+
+Key features that bolster Zeek's effectiveness include:
+
+    Comprehensive logging of network activities
+    Analysis of application-layer protocols (irrespective of the port, covering protocols like HTTP, DNS, FTP, SMTP, SSH, SSL, etc.)
+    Ability to inspect file content exchanged over application-layer protocols
+    IPv6 support
+    Tunnel detection and analysis
+    Capability to conduct sanity checks during protocol analysis
+    IDS-like pattern matching
+    Powerful, domain-aware scripting language that allows for expressing arbitrary analysis tasks and managing network state over time
+    Interfacing that outputs to well-structured ASCII logs by default and offers alternative backends for ElasticSearch and DataSeries
+    Real-time integration of external input into analyses
+    External C library for sharing Zeek events with external programs
+    Capability to trigger arbitrary external processes from within the scripting language
+
+Intrusion Detection With Zeek
+
+As already discussed, Zeek, formerly known as Bro, is a powerful network security monitoring tool that allows us to delve deep into our network traffic and extract useful insights.
+
+The flexibility and extensibility of Zeek make it a cornerstone of advanced network-based intrusion detection and investigation. With its rich set of logs and extensive scripting capabilities, we can customize it to suit our specific detection requirements and continuously improve our security posture.
+
+Let's now navigate to the bottom of this section and click on "Click here to spawn the target system!". Then, let's SSH into the Target IP using the provided credentials. The vast majority of the commands covered from this point up to end of this section can be replicated inside the target, offering a more comprehensive grasp of the topics presented.
+
+Let's move forward and explore some examples of detecting intrusions with Zeek.
+Intrusion Detection With Zeek Example 1: Detecting Beaconing Malware
+
+Beaconing is a process by which malware communicates with its command and control (C2) server to receive instructions or exfiltrate data. It's usually characterized by a consistent or patterned interval of outbound communications.
+
+By analyzing connection logs (conn.log), we can look for patterns in outbound traffic. These patterns can include repetitive connections to the same destination IP or domain, constant data size in the sent data, or the connection timing. These are all indicative of potential beaconing behavior. Anomalies can be further explored using Zeek scripts specifically designed to spot beaconing patterns.
+If we look carefully enough we will notice connections being made to 51.15.197.127:80 approximately every 5 seconds, which is indicative of a malware beaconing.
+
+The psempire.pcap file, which is located in the /home/htb-student/pcaps directory includes traffic related to PowerShell Empire. PowerShell Empire indeed beacons every 5 seconds in its default configuration.
+
+Invest some time in scrutinizing the psempire.pcap file using Wireshark.
+
+We can download the PCAP file into the current directory of either Pwnbox or our own VM as follows.
+Intrusion Detection With Zeek
+
+Schlop@htb[/htb]$ scp htb-student@[TARGET IP]:/home/htb-student/pcaps/psempire.pcap .
+
+Intrusion Detection With Zeek Example 2: Detecting DNS Exfiltration
+
+Zeek is also useful when we suspect data exfiltration. Data exfiltration can be difficult to detect as it often mimics normal network traffic. However, with Zeek, we can analyze our network traffic at a deeper level.
+
+Zeek's files.log can be used to identify large amounts of data being sent to an unusual external destination, or over non-standard ports, which may suggest data exfiltration. The http.log and dns.log can also be utilized to identify potential covert exfiltration channels, such as DNS tunneling or HTTP POST requests to a suspicious domain.
+
+Furthermore, Zeek’s ability to reassemble files transferred over the network (regardless of the protocol used) can assist in identifying the nature of the data being exfiltrated.
+
+PCAP credits to: Oleh Levytskyi and Bogdan Vennyk
+Upon close inspection, it becomes evident that the domain letsgohunt.online possesses a significant number of subdomains, similar to cloud providers. However, it's worth noting that interactions with dozens or even hundreds of subdomains are generally not considered typical behavior.
+
+The dnsexfil.pcapng file, which is located in the /home/htb-student/pcaps directory includes traffic related to DNS exfiltration.
+
+Invest some time in scrutinizing the dnsexfil.pcapng file using Wireshark.
+
+We can download the PCAP file into the current directory of either Pwnbox or our own VM as follows.
+Intrusion Detection With Zeek
+
+Schlop@htb[/htb]$ scp htb-student@[TARGET IP]:/home/htb-student/pcaps/dnsexfil.pcapng .
+
+Intrusion Detection With Zeek Example 3: Detecting TLS Exfiltration
+
+PCAP credits to: Oleh Levytskyi and Bogdan Vennyk
+
+Let's now go over an example of detecting data exfiltration over TLS.
+Intrusion Detection With Zeek
+
+Schlop@htb[/htb]$ /usr/local/zeek/bin/zeek -C -r /home/htb-student/pcaps/tlsexfil.pcap
+
+Let's analyze the command above.
+
+    cat conn.log: This command is used to read the content of the conn.log file. The conn.log file, generated by Zeek, provides a record of all connections that have taken place in our network.
+    /usr/local/zeek/bin/zeek-cut id.orig_h id.resp_h orig_bytes: In this case, we're extracting the id.orig_h (originating host), id.resp_h (responding host), and orig_bytes (number of bytes sent by the originating host) fields.
+    sort: This command is used to sort the output from the previous command. By default, sort will arrange the lines in ascending order based on the contents of the first field (in this case id.orig_h).
+    grep -v -e '^$': This command filters out any empty lines. The -v option inverts the selection, the -e option allows for a regular expression, and '^$'` matches empty lines.
+    grep -v '-': This command filters out lines containing a dash -. In the context of Zeek logs, a dash often represents a missing value or an undefined field.
+    datamash -g 1,2 sum 3: datamash is a command-line tool that performs basic numeric, textual, and statistical operations. The -g 1,2 option groups the output by the first two fields (the IP addresses of the originating and responding hosts), and sum 3 computes the sum of the third field (the number of bytes sent) for each group.
+    sort -k 3 -rn: This command sorts the output of the previous command in descending order (-r) based on the numerical value (-n) of the third field (-k 3), which is the sum of orig_bytes for each pair of IP addresses.
+    head -10: This command is used to limit the output to the top 10 lines, thus showing the top 10 pairs of IP addresses by total bytes sent from the originating host to the responding host.
+
+We notice that ~270 MB (actually a bit less) of data have been sent to 192.168.151.181.
+
+The tlsexfil.pcap file, which is located in the /home/htb-student/pcaps directory includes traffic related to data exfiltration over TLS.
+
+Invest some time in scrutinizing the tlsexfil.pcap file using Wireshark.
+
+We can download the PCAP file into the current directory of either Pwnbox or our own VM as follows.
+Intrusion Detection With Zeek Example 4: Detecting PsExec
+
+PsExec, a part of the Sysinternals Suite, is frequently used for remote administration within Active Directory environments. Given its powerful capabilities, it's no surprise that adversaries often prefer PsExec when they carry out remote code execution attacks.
+
+To illustrate a typical attack sequence, let's consider this: an attacker transfers the binary file PSEXESVC.exe to a target machine using the ADMIN$ share, a special shared folder used in Windows networks, via the SMB (Server Message Block) protocol. Following this, the attacker remotely launches this file as a temporary service by utilizing the IPC$ share, another special shared resource that enables Inter-Process Communication.
+
+We can identify SMB transfers and the typical use of PsExec using Zeek's smb_files.log, dce_rpc.log, and smb_mapping.log as follows.
+
+PCAP source: 401TRG
+The temporary service creation is apparent in the last two logs above.
+
+The psexec_add_user.pcap file, which is located in the /home/htb-student/pcaps directory includes traffic related to typical PsExec usage.
+
+Invest some time in scrutinizing the psexec_add_user.pcap file using Wireshark.
+
+We can download the PCAP file into the current directory of either Pwnbox or our own VM as follows.
+Suricata Rule Development Exercise: Detecting WMI Execution (Through WMIExec)
+
+PCAP source: https://github.com/elcabezzonn/Pcaps
+
+Attack description and possible detection points: https://labs.withsecure.com/publications/attack-detection-fundamentals-discovery-and-lateral-movement-lab-5
+
+Windows Management Instrumentation (WMI) is a powerful feature in the Windows operating system that allows for management tasks, such as the execution of code or management of devices, both locally and remotely. As you might expect, this can be a very enticing tool for attackers who are seeking to execute malicious activities remotely.
+
+To detect WMI execution (through wmiexec) over the network, we need to focus on the SMB (Server Message Block) and DCOM (Distributed Component Object Model) protocols, which are the primary means by which remote WMI execution is accomplished.
+
+One method an attacker might use is to create a Win32_Process via the WMI service. In this instance, the attacker would create an instance of Win32_ProcessStartup, set its properties to control the environment of the new process, then call the Create method to start a new process such as cmd.exe or powershell.exe.
+
+Snort Rule Development Exercise: Detecting Overpass-the-Hash
+
+PCAP source: https://github.com/elcabezzonn/Pcaps
+
+Attack description and possible detection points: http://www.labofapenetrationtester.com/2017/08/week-of-evading-microsoft-ata-day2.html
+
+Overpass-the-Hash (Pass-the-Key) is a type of attack where an adversary gains unauthorized access to resources by using a stolen NTLM (NT LAN Manager) hash or Kerberos key, without needing to crack the password from which the hash was derived. The attack involves using the hash to create a Kerberos TGT (Ticket-Granting Ticket) to authenticate to Active Directory (AD).
+
+When the adversary utilizes Overpass-the-Hash, they have the NTLM hash of the user's password, which is used to craft an AS-REQ (Authentication Service Request) to the Key Distribution Center (KDC). To appear authentic, the AS-REQ contains a PRE-AUTH field, which contains an encrypted timestamp (Enc-Timestamp). This is normally used by a legitimate client to prove knowledge of the user's password, as it is encrypted using the user's password hash. In this attack scenario, the hash used to encrypt the timestamp is not derived from the actual password but rather it is the stolen NTLM hash. More specifically, in an Overpass-the-Hash attack the attacker doesn't use this hash to encrypt the Enc-Timestamp. Instead, the attacker directly uses the stolen NTLM hash to compute the Kerberos AS-REQ, bypassing the usual Kerberos process that would involve the user's password and the Enc-Timestamp. The attacker essentially "overpasses" the normal password-based authentication process, hence the name Overpass-the-Hash.
+
+One key aspect of this type of attack that we can leverage for detection is the encryption type used for the Enc-Timestamp. A standard AS-REQ from a modern Windows client will usually use the AES256-CTS-HMAC-SHA1-96 encryption type for the Enc-Timestamp, but an Overpass-the-Hash attack using the older NTLM hash will use the RC4-HMAC encryption type. This discrepancy can be used as an indicator of a potential attack.
+
+Review the previously referenced resource that discusses the network traces resulting from executing an Overpass-the-Hash attack, and then proceed to address the following question.
+Skills Assessment - Zeek
+Intrusion Detection With Zeek: Detecting Gootkit's SSL Certificate
+
+PCAP source: https://www.malware-traffic-analysis.net/2016/07/08/index.html
+
+Attack description and possible detection points: https://www.malware-traffic-analysis.net/2016/07/08/index.html <-- Focus on the SSL certificate parts.
+
+Neutrino, a notorious exploit kit, and Gootkit, a potent banking trojan, collaborated in the past to perpetrate cyberattacks.
+
+The Neutrino exploit kit opened the gate, and then Gootkit begun to communicate over the network using SSL/TLS encryption. It's within these encrypted communications that we encountered a particularly striking detail - the SSL certificates used by Gootkit contained the Common Name (CN) "My Company Ltd.".
+
+Cybercriminals frequently employ self-signed or non-trusted CA issued certificates to foster encrypted communication. These certificates often feature bogus or generic details. In this case, the common name My Company Ltd. stands out as an anomaly we can use to identify this specific Gootkit infection delivered via the Neutrino exploit kit.
+
+Review the previously referenced resource that discusses the network traces resulting from Gootkit communications, and then proceed to address the following question.

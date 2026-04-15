@@ -1,0 +1,85 @@
+What does `iota` do? | A predeclared identifier representing successive untyped integer constants in const declarations, starting at 0 and incrementing by 1.
+
+What does the `clear` built-in function do? | Deletes all elements from a map or sets all elements of a slice to the zero value of the element type (Go 1.21+).
+
+What does the `max` built-in function do? | Returns the maximum value among its arguments of ordered types (Go 1.21+).
+
+What does the `min` built-in function do? | Returns the minimum value among its arguments of ordered types (Go 1.21+).
+
+What does the `make` built-in function do? | Allocates and initializes slices, maps, and channels. Returns an initialized (non-zero) value.
+
+What does the `new` built-in function do? | Allocates memory for a type and returns a pointer to a zeroed value of that type.
+
+What does the `append` built-in function do? | Adds elements to the end of a slice and returns the updated slice, allocating a new underlying array if needed.
+
+What does the `copy` built-in function do? | Copies elements from a source slice to a destination slice, returning the number of elements copied.
+
+What does the `delete` built-in function do? | Removes a key-value pair from a map given the map and key.
+
+What does the `len` built-in function do? | Returns the length of an array, slice, map, string, or channel.
+
+What does the `cap` built-in function do? | Returns the capacity of a slice, array, or channel (the maximum length it can reach without reallocating).
+
+What does the `panic` built-in function do? | Stops normal execution of the current goroutine and begins panicking, which can be recovered using recover().
+
+What does the `recover` built-in function do? | Regains control of a panicking goroutine when called inside a deferred function, returning the value passed to panic.
+
+What does the `print` built-in function do? | Prints arguments to standard error in an implementation-specific way, mainly for bootstrapping and debugging.
+
+What does the `println` built-in function do? | Like print but adds spaces between arguments and a newline at the end.
+
+What does the `close` built-in function do? | Closes a channel, indicating that no more values will be sent on it.
+
+What does the `complex` built-in function do? | Constructs a complex number from two floating-point values (real and imaginary parts).
+
+What does the `real` built-in function do? | Returns the real part of a complex number.
+
+What does the `imag` built-in function do? | Returns the imaginary part of a complex number.
+
+What is the `bool` type? | A built-in boolean type with two possible values: true or false.
+
+What is the `byte` type? | A built-in type alias for uint8, commonly used for raw binary data.
+
+What is the `rune` type? | A built-in type alias for int32, representing a Unicode code point.
+
+What is the `error` type? | A built-in interface type used for error handling, with a single Error() string method.
+
+What is `nil`? | A predeclared identifier representing the zero value for pointers, interfaces, maps, slices, channels, and function types.
+
+What is the `string` type? | A built-in type representing an immutable sequence of bytes (typically UTF-8 encoded text).
+
+What is the `int` type? | A built-in signed integer type that is either 32 or 64 bits depending on the platform.
+
+What is the `uint` type? | A built-in unsigned integer type that is either 32 or 64 bits depending on the platform.
+
+What is the `uintptr` type? | A built-in unsigned integer type large enough to hold the bit pattern of any pointer, used for low-level programming.
+
+What is the `float32` type? | A built-in 32-bit floating-point number type following IEEE 754 standard.
+
+What is the `float64` type? | A built-in 64-bit floating-point number type following IEEE 754 standard.
+
+What is the `complex64` type? | A built-in complex number type with float32 real and imaginary parts.
+
+What is the `complex128` type? | A built-in complex number type with float64 real and imaginary parts.
+
+What is the `int8` type? | A built-in signed 8-bit integer type (range: -128 to 127).
+
+What is the `int16` type? | A built-in signed 16-bit integer type (range: -32768 to 32767).
+
+What is the `int32` type? | A built-in signed 32-bit integer type (range: -2147483648 to 2147483647).
+
+What is the `int64` type? | A built-in signed 64-bit integer type (range: -9223372036854775808 to 9223372036854775807).
+
+What is the `uint8` type? | A built-in unsigned 8-bit integer type (range: 0 to 255).
+
+What is the `uint16` type? | A built-in unsigned 16-bit integer type (range: 0 to 65535).
+
+What is the `uint32` type? | A built-in unsigned 32-bit integer type (range: 0 to 4294967295).
+
+What is the `uint64` type? | A built-in unsigned 64-bit integer type (range: 0 to 18446744073709551615).
+
+What are `true` and `false`? | Predeclared boolean constants representing the two possible values of the bool type.
+
+What is `any`? | A type alias for interface{}, representing any type (Go 1.18+).
+
+What is `comparable`? | A built-in interface constraint that matches all types that support == and != operators (Go 1.18+).

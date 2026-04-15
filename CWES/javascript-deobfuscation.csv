@@ -1,0 +1,15 @@
+What is code obfuscation? | A technique used to make a script more difficult to read by humans but allows it to function the same from a technical point of view, though performance may be slower
+What are the main reasons developers use code obfuscation? | To hide original code and prevent reuse/copying, provide security layer for authentication/encryption, and most commonly for malicious actions to evade detection systems
+What is JavaScript minification? | Having the entire code in a single often very long line to reduce readability while keeping it fully functional
+What is "packing" in JavaScript obfuscation? | A type of obfuscation recognizable by six function arguments (p,a,c,k,e,d) that converts words and symbols into a dictionary and rebuilds the original code during execution
+What is the main weakness of packer obfuscation? | Main strings are still written in cleartext which may reveal some functionality
+What does beautification/pretty printing do to obfuscated code? | It formats minified code into proper JavaScript formatting but doesn't deobfuscate it - obfuscated code requires deobfuscation tools
+What is the difference between obfuscation and encoding? | Obfuscation restructures code to be harder to read while maintaining functionality; encoding transforms text using specific methods like base64, hex, or rot13
+How can you identify base64 encoded strings? | They contain only alpha-numeric characters plus + and / symbols, with distinctive = padding characters, and length must be multiple of 4
+How can you identify hex encoded strings? | They contain only hex characters (0-9 and a-f) representing each character's ASCII hex value
+What is rot13 encoding? | A Caesar cipher that shifts each character 13 positions forward in the alphabet
+What is the XMLHttpRequest object used for in JavaScript? | It's a JavaScript function that handles web requests like GET and POST
+What should you do if automated deobfuscation tools fail? | Manually reverse engineer the code to understand how it was obfuscated, especially for custom obfuscation tools
+Why is client-side authentication/encryption not recommended? | Code is more prone to attacks when authentication or encryption is done on the client-side where it's accessible to users
+What are the three most common text encoding methods mentioned? | base64, hex, and rot13
+What makes advanced obfuscation tools different from basic ones? | They completely hide remnants of original functionality and may use custom obfuscation methods that are harder for automated tools to reverse

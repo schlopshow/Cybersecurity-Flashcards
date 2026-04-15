@@ -1,0 +1,37 @@
+What is the recommended S3 lifecycle policy for managing data that becomes less frequently accessed over time?|Move data to S3 Infrequent Access after 30 days, then to Glacier after 90 days for cost optimization
+What type of storage does Amazon S3 provide?|Object storage (not block storage)
+How are S3 objects identified?|By a URL generated from the bucket name, service region endpoint, and key name
+What happens when you restore an EBS volume from a snapshot?|The volume is created immediately and data is loaded lazily (accessible upon creation, data restored on first request)
+Does an EBS-optimized instance affect the time to restore a volume?|No, it provides dedicated capacity for EBS I/O but doesn't affect restoration time
+Can S3 be natively mounted as a file system?|No, mounting S3 as a file system is not native functionality and requires additional software
+Does S3 bucket storage need to be preallocated?|No, unlike EBS volumes, S3 storage can grow in a virtually unlimited manner
+What type of data is Amazon S3 Glacier optimized for?|Long-term archival storage (not suited for immediate access or data deleted within 90 days)
+What S3 feature allows time-limited permission to download objects?|Presigned URLs grant time-limited download permissions
+Can AWS IAM policies control access for authenticated users of a web application?|No, IAM policies don't know who authenticated web app users are (they're not IAM users)
+Do EBS volumes automatically encrypt data at creation?|Yes, EBS volumes are automatically encrypted at creation
+Do EBS volumes persist when an EC2 instance is stopped?|Yes, EBS volumes persist when the instance is stopped
+What EFS performance mode is optimized for concurrent access from many EC2 instances?|Max I/O performance mode (for tens, hundreds, or thousands of instances with higher aggregate throughput)
+What is the default EFS performance mode?|General-Purpose performance mode (appropriate for most file systems)
+Does S3 support FTP transfers?|No, S3 does not support FTP transfers
+What type of EBS volume is best for short periods of heavy traffic with long idle times?|General-purpose SSD volumes with bursting capability (builds IOPS credits during idle time)
+Can objects be uploaded directly into S3 Glacier tiers?|Yes, objects may be uploaded directly into Glacier tiers
+Do all S3 Glacier tiers have retrieval fees?|Yes, all Glacier tiers have some fee for retrieval
+How many EC2 instances can connect to an Amazon EFS file system concurrently?|One to thousands of instances can connect concurrently
+Can EBS volumes be mounted to multiple instances simultaneously?|No, EBS volumes can only be mounted to a single instance at a time
+Can S3 be mounted directly to an EC2 instance?|No, S3 provides web connectivity but cannot be mounted directly to an instance
+Is there any impact to EBS volume availability when taking a snapshot?|No, there is no impact to volume availability when commencing a snapshot
+What can Amazon S3 bucket policies specify?|Request IP range, AWS account, and prefix for accessible objects (not company name or country of origin)
+Is S3 appropriate for boot volumes?|No, S3 is object storage; use EBS or instance store volumes for boot volumes
+Is S3 appropriate for primary database storage?|No, S3 is object storage not transactional block storage; databases need block-based storage
+What S3 feature allows sharing objects with time-limited access?|Presigned URLs allow optionally sharing objects with time-limited access
+What S3 feature enables managing access to buckets and objects by AWS accounts or groups?|S3 Access Control Lists (ACLs) manage access and define which accounts/groups have access
+Do S3 lifecycle policies restrict data access?|No, lifecycle policies manage object transitions and deletions but don't restrict access
+What is an S3 bucket policy?|A resource-based IAM policy that grants permissions to S3 resources for other AWS accounts or IAM users
+What S3 features protect against accidental object deletion?|Versioning (stores all versions) and MFA Delete (requires one-time code to delete objects)
+Does cross-region replication protect against object deletion?|No, cross-region replication provides redundancy but doesn't protect against deletion
+What S3 feature tracks requests for access to your bucket?|Access logging (provides details about requests, useful for security audits and understanding usage)
+What are the benefits of S3 cross-region replication?|Replicate data between distant regions, minimize latency by keeping copies closer to users, maintain copies in multiple regions
+Does adding a second S3 region significantly increase durability?|No, S3 is designed for 11 nines of durability in a single region; a second region doesn't significantly increase durability
+What type of encryption must be used if data must be encrypted before being sent to S3?|Client-side encryption (server-side encryption only encrypts data at rest in S3)
+How is S3 data automatically replicated?|Automatically replicated across at least three availability zones within a single region
+Is S3 versioning required for data durability?|No, versioning is optional; data in S3 is durable regardless of versioning being enabled

@@ -1,0 +1,113 @@
+What are the three characteristics that KRIs (key risk indicators) need to have?|Actionable, measurable, and relevant to the risks they measure
+What is a Recovery Time Objective (RTO)?|How long restoring systems or services to normal function after a disruption can take
+What is Mean Time to Repair (MTTR)?|The average time it takes to repair a system or device
+What is a Recovery Point Objective (RPO)?|How much data can be lost in the event of an outage or issue
+What is Mean Time Between Failures (MTBF)?|A measure of the reliability of a system - the expected amount of time that will elapse between system failures
+What do Acceptable Use Policies (AUPs) describe?|How and what users can use organizational resources, systems, and services for
+What is the difference between passive and active reconnaissance?|Passive reconnaissance uses existing information sources without direct action; active reconnaissance involves communicating with the target network
+What is a data processor?|They process data on behalf of a data controller who determines how data is processed and what purposes it is used for
+What is a data subject?|A person who can be identified by their personally identifiable information (PII)
+What is a data owner responsible for?|Protection, usage, and quality of datasets
+What is a data controller?|Determines how data will be used and the purposes for processing
+What type of risk assessment uses descriptive scales like high, medium, or low?|Qualitative risk assessment
+What type of risk assessment uses numeric values and calculations?|Quantitative risk assessment
+What is risk transfer?|Moving the costs of risks to another organization such as through insurance
+What is risk acceptance?|Management acknowledging that the risk and its impacts may occur and the organization will move forward despite that chance
+What is risk avoidance?|Seeking to prevent the risk from occurring
+What is risk mitigation?|Working to limit the impact of a risk
+What are the four commonly used BIA measures in Security+?|Recovery Time Objectives (RTOs), Recovery Point Objectives (RPOs), Mean Time to Repair (MTTR), and Mean Time Between Failures (MTBF)
+What do Service Level Agreements (SLAs) set forth?|The expected service level as well as penalties for nonperformance
+What is a Master Services Agreement (MSA)?|A broad agreement that additional work may be performed under
+What is a data steward responsible for?|Carrying out data usage and security policies and ensuring data is handled appropriately
+What are the three terms used for risk appetite in Security+?|Conservative, neutral, and expansionary
+What is the Advanced Encryption Standard (AES) most commonly used key length?|256-bit (provides greater resistance to brute-force attacks than 128-bit)
+What are the three types of changes in change management?|Preapproved changes, emergency changes, and standard changes
+What is a Business Impact Analysis (BIA)?|A formal process used to identify mission-critical functions and ensure critical systems supporting those functions are identified and assessed
+What is the difference between policies and standards?|Policies are statements of organizational intent; standards are rules to help achieve that intent
+What are the two factors used to describe risk?|Probability and impact
+What is Single Loss Expectancy (SLE)?|How much a single risk will cost if it occurs
+What is Annual Loss Expectancy (ALE)?|How much risks will likely cost an organization per year
+What is the GDPR right to be forgotten?|Allows individuals to request that their data be deleted
+What are the three types of environment tests for penetration testing?|Known environment (full information), partially known environment (some information), and unknown environment (no information provided)
+What is a Business Partners Agreement (BPA)?|Used when two organizations want to do business as a partnership
+What does likelihood describe in risk assessment?|The possibility of a risk occurring
+What does impact describe in risk assessment?|What will happen if the risk occurs
+What is a risk exception?|Recognizes risk areas where an organization may not be in compliance with policies or regulations but is acknowledged because they cannot be addressed timely or are required for business
+How often does regulatory compliance typically require risk assessment?|On a regular basis, often once a year
+What is an expansionary risk appetite?|An organization willing to accept significant risk to achieve goals
+What is a conservative risk appetite?|Seeking to reduce risks over addressing other goals
+What is a neutral risk appetite?|Balancing organizational goals against risk
+What is an Exposure Factor (EF)?|The percentage of value of an asset that would be lost due to an incident
+What is physical security testing?|Testing an organization's physical security defenses and practices including guards, locks, doors, and other components
+What is offensive penetration testing?|Acting like attackers to test security
+What is defensive penetration testing?|Seeks to learn as defenders and improve defensive capabilities
+What is integrated penetration testing?|Combines both offensive and defensive penetration testing
+What is attestation in auditing?|Auditors providing a statement about an organization's posture and assurance that practices have been reviewed
+What is the difference between internal and external audits?|Internal audits are conducted by employees; external audits are conducted by third parties
+What is a regulatory audit?|Assesses compliance with laws and regulations
+What is a compliance audit?|May look at laws or other compliance targets beyond just regulations
+What is an audit committee?|Typically part of the organization's board of directors that oversees financial reporting-related activities
+What is a risk threshold?|The level where an organization will switch from accepting a risk to seeking to handle the risk
+What are the three categorizations of anomalous behavior in Security+?|Risky, unexpected, and unintentional
+What is an ad hoc assessment?|Quickly pulling together a team without formal process to assess risk and take action
+How is Single Loss Expectancy (SLE) calculated?|Asset Value (AV) × Exposure Factor (EF)
+How is Annual Loss Expectancy (ALE) calculated?|Annual Rate of Occurrence (ARO) × Single Loss Expectancy (SLE)
+What is a Statement of Work (SOW)?|Lists the tasks and deliverables that will be performed under a master services agreement
+What is a Memorandum of Understanding (MOU)?|Documents how two organizations want to work together
+What is Annual Rate of Occurrence (ARO)?|How many times in a year an event happens on average
+What is a risk owner?|Responsible for ensuring that risks are managed appropriately
+What is a playbook?|Detailed documents describing how to respond to a type of incident or event with specific steps
+What is a runbook?|Lists the steps required to perform a specific action like notification or removing malware
+What is a Disaster Recovery Plan (DRP)?|Addresses what to do during a person-made or natural disaster
+What is a Business Continuity Plan (BCP)?|Focuses on how to keep the business running when it is disrupted
+What is a right-to-audit clause?|Provides customers with the right to have an audit of their vendor performed
+What is ISO 27002?|An international standard for implementing and maintaining information security systems
+What is change management?|The process of documenting all changes made to a company's network and computers
+What is the PCI DSS?|Payment Card Industry Data Security Standard - a security standard mandated by credit card vendors
+What is a Nondisclosure Agreement (NDA)?|Protects sensitive and intellectual data from getting into the wrong hands through legal contract
+What is due diligence?|Undertaking reasonable steps to meet legal requirements like compliance with regulations
+What is a data custodian?|Staff and teams who handle data and are responsible for storing and properly handling it
+What is a data protection officer (DPO)?|Required by GDPR - oversees organization's data protection strategy and implementation
+What is risk exposure calculated by?|Multiplying probability and impact
+What are rules of engagement?|Determine how a penetration tester will conduct an engagement including scope, schedules, contacts, and data handling
+What is OSINT?|Open Source Intelligence - using commonly available third-party information sources to gather information
+What is the difference between a policy and a procedure?|Policies are high-level statements of intent; procedures document specific practices an organization will use
+What is a risk register?|Lists organization's risks and their ratings along with additional tracking information
+Why are qualitative risk assessments typically faster than quantitative?|They use knowledge and expertise instead of requiring detailed numeric calculations
+What is knowledge-based authentication's main security problem?|The information is often easily available via social media or searches
+What is offboarding?|The process of removing an employee from company's identity and access management system including disabling accounts and recovering equipment
+What is onboarding?|The process of adding an employee including orientation, account creation, provisioning rights, and security training
+What sanctions are typically applied to in terms of penalties?|Countries rather than companies or individuals
+What is operational security?|The practice of educating users on the importance of protecting sensitive information including security practices and configurations
+What is situational awareness?|Keeping an eye on the environment and behaviors of individuals around you
+What is an insider threat?|Internal actors who undertake malicious actions either intentionally or unintentionally
+What should organizations never use in Claude.ai artifacts?|localStorage or sessionStorage - they are not supported and will cause artifacts to fail
+What is the main difference between MTBF and MTTR?|MTBF is time between failures; MTTR is time to repair after failure
+What is a warm site in disaster recovery?|A backup site that can be failed over to but takes time to become fully operational
+What is the formula for calculating risk exposure?|Probability × Impact
+What is vendor assessment?|Evaluating vendors' security practices and compliance through questionnaires, audits, or certifications
+What is supply chain risk?|Risk that organizations cannot get the systems, equipment, and supplies they need to operate
+What is the primary purpose of cybersecurity insurance?|To transfer breach risk to an insurance provider
+What is a conflict of interest?|When an organization has competing interests that could influence behavior not aligned with customer's best interest
+What is decentralized governance?|Individual business units manage themselves rather than central organizations
+What is centralized governance?|Authority is placed in a central place, organization, or individual rather than delegated
+What are the three levels of regulations that may impact security policy?|Global, national, and local
+What is a MOA (Memorandum of Agreement)?|A formal document outlining terms and details of an agreement between organizations including roles and responsibilities
+What are Key Performance Indicators (KPIs)?|Measurable indicators used to track and monitor performance
+What is baseline security awareness?|Initial assessment of security awareness state to measure program impact and drive improvements
+What is a risk matrix?|Used to summarize risk registers for senior management showing probability vs impact
+What are guidelines in security policy?|Advice to organizations seeking to comply with policies and standards
+What is ISO 27001?|Establishes control objectives for 14 different categories including HR security, asset management, and operations security
+What is ISO 27701?|Focuses on managing privacy controls
+What is ISO 31000?|Provides guidelines for risk management
+Who typically elects board members?|Shareholders
+What is continuous risk assessment?|Ongoing risk assessment built into processes like CI/CD pipelines
+What is the difference between an examination and an audit?|Examinations are simpler, smaller in scope, and less costly than audits
+What should be the first step in developing security training programs?|Determine what risks and threats the organization faces
+What is the purpose of multi-modal awareness training?|Address different learning preferences and styles for better effectiveness
+What is BadUSB?|Malicious tools that make USB cables or drives appear as keyboards when plugged in
+What is a SOC 2 Type 2 audit?|An external audit that should be conducted by an independent third party to be considered valid
+What is the difference between risky and unexpected anomalous behavior?|Risky behavior could lead to security issues; unexpected behavior is atypical for the user but may not be dangerous
+What is unintentional anomalous behavior?|Accidental actions like mistyping a password that aren't malicious
+Why should passwords NOT be expired regularly according to NIST?|It leads to password reuse and users slightly modifying passwords instead of creating strong new ones
+What is threat feed integration?|Using threat intelligence feeds to automatically block malicious URLs and IPs as they are identified

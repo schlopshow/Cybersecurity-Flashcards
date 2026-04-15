@@ -1,0 +1,22 @@
+What is arguably the most important aspect of a red team engagement? | The final report, which must accurately communicate whether objectives were met, what the findings were, what the potential business impacts are, and any recommendations
+What are the six types of reports Cobalt Strike can generate? | Activity report, Hosts report, IOC report, Sessions report, Social Engineering report, and TTP report
+What does the Cobalt Strike Activity report provide? | An overall timeline of post-exploitation activity
+What does the Cobalt Strike Hosts report summarise? | Information collected on each host including services, credentials, and sessions
+What does the Cobalt Strike IOC report provide? | Technical information akin to a threat intelligence report, including an analysis of C2 traffic profile, domains, and file hashes
+What does the Cobalt Strike Sessions report summarise? | Post-exploitation activity broken down by session
+What does the Cobalt Strike Social Engineering report cover? | Activity from Cobalt Strike's built-in spear phishing capabilities, including who clicked on a malicious link and what information was gathered by the system profiler
+What does the Cobalt Strike TTP report do? | Maps activity recorded by Cobalt Strike with MITRE's ATT&CK Matrix
+How does Cobalt Strike handle reporting when connected to multiple team servers? | It automatically aggregates and orders data from all connected team servers
+How are Cobalt Strike reports typically used in the final deliverable? | They are not handed directly to the client but may be included as appendices to the main report
+What sources should be used to construct the final red team report? | All logs and notes taken during the engagement, including Cobalt Strike reports and individual operator logs
+What are the five main sections of a red team report? | Executive Summary, Goals & Scenario, Attack Narrative, Observations & Recommendations, and Conclusion
+What is the purpose of the Executive Summary section? | To provide a concise, non-technical overview of the report's key findings, outcomes, and business risks aimed at business executives
+What does the Goals & Scenario section of a red team report include? | A summary of the red team's testing methodology, the goals and scope of the assessment, and the testing model used — much of which can be drawn from documents like the Rules of Engagement
+What does the Attack Narrative section contain and who is it aimed at? | The technical bulk of the report, outlining the sequence of events that allowed the red team to reach their objective, including detailed commands, output, and screenshots
+What is the purpose of the Observations & Recommendations section? | To discuss key steps from the attack narrative and describe deficiencies in the organisation's ability to prevent, detect, and/or respond to activities, with one or more recommendations to mitigate each deficiency
+What does an observation in the Observations & Recommendations section typically describe? | A deficiency in the organisation's ability to prevent, detect, and/or respond to a specific activity — for example, weak credentials or insufficient logging discovered during kerberoasting
+What does the Conclusion section of a red team report do? | Summarises the key findings, reiterates their significance, and provides a statement of business risk
+What is an out-brief? | A meeting held after the engagement where the red team runs through the report content with different personnel from the organisation
+What are the two types of out-briefs and who are they aimed at? | An executive brief (aimed at management, performed soon after the engagement) and one or more technical out-briefs (between the red team and technical teams such as the blue team)
+Why is management buy-in through the executive brief considered essential? | Because red team recommendations may require organisational changes to staffing and funding, so management must understand the potential business impact to implement improvements
+What is the value of technical out-briefs between the red team and blue team? | They provide the best opportunity for offensive and defensive teams to review the engagement activity and outcomes in detail and learn from each other

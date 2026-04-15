@@ -1,0 +1,15 @@
+What are the essential requirements for an encryption system to function?|Data to encrypt, tools and processes to perform encryption, and a defined encryption algorithm
+What are the two main layers in Key Management Infrastructure (KMI)?|Storage layer (responsible for storing encryption keys) and Management layer (allows authorized users to access stored keys)
+What are three valid approaches for managing encryption keys in AWS?|Use third-party HSM for storage with customer-managed processes, fully manage keys and KMI yourself, or use AWS KMS which supports both encryption and KMI
+In server-side encryption with KMS (SSE-KMS), who manages the encryption keys?|KMS manages the keys
+What types of encryption do both KMS and CloudHSM support?|Both asymmetric and symmetric encryption
+What encryption algorithm does AWS KMS use?|AES-256
+When an organization wants AWS to fully manage encryption keys without any customer management, which S3 encryption option should they use?|SSE-S3 (Server-Side Encryption with S3-managed keys)
+What feature allows KMS to store keys in a CloudHSM cluster?|Custom key stores
+What is the simplest AWS solution for encrypting an EBS volume with minimal development time?|AWS KMS
+Does KMS integrate with common AWS services?|Yes, KMS integrates with services like S3, EBS, and other AWS services
+What is the key difference between SSE-S3 and SSE-KMS?|SSE-S3: S3 manages all encryption keys and rotations automatically; SSE-KMS: KMS manages the keys and customers can create customer KMS keys
+What happens with SSE-C (Server-Side Encryption with Customer-provided keys)?|The customer provides the key to the S3 service but S3 still performs the encryption server-side
+Why might an organization choose CloudHSM over standard KMS?|To maintain greater control over key storage while still integrating with KMS through custom key stores
+What does the storage layer in KMI do?|Stores encryption keys securely
+What does the management layer in KMI do?|Controls and manages authorized user access to the stored encryption keys

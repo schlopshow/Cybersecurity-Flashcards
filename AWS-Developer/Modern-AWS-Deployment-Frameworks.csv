@@ -1,0 +1,15 @@
+What is AWS SAM (Serverless Application Model)?|An open source framework optimized for building and deploying serverless applications on AWS by organizing related components and resources in a single stack
+What does the events property do in SAM templates?|Allows you to assign Lambda functions to an event source
+What are the main advantages of AWS CDK (Cloud Development Kit)?|Lets you program infrastructure-as-code with traditional programming languages and includes abstractions/helper functions that encapsulate complex infrastructure into single commands
+What are cloud sandboxes in AWS Amplify?|Feature that lets developers deploy an alternate, personal version of the app's backend infrastructure for use while running the front end locally
+What does the cdk synth command do?|Attempts to generate CloudFormation from CDK code to validate there are no compile/transpile time errors before deployment
+What can you create with just a few lines in a SAM template?|API Gateway routes backed by Lambda functions that access DynamoDB data
+What CloudFormation feature enables SAM syntax to work?|Transform feature - allows sending all or part of a CloudFormation template to an external Lambda for processing, enabling non-native syntax support
+How can you grant a Lambda function permissions to access DynamoDB in SAM?|Add DynamoDB table as a resource and configure a managed policy (not environment variables alone or inline policies)
+What does SAM NOT assist with for API Gateway?|Domain configuration (but it simplifies routes, Lambda integration, and DynamoDB access)
+What makes AWS Amplify suitable for full-stack serverless applications?|Combines serverless backend (API Gateway REST APIs with TypeScript), front-end build/deploy tools (React, VueJS), and authentication (Cognito) in a single package
+Does SAM help with front-end deployment or user authentication?|No, SAM handles REST API and infrastructure but not front end or authentication
+Does AWS CDK help build and deploy web applications?|No, CDK handles infrastructure but doesn't help build and deploy web applications
+Is Elastic Beanstalk serverless by default?|No, Beanstalk apps are not serverless by default and it doesn't make adding authentication as simple as Amplify
+What is the best practice for granting Lambda permissions in SAM - inline or managed policies?|Managed policies are more flexible and maintainable than inline policies
+Should you create resources like DynamoDB tables manually when using SAM?|No, creating tables manually breaks the automation SAM provides - add them as resources in the template

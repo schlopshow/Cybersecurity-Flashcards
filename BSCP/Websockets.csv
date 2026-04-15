@@ -1,0 +1,20 @@
+What are WebSockets?|Connections initiated over HTTP that provide long-lived connections with asynchronous communication in both directions, widely used in modern web applications.
+What types of vulnerabilities can arise with WebSockets?|Virtually any web security vulnerability that arises with regular HTTP can also arise in relation to WebSockets communications.
+What are the three main ways to manipulate WebSockets using Burp Suite?|Intercept and modify WebSocket messages, replay and generate new WebSocket messages, and manipulate WebSocket connections.
+How can you determine if an application is using WebSockets?|By using the application and looking for entries appearing in the WebSockets history tab within Burp Proxy.
+What can you do with WebSocket messages in Burp Repeater?|Edit and send messages over and over, send new messages in either direction (to client or server), and view the history of transmitted messages.
+Why might you need to manipulate the WebSocket handshake?|To reach more attack surface, establish a new connection after an attack causes it to drop, or update tokens or other data in the original handshake request that might be stale.
+What types of vulnerabilities can arise from WebSockets?|SQL injection or XML external entity injection from unsafe processing of user input, blind vulnerabilities detectable via OAST techniques, and XSS or client-side vulnerabilities from attacker-controlled data transmitted to other users.
+How can XSS be exploited through WebSocket messages?|By submitting malicious content in WebSocket messages that gets transmitted to other users and rendered in their browsers without proper input processing or defenses.
+What design flaws can lead to WebSocket handshake vulnerabilities?|Misplaced trust in HTTP headers for security decisions, flaws in session handling mechanisms, and attack surface introduced by custom HTTP headers.
+What is cross-site WebSocket hijacking?|An attack involving a CSRF vulnerability on a WebSocket handshake, where an attacker creates a malicious web page that establishes a cross-site WebSocket connection to a vulnerable application.
+When does cross-site WebSocket hijacking arise?|When the WebSocket handshake request relies solely on HTTP cookies for session handling and does not contain any CSRF tokens or other unpredictable values.
+What makes cross-site WebSocket hijacking more dangerous than regular CSRF?|Unlike regular CSRF, the attacker gains two-way interaction with the compromised application, being able to send arbitrary messages and read contents of messages received back from the server.
+What is the first step in performing a cross-site WebSocket hijacking attack?|Review the WebSocket handshakes that the application carries out and determine whether they are protected against CSRF.
+What makes a WebSocket handshake vulnerable to CSRF?|When it relies solely on HTTP cookies for session handling and doesn't employ any tokens or other unpredictable values in request parameters.
+What is the purpose of the Sec-WebSocket-Key header?|It contains a random value to prevent errors from caching proxies, and is not used for authentication or session handling purposes.
+What might a cross-site WebSocket hijacking attack involve?|Sending WebSocket messages to perform unauthorized actions on behalf of the victim user, sending messages to retrieve sensitive data, or waiting for incoming messages containing sensitive data.
+What protocol should be used to secure WebSocket connections?|The wss:// protocol (WebSockets over TLS).
+How should the WebSocket endpoint URL be handled for security?|Hard code the URL of the WebSockets endpoint, and don't incorporate user-controllable data into this URL.
+How should the WebSocket handshake message be protected?|Protect it against CSRF to avoid cross-site WebSockets hijacking vulnerabilities.
+How should data received via WebSocket be treated?|Treat data received via the WebSocket as untrusted in both directions, and handle data safely on both server and client ends to prevent input-based vulnerabilities.

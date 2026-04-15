@@ -1,0 +1,27 @@
+Where are EC2 instances launched in terms of AWS infrastructure?|Into specific subnets tied to specific availability zones (most specific answer, though AZs are part of regions)
+What happens to an EC2 instance's public IP address when you stop and start it?|The public IP is released when stopped and a new one is assigned when started (use Elastic IP for persistent public IP)
+What might block RDP connection to a Windows EC2 instance from a new location?|Security group rule that restricts RDP to certain IP addresses may block your new source IP
+What allows outbound requests to external APIs while preventing inbound requests from the Internet?|NAT gateway in a public subnet with security group configured to allow outbound requests
+Can you install custom software on EC2 instances?|Yes, you have full control over software on your instance and the default user has full control over the guest OS
+How can you query an EC2 instance's private IP address from within the instance?|Query the EC2 metadata service (VPC networking is based on private IPs)
+How can you execute scripts or install packages when launching an EC2 instance?|Use user data to execute scripts or directives during instance launch
+Can you change the RAM available to an EC2 instance?|Yes, EC2 instances are resizable - change RAM by changing instance type (must be stopped first)
+How do you get the default password for a Windows EC2 instance?|AWS generates and encrypts it with the public key from the EC2 key pair; decrypt with the private key
+What three requirements must be met for an EC2 instance to be directly accessible as a web server?|Assign a public IP address, place in a public subnet (route to Internet gateway), and allow HTTP/HTTPS in inbound security group rules
+Are AMIs region-specific?|Yes, AMIs are local to the region where created unless explicitly copied to other regions
+Can you use an AMI to launch multiple EC2 instances?|Yes, an AMI serves as a template for launching any number of EC2 instances
+Do all EC2 instance types provide instance store?|No, instance store is provided only for specific EC2 instance types (EBS provides persistent storage for all types)
+Can EC2 instances be resized after launch?|Yes, instances can be resized after launch if they are stopped during the resize
+What EC2 instance states allow start, stop, or reboot operations?|Only instances in the running state can be started, stopped, or rebooted
+Do security groups apply to communication within the same EC2 instance?|No, security groups apply only to network traffic that leaves the instance (local communication unaffected)
+What defines a public subnet in AWS?|A subnet with a route that directs Internet traffic (0.0.0.0/0) to an Internet gateway
+What defines a private subnet with outbound Internet access?|A subnet with a route that directs Internet traffic to a NAT gateway or NAT instance (indirect Internet access)
+What AWS service logs network traffic metadata showing accepted or rejected connections?|VPC Flow Logs (show metadata about each traffic flow and connection status)
+What AWS service tracks metrics like CPU utilization for EC2 instances?|Amazon CloudWatch
+Do EBS volumes persist when an EC2 instance is stopped?|Yes, EBS volumes provide persistent storage that persists until the volume is deleted
+What ports are typically used for web requests?|Port 80 for HTTP and port 443 for HTTPS
+Are outbound security group rules required for web server responses?|No, security groups are stateful so outbound replies to inbound requests are automatically allowed
+What is the customer responsible for in the EC2 shared responsibility model?|Guest operating system and above (AWS handles virtualization layer, host machines, and physical security)
+Do SSH key pairs expire after EC2 instance restart?|No, SSH key pairs and security group rules do not have built-in expiration
+Can security group rules explicitly deny traffic?|No, security group rules can only allow traffic (they cannot explicitly deny)
+Are network ACLs stateful or stateless?|Network ACLs are stateless (must configure both inbound and outbound rules)

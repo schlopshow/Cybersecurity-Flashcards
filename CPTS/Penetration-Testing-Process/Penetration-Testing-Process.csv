@@ -1,0 +1,77 @@
+What is a Penetration Test?|An organized, targeted, and authorized attack attempt to test IT infrastructure and its defenders to determine their susceptibility to IT security vulnerabilities, using methods and techniques that real attackers use
+What is the primary goal of a penetration test?|To uncover and identify ALL vulnerabilities in the systems under investigation and improve security for the tested systems
+How does a pentest differ from a red team assessment?|A pentest aims to find all vulnerabilities, while a red team assessment is scenario-based and focuses only on vulnerabilities leveraged to reach a specific end goal
+What is IT security risk management?|The process of identifying, evaluating, and mitigating potential risks that could damage the confidentiality, integrity, and availability of an organization's information systems and data
+What is inherent risk?|The level of risk that is present even when appropriate security controls are in place
+What are the four ways companies can handle risk?|Accept, transfer, avoid, and mitigate
+What is the penetration tester's role regarding vulnerabilities found?|To act as trusted advisors — reporting vulnerabilities, providing detailed reproduction steps, and offering remediation recommendations, but NOT applying patches or making code changes
+What is a vulnerability assessment compared to a pentest?|A vulnerability assessment uses purely automated scanning tools to check systems against known issues, while a pentest is a mix of automated and manual testing, individually tailored to the system being tested
+What written authorization is required before a pentest?|Explicit written authorization from the client to attack their systems; without it, individual tests could be treated as criminal offenses
+What must a company do before a pentest if using third-party infrastructure?|Obtain explicit written approval from those third-party providers before any testing is performed
+What is a Blackbox penetration test?|A test where minimal information is provided — only essential details such as IP addresses and domains
+What is a Greybox penetration test?|A test where extended information is provided, such as specific URLs, hostnames, and subnets
+What is a Whitebox penetration test?|A test where maximum information is disclosed, including internal structure, detailed configurations, admin credentials, and source code
+What is a Red Team assessment?|An assessment that may include physical testing and social engineering, and can be combined with any of the blackbox, greybox, or whitebox types
+What is a Purple Team assessment?|An assessment that focuses on working closely with the defenders, and can be combined with any test type
+What are the 8 stages of the penetration testing process?|Pre-Engagement, Information Gathering, Vulnerability Assessment, Exploitation, Post-Exploitation, Lateral Movement, Proof-of-Concept, Post-Engagement
+What happens during the Pre-Engagement stage?|The client is educated, the contract is adjusted, and all necessary tests and components are strictly defined and contractually recorded
+What are the key arrangements made during Pre-Engagement?|Non-Disclosure Agreement, Goals, Scope, Time Estimation, and Rules of Engagement
+What are the three essential components of the pre-engagement process?|Scoping questionnaire, pre-engagement meeting, and kick-off meeting
+What is a Unilateral NDA?|An NDA that obligates only one party to maintain confidentiality, allowing the other party to share information with third parties
+What is a Bilateral NDA?|An NDA where both parties are obligated to keep information confidential — the most common type used in penetration testing
+What is a Multilateral NDA?|An NDA that involves a commitment to confidentiality by more than two parties, used when multiple organizations are involved
+Who in a company may be authorized to hire penetration testers?|CEO, CTO, CISO, CSO, CRO, CIO, VP of Internal Audit, Audit Manager, or VP/Director of IT/Information Security
+What documents are required before a penetration test?|NDA, Scoping Questionnaire, Scoping Document, Penetration Testing Proposal/SoW, Rules of Engagement, Contractors Agreement (if physical), and Reports
+What is the purpose of a Scoping Questionnaire?|To better understand the services the client is seeking and determine the type, depth, and breadth of the assessment required
+What is the purpose of the Rules of Engagement (RoE)?|To formally define the scope, objectives, methodologies, communication lines, timing, evidence handling, and permission to test
+What typically occurs at a Kick-Off Meeting?|The nature and process of the penetration test is reviewed with all stakeholders; critical vulnerabilities notification procedures, DoS testing restrictions, and escalation contacts are discussed
+What is a Contractors Agreement used for?|For physical penetration test engagements; it serves as legal protection ("get out of jail free card") if the tester is caught by employees and law enforcement is contacted
+What are the four categories of information gathering?|Open-Source Intelligence (OSINT), Infrastructure Enumeration, Service Enumeration, and Host Enumeration
+What is OSINT?|Open Source Intelligence — a process for finding publicly available information about a target company or individuals using freely available sources
+What is Infrastructure Enumeration?|Gaining an overview of the company's position on the internet and intranet, including mapping servers, hosts, DNS, mail servers, web servers, and cloud instances
+What is Service Enumeration?|Identifying services that allow interaction with a host or server over the network, including their version, purpose, and potential vulnerabilities
+What is Host Enumeration?|Examining each host in the scoping document to identify the operating system, services, versions, and configuration details
+What is Pillaging?|Collecting sensitive information locally on an already-exploited host, such as employee names, credentials, customer data, and other business-relevant information
+What are the four types of analysis used in Vulnerability Assessment?|Descriptive, Diagnostic, Predictive, and Prescriptive
+What is Descriptive Analysis?|Examining a data set based on individual characteristics to detect errors or outliers
+What is Diagnostic Analysis?|Clarifying the causes, effects, and interactions of conditions by looking backward to find reasons for events
+What is Predictive Analysis?|Using historical and current data to create a predictive model for future probabilities and identify trends or deviations
+What is Prescriptive Analysis?|Narrowing down what actions to take to eliminate or prevent a future problem or trigger a specific activity
+What factors determine the prioritization of attacks during exploitation?|Probability of success, complexity of the exploit, and probability of damage to the target system
+What is CVSS Scoring used for during exploitation?|To help calculate the probability of success of specific attacks and prioritize which vulnerabilities to exploit
+When should a penetration tester pause and communicate before attempting exploitation?|When in doubt about whether an attack is too risky or could cause a disruption — always communicate with the team lead or client before proceeding
+What are the components of the Post-Exploitation stage?|Evasive Testing, Information Gathering, Pillaging, Vulnerability Assessment, Privilege Escalation, Persistence, and Data Exfiltration
+What are the three categories of evasive testing?|Evasive, Hybrid Evasive, and Non-Evasive
+What is the goal of establishing Persistence during Post-Exploitation?|To maintain access to an exploited host so that if the connection is interrupted, access can be restored without having to re-exploit the system
+What is Privilege Escalation?|Obtaining higher-level privileges on a system — such as root on Linux or Domain/Local Administrator/SYSTEM on Windows — to remove restrictions and broaden access
+What is Data Exfiltration in a pentest context?|Attempting to transfer sensitive data from the target system to the tester's system to test whether security controls like DLP and EDR can detect and prevent it
+What regulation governs Credit Card Account Information?|Payment Card Industry (PCI)
+What regulation governs Electronic Patient Health Information?|Health Insurance Portability and Accountability Act (HIPAA)
+What regulation governs Consumers Private Banking Information?|Gramm-Leach-Bliley Act (GLBA)
+What regulation governs Government Information?|Federal Information Security Management Act of 2002 (FISMA)
+What is Lateral Movement?|Moving through the internal network to access additional hosts at the same or higher privilege level, often iteratively combined with post-exploitation activities
+What is Pivoting (Tunneling)?|Using an exploited host as a proxy to route network requests from the attack machine to internal, non-routable network segments that are otherwise unreachable
+What is a Proof-of-Concept (PoC) in penetration testing?|Documentation or a script/code that proves a security vulnerability exists, allowing administrators and developers to validate, reproduce, and test remediation of the finding
+What is the key risk of providing an automated PoC script to a client?|The client may focus on defeating the specific script rather than fixing the underlying vulnerability, leaving the root cause unresolved
+What should a penetration tester do during cleanup after an engagement?|Delete uploaded tools/scripts from target systems, revert any configuration changes made, and document all changes in the report appendices
+What should a penetration test report include?|Attack chain, executive summary, detailed findings with risk ratings and remediation recommendations, reproduction steps, near/medium/long-term recommendations, and appendices
+What is the difference between a DRAFT and FINAL report?|A DRAFT is delivered first for client review and feedback; after addressing comments, a FINAL version is issued — some audit firms require a FINAL designation
+What is Post-Remediation Testing?|Re-accessing the target environment after the client has applied fixes to verify each finding was appropriately remediated, resulting in a new report showing before-and-after status
+What is the penetration tester's role in remediation?|To remain an impartial third party — providing general remediation advice but NOT implementing fixes, patching systems, or making configuration changes
+What is the recommended data retention practice after a penetration test?|Retain evidence securely and encrypted for a period after the test; wipe all data from tester systems at conclusion; create a new VM for any post-remediation testing
+What US law criminalizes unauthorized access to computer systems?|The Computer Fraud and Abuse Act (CFAA)
+What does the Digital Millennium Copyright Act (DMCA) prohibit relevant to security?|Circumventing technological measures (digital locks, encryption, authentication protocols) used to protect copyrighted works
+What does the Electronic Communications Privacy Act (ECPA) regulate?|The interception of electronic communications, making it unlawful to intercept, access, monitor, or store communications without consent
+What does HIPAA require from security researchers?|Ensuring research activities adhere to HIPAA regulations, including encrypting data, keeping detailed access records, and following institutional policies
+What does COPPA regulate?|The collection of personal information from children under 13
+What is the EU's GDPR and what are its penalties?|A regulation governing the handling of personal data that imposes penalties of up to 4% of global annual revenue or 20 million euros, whichever is higher
+What does the UK's Computer Misuse Act 1990 criminalize?|Accessing a computer system without authorization, modifying data without permission, and misusing computers to commit fraud or other unlawful activities
+What is the purpose of the Network and Information Systems Directive (NISD)?|Requires operators of essential services and digital service providers to take appropriate security measures and report specific incidents
+What is an External Penetration Test?|A test performed from an external perspective or as an anonymous user on the internet, targeting external-facing hosts to access sensitive data or gain internal network access
+What is an Internal Penetration Test?|A test performed from within the corporate network, either after breaching via an external pentest or starting from an assumed breach scenario
+What is Password Spraying?|Using one password to attempt authentication with as many different usernames as possible, hoping for one successful login to gain a network foothold
+What precautions should be taken regarding personal data found during a pentest?|Keep the information private in accordance with data protection laws; recommend clients improve passwords and encrypt sensitive data immediately
+What should happen if a critical vulnerability is found during an External Penetration Test?|Pause testing, generate a vulnerability notification report, and contact emergency contacts so the client can assess risk and determine if an emergency fix is needed
+What causes an Internal Penetration Test to be stopped early?|A system becomes unresponsive, evidence of illegal activity is found, or the presence of an external threat actor or prior breach is discovered
+What is a deterministic process in the context of penetration testing?|A process where each state is causally dependent on and determined by previous states and events — all steps are based on results discovered or provoked
+Why is the penetration testing process described as flexible rather than a fixed recipe?|Every client has a unique infrastructure, desires, and expectations, requiring the process to be adapted rather than followed as a rigid step-by-step guide

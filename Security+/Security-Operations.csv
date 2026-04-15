@@ -1,0 +1,214 @@
+While all are best practices, what provides the most significant improvement in security for a device with no known vulnerabilities? | Moving the device's administrative interface to a protected VLAN
+What is threat hunting? | The process of searching for threats using IoCs, threat intelligence, technological tools, and expertise to identify threats that might impact an organization
+What is the simplest way to ensure APIs are only used by legitimate users? | Require authentication using API keys, which can be invalidated/reissued if compromised and matched to usage for billing
+What network design uses a firewall with three interfaces for untrusted, front-facing, and protected networks? | Screened subnet design
+What does the CVE list provide? | Entries that describe and provide references to publicly known cybersecurity vulnerabilities with index numbers for cross-referencing
+What is a false positive in vulnerability scanning? | When a vulnerability is reported but not actually present, often occurring when patches don't update version numbers that scanners check
+Which unsecure protocols have been replaced by secure versions? | FTP (replaced by SFTP/FTPS), Telnet (replaced by SSH), and RSH (outmoded)
+What is OSINT? | Open source intelligence obtained from public sources like search engines, websites, and domain registrars
+What is proprietary or closed threat intelligence? | Threat intelligence that is not openly available
+What are bug bounties? | Programs where organizations pay vulnerability researchers for information about security issues with their software or services
+What is a false negative in vulnerability scanning? | When a scan runs but fails to identify an issue that exists, possibly due to configuration, firewall, or security settings
+What activities does threat hunting involve? | Intelligence fusion, combining data sources and threat feeds, and reviewing advisories and bulletins
+When using cloud web services, what logs should be reviewed? | The logs captured by the cloud service provider, which may need to be configured
+What is the best practice before upgrading to fix a vulnerability? | Read and understand the CVEs to remediate based on specific recommendations
+What is the common non-standard HTTP port? | Port 8080
+What should be done when finding SSH on port 22 and HTTPS on port 443 during a vulnerability scan? | Note the services as this is typical discovery without demonstrated issues
+What is a test server used for? | An identical copy of production used for functional and security testing before deployment
+What are staging environments used for? | Final quality assurance and validation before code enters production, closely mirroring production
+How are API keys used? | To track API usage per individual/organization and can be revoked if compromised or abused
+What are baseline configurations? | Standards that serve as basis for future builds, releases, and changes, including information about system components, versions, patches, and configurations
+Why should indexing be disabled for encrypted files? | Indexing creates an unencrypted index that could expose encrypted file content
+What is OAuth used for? | A common authorization service for cloud services that allows users to entrust information without giving passwords
+What is the most widely accepted biometric system? | Fingerprint reader systems
+What vulnerability do static MFA codes have? | They can be stolen if not properly secured or exposed
+What technology protects data from exposure or leaking from a network? | DLP (Data Loss Prevention)
+What is social login an example of? | Federated identity approach combining identity providers and service providers with authorization management
+What factors did Charles present when using password and PIN? | Two knowledge factors (something you know), not true multifactor since both are the same type
+What is a site survey used for? | Identifying optimal access point placement, coverage, and existing RF interference sources
+What do MDM content management tools allow? | Provisioning files, documents, and media to organizational devices
+What is the best way to detect the most malware? | Vendor diversity - using different AV packages on different system types (servers vs PCs)
+What are input validation techniques used for? | Ensuring unexpected or malicious input doesn't cause problems by stripping control characters and validating data
+What does WPA3's SAE provide? | Simultaneous Authentication of Equals - more secure authentication limiting brute-force attacks with different passwords per user
+What environment should be used to test malware? | A sandboxed environment (isolated VM or physical machine)
+Why shouldn't validation occur on client systems? | Client systems cannot be trusted to be secure; validation should occur on trusted servers
+What can a geofence policy do? | Allow devices to work only inside a defined geographic area
+What can static code analysis help identify? | Business logic issues by leveraging expert knowledge of business processes
+What is EDR designed for? | Identifying anomalies, searching and exploring data, identifying suspicious activities, and coordinating responses - not malware analysis
+What access control model prevents lower privileged users from seeing higher privilege data? | Mandatory Access Control (MAC)
+What NAC model provides greater system insight before network connection? | Agent-based preadmission NAC
+What is CYOD? | Choose Your Own Device - users select from corporate-owned devices, possibly from a limited set
+What protocol should be used for managing network devices? | SNMPv3 properly configured
+What does containerization allow on BYOD devices? | Running company tools and data isolated from the self-controlled device
+What do DLP tools do with sensitive data? | Tag and monitor it, notify users and administrators if sent, and protect with encryption if necessary
+What can cause ABAC to reject logins for traveling users? | Frequent new locations as one of the attributes examined for access decisions
+What is SSO designed to address? | The risk of users writing down multiple passwords by requiring only a single login
+What does rule-based access control do? | Applies rules to access requests that may grant access to resources not explicitly permitted
+What access control scheme do Windows and Linux filesystems use? | Discretionary Access Control (DAC) where owners control file access
+What prevents after-hours account access? | Restricting account usage to times when users are typically on campus
+What does password complexity require? | Mixture of uppercase, lowercase, numbers, and special characters
+What is MAC based on? | Documented security levels associated with the information being accessed
+What does DAC allow? | Data owners to assign permissions
+What is OS hardening? | Securing an operating system by patching, updating, and configuring it to be secure
+What is the default port for LDAPS? | Port 636
+What does RBAC grant permissions based on? | The user's position within the organization
+What are security groups in cloud? | A virtual firewall for instances allowing traffic rules between instances
+What prevents password reuse? | Password history that maintains record of previous passwords
+What is a common method to control when a system can be used? | Setting login time restrictions
+What is SAML? | XML-based open standard format for exchanging authentication and authorization data between parties
+What is the least volatile type of storage? | Backups, which change at slower pace and may be retained long-term
+What phase comes after eradication? | Recovery, including restoration of services and return to normal operations
+What framework focuses on techniques and tactics for analyzing malware? | MITRE ATT&CK framework
+How should a system be preserved for forensic investigation? | Live-image the machine and memory without turning it off or removing drives while running
+What does Windows not log at sufficient detail? | Network traffic granularity to show file uploads
+What tracks who has forensic artifacts and when? | Chain of custody
+What does grep -c do? | Counts the number of occurrences of a string in a file
+What provides bandwidth and traffic direction details? | Network flows using NetFlow or sFlow
+How are forensic images validated? | Hashing using MD5 or SHA1 to ensure image matches original drive
+What type of tool is Nessus? | Vulnerability scanning tool
+Where does Red Hat store authentication logs? | /var/log/secure
+What is Cuckoo Sandbox used for? | Malware analysis - safely running and analyzing malware behavior
+What shows embedded information in JPEG files? | Metadata viewing tools
+What should happen when artifacts are acquired? | They should be logged and documented as evidence
+What should forensic reports include? | Appropriate technical detail, not photos of people
+What browser data contains information from recently visited sites? | Cache, history, and session information
+What defines how long logs are kept? | Retention policies, commonly 30, 45, 90, 180, or 365 days
+What preserves malicious files without allowing them to run? | Quarantine process or setting
+What should Chuck recommend for managing lost organizational devices? | Mobile Device Management (MDM) system
+What provides nonrepudiation for forensic artifacts? | Digitally signing artifacts and evidence records
+What is the best way to capture a running VM? | Use hypervisor's built-in snapshot tools
+Who is not typically part of organizational incident response teams? | Law enforcement, though relationships are maintained
+What iptables rule blocks SSH? | DROP rule for TCP port 22
+What shows attempts to connect to a service? | Packet capture
+What do incident response plans do? | Help responders react appropriately and prepare the organization, may be required for compliance
+What is least likely to result in recoverable data? | Degaussing using strong magnetic fields
+What is video documentation used for in forensics? | Documenting the forensic process as part of chain of custody and provenance
+Which is not a network flow capture tool? | IPSec (sFlow, NetFlow, and IPFIX are used)
+What type of tools are PRTG and Cacti? | Network monitoring tools for bandwidth monitoring
+What can help prevent stolen mobile device data exposure? | Setting passcodes, enabling FDE via MDM, or preventing sensitive file downloads
+What are the seven incident response process steps? | Preparation, Detection, Analysis, Containment, Eradication, Recovery, Lessons Learned
+What should a user do with a system being investigated? | Not save files or make changes to minimize system modifications
+After Recovery, what phase comes next? | Lessons Learned
+What sanitization method only deletes file indexes? | Quick formatting
+Where does Microsoft Office store creator and editor information? | File metadata stored in each Office document
+How does Windows Defender Firewall operate? | Per-application model filtering based on private or public network status
+What does building an accurate timeline require? | Accurately set system clocks or manually configured offsets
+What do data breach notification laws specify? | Maximum time before notification and threshold number of exposed individuals
+What tool can scan and block emails with SSN-style data? | Data Loss Prevention (DLP) tool
+What contains metadata about email origin? | Email headers
+What is NXLog used for? | Log collection and centralization
+Where are SQL injection attempts visible? | Web server logs as HTTP/HTTPS requests
+What does a legal hold notice require? | Preserving and protecting information related to a case
+What does quarantine do with suspect files? | Places them in safe location until timeframe passes or administrator acts
+What phase involves adding firewall rules and patching? | Recovery phase
+What should Tim check for increasing malware infections? | Trend information for malware detections over time
+What do CIS benchmarks provide? | Recommendations for securing operating systems, applications, and technologies
+What is a single weakness that can bring down an entire system? | Single Point of Failure (SPOF)
+What policies include all stages of asset life cycle? | Asset management policies
+What is the network vulnerability shown in the redundant diagram? | Single connection to the Internet
+What can support tools coordinate but typically require human involvement? | Taking action on tickets to ensure legitimate emails aren't affected
+What lists IP addresses allowed to send email in DNS? | Sender Policy Framework (SPF)
+What type of attack shows high volume of SYN packets? | SYN flood denial-of-service attack
+What tools combine behavior-based detection with centralized dashboards? | Endpoint Detection and Response (EDR)
+What type of exercise involves talking through scenarios without action? | Tabletop exercises
+What determines the underlying cause of an issue? | Root cause analysis
+What is not a typical hardening process for mobile devices? | Jailbreaking (used to bypass security instead)
+What is the most secure centrally managed wireless option? | WPA3 Enterprise
+What is the exposure factor for an asset? | The value that would be lost in a loss or damage scenario
+What requires careful consideration of alerts? | Alert tuning to determine what, why, and how often
+What can be built from SQL code examples? | IPS signatures to match potential attack traffic
+What IAM best practice should provisioning follow? | Provisioning based on role, not matching another user
+What provides the greatest MFA security? | Hardware tokens requiring physical presence
+What can address lack of consistency across systems? | Enforcing baselines across the organization
+What RCA process asks "Why" repeatedly? | Five Whys process for interviews
+What type of exercise simulates actual recovery actions? | Simulation or walk-through
+What do legal holds require regardless of normal data lifecycle? | Preserving data related to pending or active litigation
+What is OAuth commonly used for? | Open standard for cloud identity provider integrations
+What provides access based on attributes like location? | Attribute-Based Access Control (ABAC)
+What is commonly used for passwordless authentication? | Security keys providing physical token and cryptographic credentials
+What Linux service manages older insecure services? | inetd
+What BYOD model provides least organizational control? | Bring Your Own Device (BYOD)
+What does the Secure Cookie attribute require? | Cookies sent only via HTTPS
+What does code signing use? | Signer's private key to sign code hash, verified with public key
+What risk exists without an asset inventory? | Misplaced, lost, or stolen devices potentially causing data breaches
+What code analysis reviews source code? | Static analysis
+What are TOR-accessible sites considered? | Part of the dark web
+When are lessons learned sessions conducted? | At the end of incident response after eradication and recovery
+What does CVSS environmental score's impact metric include? | Confidentiality, integrity, and availability requirements
+What protocol is used for NIST 800-53 control monitoring? | Security Content Automation Protocol (SCAP)
+What encryption does WPA3 Enterprise use? | AES with 128-, 192-, and 256-bit keys
+What is a common AAA protocol for network devices? | Kerberos
+What tool is suited for testing IoT device web servers? | Vulnerability scanners configured for web servers
+What controls how unauthenticated email messages are handled? | DMARC
+What should be done for a critical server that fails vulnerability scans? | Document exemption due to criticality and implement compensating controls
+What validates a user's claim to an identity? | Identity proofing using information only legitimate owner should have
+What is commonly done immediately after patching? | Rescan systems to ensure patching was effective
+What do organizations provide customers to attest to security? | Third-party audit documentation
+What is the minimum port for Microsoft SQL Server? | TCP port 1433
+What is establishing a security standard called? | Baselining
+What COPE model allows? | Use of organizationally owned devices for reasonable personal use
+What involves reviewing for unknown processes? | Process auditing, often initially via Task Manager
+What provides anti-spam and anti-phishing services? | Email security gateways
+What tool aggregates, analyzes, and correlates log entries? | SIEM (Security Information and Event Management)
+What strategy increases employee happiness with device management? | Leveraging automation and scripting
+What type of scan identifies vulnerabilities not visible to unauthenticated scans? | Authenticated scans
+What phase uses quarantine and isolation? | Containment phase to prevent further impact
+What do Linux permissions drwxr--r-- allow? | Everyone can read directory, only user can write and execute
+What determines access using role, time, and workstation status? | Rule-based access control applying set of rules
+What can help identify new attacks? | Trend analysis as part of behavior-based detection
+What shows signal strength and coverage areas? | Heatmaps
+What concept provides only minimum required privileges? | Least privilege
+What advantages does automation provide for provisioning? | Improving consistency, decreasing mistakes, providing faster provisioning
+What are bug bounty programs part of? | Responsible disclosure programs to incentivize reporting security issues
+What helps ensure trusted network time? | Authenticating NTP with trusted keys
+What is a best practice over untrusted networks? | Using a VPN
+What are ISACs? | Information Sharing and Analysis Centers connecting organizations in industry verticals
+What verifies ownership or identity match? | Attestation
+What makes Bluetooth a security concern? | Devices can be fingerprinted to identify individual users
+What do PAM tools provide? | Just-in-time permissions, password vaulting, and ephemeral credentials
+What can help with asset enumeration without inventory? | Port scans
+What factor type is a fingerprint? | Biometric factor (something you are)
+What helps ensure open source dependencies are secure? | Dependency checking for known vulnerabilities
+What authentication mode is typically used for Enterprise wireless? | 802.1X
+What prevents password reset loops? | Password history combined with minimum password age
+What are the three CVSS metric groups? | Base, Temporal, and Environmental
+What guarantees data is unrecoverable? | Physical destruction
+What limits IoT device hardening? | Very limited security options, if any
+What should be done after selecting a benchmark? | Review for fit with organization before deployment
+What provides TLS-based secure authentication? | EAP-TLS
+What do DLP systems rely on to identify sensitive data? | Classification, tagging, and metadata
+What validates files haven't changed? | File integrity monitoring using hashes
+What tools use hashing to match known malicious files? | Endpoint Detection and Response (EDR)
+What is the common way to deploy baselines in Windows? | Group Policy Objects (GPOs) across Active Directory
+What technique secures unsecure protocol traffic? | Wrapping it using TLS
+What avoids making users provide passwords? | Passwordless authentication using device/token proof of identity
+What is the best hardening option for ICS/SCADA devices? | Network segmentation to place in secure network
+What IR phases commonly leverage IoCs? | Detection and analysis for detecting and correlating events
+What is most effective against phishing URLs? | Enabling DNS filtering based on the URL
+What can be missing with audit failure only logging? | Successful authentication logs needed for incident investigation
+What is a CVSS score of 0.1-3.9 considered? | Low rating
+What validates domain identity with public key pair? | DKIM (DomainKeys Identified Mail)
+What provides MAC support for Linux? | SELinux kernel module
+What reviews dependencies in open source tools? | Package monitoring tools
+What can customers manage in SaaS environments? | Information, data, devices, accounts, and identities
+What risk response transfers risk to another organization? | Insurance
+What is not part of asset management? | Sanitization (part of decommissioning and disposal)
+What allows password tracking on use? | Enterprise password managers
+What best fits needs for known malicious site blocking? | Threat data from reputation tools
+What is wrong with an ACL blocking HTTPS after allowing any? | ACL order allows traffic before HTTPS block is processed
+What tools use behavior-based analytics with machine learning? | User and Entity Behavior Analytics (UEBA)
+What prevents password reuse in Windows? | Password history
+What does the script stopping Windows Defender do? | Stops and disables the service
+What is the biggest concern for script lifespan? | Ensuring ongoing supportability
+What type of control is used when underlying vulnerability can't be fixed? | Compensating control
+What focuses on removing all compromise artifacts? | Eradication efforts like wiping drives and reinstalling
+What can include photographic evidence of disposal? | Certification of destruction
+What helps prioritize risk using organization's needs? | CVSS environmental scores
+What do password expiration policies help reduce? | Length of time a password could be exposed
+What is feeding unexpected input to programs called? | Fuzzing (dynamic analysis)
+What removes supply chain modification opportunities? | Buying directly from vendor
+What makes passwords harder to crack? | Increasing password length
+What logs help identify potential DDoS attacks? | IDS, IPS, network, and firewall logs
+What replaced WPA2's preshared key negotiation? | SAE (Simultaneous Authentication of Equals)
+What limits embedded system hardening? | Few if any hardening options due to purpose-built functionality
+What uses information to prove claimed identity? | Identity proofing with state/national ID being better proof

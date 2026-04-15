@@ -1,0 +1,35 @@
+What is Persistence as a tactic (TA0003)? | A tactic used to maintain access to a compromised system across reboots and other interruptions
+How do persistence techniques generally work? | They make configuration changes that re-execute a payload on a pre-defined trigger or event
+Why is persistence particularly important for adversaries? | Because they may not be able to reliably regain a foothold via their initial access technique after losing it
+What are the two privilege contexts under which persistence can be added? | Standard user (userland) or local admin (elevated)
+What is Boot or Logon Autostart Execution (T1547)? | A collection of techniques where an adversary configures the computer to automatically execute a payload during startup or when a user logs in
+What are the two common user-level Registry Run Keys used for persistence? | HKCU\Software\Microsoft\Windows\CurrentVersion\Run and HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+What is the difference between the Run key and the RunOnce key? | The Run key is persistent and remains across every reboot; the RunOnce key is automatically deleted after its first execution
+How is the Registry Run Key leveraged for persistence? | By writing a new registry value containing the path to a program to run when the user logs in
+What is the Startup Folder and how is it used for persistence? | A special folder at %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup where any executable placed will automatically run each time the user logs in
+What registry key contains user environment variables and can be abused for logon script persistence? | HKCU\Environment
+What is the UserInitMprLogonScript value and how is it used? | A value added to the HKCU\Environment key that contains a path to a program, causing it to execute automatically when the user logs in (T1037.001)
+What is a PowerShell Profile (profile.ps1)? | A script that executes automatically when new PowerShell windows are opened by a user
+Why do developers legitimately use PowerShell profiles? | To customise the appearance and behaviour of their PowerShell sessions
+How can an adversary abuse PowerShell profiles for persistence? | By creating or modifying a user's profile.ps1 to execute malicious code when PowerShell is opened (T1546.013)
+Where is the default PowerShell profile location for a user? | $HOME\Documents\WindowsPowerShell\Profile.ps1
+What is an important constraint when placing code in a PowerShell profile for persistence? | The code must not block execution, because the user will not receive an input prompt until the profile script finishes
+How can a blocking payload in a PowerShell profile be worked around? | By executing the payload via the Start-Job cmdlet, which runs it as a background job
+What triggers can Windows Scheduled Tasks use? | A specific time on a daily/weekly/monthly schedule, when the computer goes idle, system startup, user logon, or when a system event occurs
+What format are Windows Scheduled Tasks defined in at their core? | XML format
+What MITRE technique ID covers Scheduled Task persistence? | T1053.005
+What is the Component Object Model (COM)? | An interoperability standard that allows applications written in different languages to reuse the same software libraries
+What is a COM interface? | A software contract that defines the methods a caller can invoke, without exposing the internal workings of the library
+What is a COM object (component)? | An interface and its associated implementation — the actual working code behind the interface
+What is a CLSID? | A unique identifier (GUID) used to track each COM object in the registry, found under HKEY_CLASSES_ROOT\CLSID
+What registry keys under a CLSID entry point to the COM object's implementation on disk? | InProcServer32 (pointing to a DLL) or LocalServer32 (pointing to an EXE)
+What is COM Hijacking (T1546.015)? | A technique where an adversary changes or leverages a COM registry entry to trick an application into loading their malicious code instead of the intended COM object
+What are the two main ways COM hijacking can be achieved? | By writing a HKCU entry for a CLSID that only exists in HKLM (missing HKCU entry), or by exploiting a COM entry that points to a DLL/EXE that no longer exists on disk but is in a writable location
+How does HKCU take priority in COM resolution for standard user processes? | For processes running as a standard user, COM entries in HKCU take priority over entries in HKLM
+Why might a COM entry point to a non-existent file on disk? | When third-party software is uninstalled and fails to remove the COM registry entries it added during installation
+What two properties make an ideal COM object to hijack? | It should not break software or Windows when hijacked, and it should not be loaded so frequently that it renders the system inoperable
+What tool is commonly used to find COM hijacking opportunities? | Process Monitor (procmon) from Sysinternals, which displays real-time registry access
+What filters should be applied in procmon to find COM hijacking opportunities? | Filter for Operation = RegOpenKey, Path contains InprocServer32 or LocalServer32, and Result = NAME NOT FOUND
+Why is exporting procmon results useful when hunting for COM hijacks? | It enables frequency analysis to find COM objects that are loaded a modest number of times, avoiding objects loaded too frequently
+Where is analysis and testing of a COM hijack ideally performed before using it on a target? | On the adversary's own machine (e.g. a VM replicating the target environment) to ensure stability
+What does a ThreadingModel value need to be set to when creating a COM hijack entry? | It should be set to match an appropriate threading model (e.g. "Both" or "Apartment") so the COM object loads correctly

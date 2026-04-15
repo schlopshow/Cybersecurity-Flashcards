@@ -1,0 +1,15 @@
+What is AWS CodePipeline used for?|A continuous delivery service for fast and reliable application updates that models and visualizes the software release process and automates build, test, and release when code changes
+What is AWS CodeCommit?|A secure, highly scalable, managed source control service that hosts private Git repositories
+What does AWS CodeDeploy do?|Automates code deployments to any instance and handles the complexity of updating applications
+What is AWS CodeBuild used for?|Compiles source code, runs tests, and produces ready-to-deploy software packages
+What infrastructure details does Elastic Beanstalk handle as a platform-as-a-service?|Capacity provisioning, load balancing, and monitoring
+Does Elastic Beanstalk create infrastructure like EC2 instances and load balancers?|Yes, Beanstalk stands up infrastructure via CloudFormation
+What programming languages does Elastic Beanstalk support?|Java, .NET, PHP, Node.js, Python, Ruby, and Go (NOT Objective-C)
+What does Elastic Beanstalk deploy?|Application code and the architecture to support an environment for the application to run
+What is the fastest way to achieve spin-up time for new EC2 instances?|Bake dependencies into the AMI (though package updates should be performed frequently)
+What can Elastic Beanstalk deploy to?|EC2 instances, SQS queues, and ECS tasks
+What AWS services can Elastic Beanstalk access?|S3 buckets and RDS databases (cannot install GuardDuty agents or manage WorkSpaces)
+How do you control access to Elastic Beanstalk resources?|Use IAM policies to control access to resources attached to users, groups, and roles
+What two types of roles does Elastic Beanstalk create?|Service role (to access AWS services) and instance role (to access instances)
+Does Elastic Beanstalk have additional charges beyond deployed services?|No, Elastic Beanstalk runs at no additional charge; you only pay for services deployed
+What is required for horizontal scaling on EC2?|Both an Application Load Balancer and an Auto Scaling group (Auto Scaling group alone is not sufficient)

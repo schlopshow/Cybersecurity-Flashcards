@@ -1,0 +1,63 @@
+How do you grant an EC2 instance permissions to access AWS resources without managing credentials?|Create a custom IAM policy and attach it to the instance via an IAM role (instance profile)
+Do security groups grant permissions to access AWS resources?|No, security groups control network access; permissions are granted by IAM
+Can two instances in different VPCs have the same private IP address?|Yes, because private IP address ranges can be assigned to multiple VPCs
+What S3 storage class is best for data accessed less frequently but requires rapid access when needed?|S3 Standard-IA (Infrequent Access) - offers lower storage costs with rapid access capability
+What is the fastest retrieval time for S3 Glacier?|Typically 3-5 hours (not suitable when retrieval in minutes is required)
+What is the best AWS service for storing session state in a distributed architecture?|DynamoDB - provides scalability, high availability, durability, and is fully serverless
+Is Redshift suitable for session storage?|No, Redshift is a data warehouse for analytical queries, not transactional session storage
+What is the purpose of RDS read replicas?|Enhance performance and durability by serving read traffic from multiple copies of data, increasing aggregate read throughput
+Does a multi-AZ RDS deployment increase read throughput?|No, the secondary instance is only for failover and does not serve requests alongside the primary
+What happens to RDS automatic backups when the database is deleted?|Automatic backups are not retained after deletion; you must take a manual snapshot to preserve data
+What type of DynamoDB index allows you to use a different partition key and sort key?|Global secondary index (local secondary index can only have a different sort key)
+What causes an eventually consistent read to return outdated data in DynamoDB?|Eventually consistent reads may not return the most up-to-date data immediately after a write
+What is DynamoDB Local?|A downloadable version of DynamoDB that enables local development and testing without accessing the web service
+Is encryption of Amazon EBS volumes mandatory?|No, encryption of EBS volumes is optional
+Can Elastic Beanstalk automatically modify IAM policies attached to service roles?|No, Elastic Beanstalk cannot make automated changes to policies attached to service roles and instance roles
+What happens if a revision does not pass a manual approval in CodePipeline?|It is treated as a failed revision, but successive revisions can still progress past the approval gate if approved
+Are S3 bucket names globally unique?|Yes, S3 bucket names are globally unique and cannot be changed after creation
+What happens if you manually update a CloudFormation-managed resource outside of CloudFormation?|Creates inconsistencies between CloudFormation's expected state and actual resource state, causing future stack operations to fail
+What is the correct order for processing streaming data with SQL queries in AWS?|Kinesis Data Streams → Kinesis Data Analytics (for SQL queries) → Kinesis Data Firehose
+What DynamoDB feature publishes messages when table data changes?|DynamoDB Streams - publishes a message every time there is a change in the table
+Does Lambda support DynamoDB Streams as an event source?|Yes, Lambda can poll DynamoDB Streams and trigger functions based on table changes
+What HTTP methods does API Gateway support?|GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS
+Can you access the underlying infrastructure of AWS Lambda?|No, Lambda is a managed service running in containers; you cannot access the underlying infrastructure
+What are two caching services available in AWS?|ElastiCache and CloudFront
+What API Gateway feature allows you to create separate paths for development and production?|Stages - enable separate paths with multiple endpoints
+What authorization methods does API Gateway support?|IAM policies, Lambda custom authorizers, and Amazon Cognito user pools
+What tool allows you to test Lambda functions locally?|AWS SAM CLI (Serverless Application Model Command Line Interface)
+What Cognito feature stores user profile information like username and phone number?|Cognito user pools
+What caching engines does Amazon ElastiCache support?|Redis and Memcached
+What does the CloudWatch alarm state INSUFFICIENT_DATA mean?|The alarm hasn't had sufficient time to collect data or needs a minimum number of polling periods before becoming active
+What EC2 instance type provides a balance of compute, memory, and networking resources with burstable CPU?|T2 instances - low-cost with CPU that can burst when additional cycles are available
+Which Savings Plan payment option offers the largest discount?|All Up-front payment option
+What is the maximum compressed size of a Lambda deployment package?|50 MB compressed, 250 MB uncompressed
+What EBS volume type is best for transaction-heavy, IOPS-intensive database workloads?|io1 (offers up to 64,000 IOPS on Nitro-based instances)
+What is the maximum IOPS for gp3 EBS volumes?|16,000 IOPS
+What DynamoDB partition key design causes request throttling?|Few possible values (like status codes) lead to uneven data distribution and throttling
+What is a key benefit of serverless architecture?|No server management, no compute costs during idle time, instant scaling to meet demand
+What is the maximum execution time for a Lambda function?|15 minutes per execution
+Which Aurora option is serverless and MySQL-compatible?|Aurora Serverless (MySQL-compatible)
+Is Neptune suitable as a replacement for a relational database?|No, Neptune is a graph database for highly connected datasets, not a relational database replacement
+What AWS service provides a prebuilt sign-up and sign-in UI?|Amazon Cognito
+Can S3 host a static website?|Yes, S3 can be configured to host static websites
+What is the minimum memory allocation for a Lambda function?|128 MB
+What is the maximum size of all code and dependencies for a Lambda function?|250 MB, plus an additional 10 GB of ephemeral storage in the /tmp directory
+What is the default visibility timeout for SQS?|30 seconds
+What are the two types of keys you can use in DynamoDB?|Partition key and sort key
+What is ElastiCache?|A managed in-memory caching service supporting Redis and Memcached
+What AWS service provides metrics for Lambda performance?|CloudWatch provides performance metrics for Lambda
+What ECS launch type allows running containers without managing EC2 instances?|Fargate launch type
+What AWS service can automatically rotate secrets on a schedule?|AWS Secrets Manager
+What AWS service allows running SQL queries directly on data stored in S3?|Amazon Athena (uses standard ANSI SQL)
+What AWS service provides scalable NFS-compatible shared storage for EC2 instances?|Amazon EFS (Elastic File System)
+What is AWS AppSync used for?|A managed service for creating and managing GraphQL APIs for web and mobile backends
+Does API Gateway only support RESTful APIs?|No, API Gateway also supports WebSockets and custom HTTP interfaces
+What AWS resource acts as a firewall for EC2 instances and RDS databases?|Security groups (not traditional firewalls with centralized allow/deny lists)
+What is the primary purpose of IAM roles?|Provide temporary security credentials for AWS services to access resources securely
+What database engines are compatible with Amazon Aurora?|PostgreSQL and MySQL (not Oracle or SQL Server)
+What does an EC2 instance type determine?|System-level resources such as CPU and RAM (not OS, CPU architecture, or pricing model)
+What Elastic Beanstalk deployment policy creates new instances before switching traffic?|Immutable deployment policy (creates new Auto Scaling Group, switches traffic only when healthy)
+What happens to EC2 instance store data when you stop and start an instance?|Instance store data is lost because stopping may relocate the instance to different hardware
+What happens to EBS volumes when an EC2 instance is stopped?|EBS volumes persist and remain attached (they stick around until explicitly detached)
+What AWS service stores and versions container images?|Amazon ECR (Elastic Container Registry)
+What is the relationship between ECR and ECS?|ECR stores container images; ECS pulls images from ECR for container orchestration

@@ -1,0 +1,25 @@
+How does CodeDeploy know a deployment is in progress?|The CodeDeploy agent on instances sends progress reports to the CodeDeploy service (service doesn't query instances directly)
+When does the ApplicationStop lifecycle event run in CodeDeploy?|Before new deployment files download, so it will NOT run the first time a deployment occurs on an instance
+What happens when multiple sources are configured in a CodePipeline?|The pipeline is triggered when ANY source is updated
+What is the most cost-effective way to manage code and large binary objects in a deployment?|Use CodeCommit repository for code and S3 archive for binary objects (Git storage expensive for large binaries)
+What deployment strategy ensures no downtime and automated switching between groups?|Blue/green deployment - spins up new compute, confirms health, then switches load balancer to new deployment
+What role downloads the deployment bundle from S3 in CodeDeploy?|The CodeDeploy agent on each instance (not the CodePipeline service role)
+How do you specify output artifacts in CodeBuild?|Use the files directive in the buildspec.yml specification to indicate files from build environment
+What is the most secure way to store secrets for CodeBuild?|Store encrypted secrets in AWS Secrets Manager (not in custom environment, S3, or source control)
+What is the only action type for Lambda functions in CodePipeline?|Invoke action type (Lambda can only execute as part of pipeline with Invoke)
+Can pipeline stages support multiple actions?|Yes, pipeline actions can occur both in series and in parallel within the same stage
+Can appspec.yml files directly control infrastructure?|No, appspec.yml cannot directly control infrastructure (it controls deployment lifecycle)
+What authentication methods does CodeCommit support?|IAM credentials for both SSH and HTTPS (fully compatible with existing Git tools)
+Can SNS notifications be configured when a commit is made to CodeCommit?|No, SNS notifications cannot be configured for commits to a repository
+What action types support CodeBuild projects in CodePipeline?|Build and Test action types
+What is the optimal way to automate build and deploy with AWS services?|Link distinct CodeBuild and CodeDeploy projects into a continuous delivery pipeline via CodePipeline
+What type of deployments do on-premises instances support in CodeDeploy?|Only in-place deployments (AWS cannot create/destroy infrastructure in customer data centers)
+Does CodeDeploy remove files it doesn't manage by default?|No, CodeDeploy will not remove files that it does not manage (maintains list of managed files on instance)
+Can Lambda function versions be modified after publishing?|No, function versions cannot be modified after publishing (use aliases to point to different versions)
+What is the minimum number of stages required in a CodePipeline?|2 stages - must contain a source stage and at least one build or deploy stage
+Why might a CodeDeploy deployment fail when accessing artifacts?|Instances in the deployment group need access to the pipeline's S3 bucket where artifacts are stored
+Does the CodePipeline service role download S3 bundles?|No, the CodeDeploy agent on instances downloads bundles, not the CodePipeline service
+Are FIFO/LIFO valid pipeline action configurations?|No, FIFO/LIFO are not valid pipeline action configurations
+Can Lambda deployment aliases be overwritten?|No, aliases are pointers to function versions and cannot be overwritten
+Does CodeDeploy support in-place deployments for Lambda?|No, Lambda does not support in-place deployments because published versions cannot be updated
+What happens during a blue/green deployment with Auto Scaling?|CodeDeploy spins up new instances in alternate target group, ensures health, then switches load balancer
