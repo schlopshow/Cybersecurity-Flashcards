@@ -11,7 +11,7 @@ This Repo contains all of my Anki Flashcards for every certification and project
 5. Import
 6. Double click the flashcards.apkg file and it wil import all my cards into your anki instance.
 
-## Strucutre of Decks
+## Structure of Decks
 
 Normally, each deck will contain subdecks that go over each individual section of the course material. This allows you to pick and choose the topics you want to learn about with more granuality.
 
