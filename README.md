@@ -14,3 +14,7 @@ This Repo contains all of my Anki Flashcards for every certification and project
 ## Strucutre of Decks
 
 Normally, each deck will contain subdecks that go over each individual section of the course material. This allows you to pick and choose the topics you want to learn about with more granuality.
+
+
+
+![Alt text](https://github.com/schlopshow/Schlops-Flashcards/blob/main/res/anki-decks.png)
